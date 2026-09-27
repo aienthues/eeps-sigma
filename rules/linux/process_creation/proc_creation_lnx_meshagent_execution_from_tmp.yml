@@ -1,0 +1,34 @@
+title: MeshAgent Executed From Temporary Directory - Linux
+id: 3528885e-ceec-4d14-95db-82d73c12c5d7
+status: experimental
+description: |
+    Detects the MeshCentral agent (meshagent) running from a world-writable temporary directory on Linux.
+    UNC6240 (ShinyHunters) dropped unencrypted meshagent binaries and configuration (meshagent, meshagent.msh, meshagent.db) directly into /tmp
+    under the PeopleSoft service account and used it as a remote access channel to Microsoft-masquerading domains.
+    Legitimate MeshCentral installs run from an installation directory such as /usr/local/mesh_services/, not /tmp.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+author: Esmond Er
+date: 2026-09-26
+tags:
+    - attack.command-and-control
+    - attack.t1219
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_img:
+        Image|startswith:
+            - '/tmp/'
+            - '/var/tmp/'
+            - '/dev/shm/'
+        Image|endswith: '/meshagent'
+    selection_cli:
+        CommandLine|contains:
+            - '/tmp/meshagent'
+            - '/var/tmp/meshagent'
+            - '/dev/shm/meshagent'
+    condition: 1 of selection_*
+falsepositives:
+    - Administrators test-running a MeshCentral agent from /tmp before installing it
+level: high

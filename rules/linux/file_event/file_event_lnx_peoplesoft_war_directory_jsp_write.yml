@@ -1,0 +1,31 @@
+title: JSP File Written To Oracle PeopleSoft Web Application Archive Directory - Linux
+id: 61e1cfa2-9de0-4da4-bcca-61749ecef2b1
+status: experimental
+description: |
+    Detects creation of JSP or JSPX files inside the PeopleSoft PSEMHUB.war or PORTAL.war web application directories on Linux
+    (<PS_CFG_HOME>/webserv/<domain>/applications/peoplesoft/PSEMHUB.war/).
+    UNC6240 (ShinyHunters) exploited PSEMHUB (CVE-2026-35273) and wrote web shells (x.jsp, u.jsp, u2.jsp, sequentially numbered JSPs,
+    Neo-reGeorg tunnel.jsp/tunnel.jspx) into PSEMHUB.war.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+author: Esmond Er
+date: 2026-09-26
+tags:
+    - attack.persistence
+    - attack.t1505.003
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection_dir:
+        TargetFilename|contains:
+            - '/applications/peoplesoft/PSEMHUB.war/'
+            - '/applications/peoplesoft/PORTAL.war/'
+    selection_ext:
+        TargetFilename|endswith:
+            - '.jsp'
+            - '.jspx'
+    condition: all of selection_*
+falsepositives:
+    - PeopleTools patching, PIA redeployment or PeopleSoft Update Manager runs that rewrite JSPs in PORTAL.war (correlate with change windows)
+level: high

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eeps-sigma · Sigma detections from primary threat research</title>
+<meta name="description" content="6 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
+<meta property="og:description" content="6 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="index.html#rules">Rules</a>
+      <a href="index.html#approach">Approach</a>
+      <a href="index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Detection engineering portfolio</p>
+    <h1>Behaviour-based Sigma detections, built from the latest threat research.</h1>
+    <p class="lead">When a vendor publishes how an intrusion actually worked, defenders need detections for the <em>behaviour</em>, not just the indicators that will change tomorrow. eeps-sigma turns fresh primary research into validated, ATT&amp;CK-mapped Sigma rules, each with the reasoning, source and false-positive guidance attached.</p>
+    <div class="cta">
+      <a class="btn" href="#rules">Browse the rules</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma" rel="noopener">View repository</a>
+    </div>
+    
+    <dl class="stats">
+      <div><dt>Published rules</dt><dd>6</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>8</dd></div>
+      <div><dt>Platforms</dt><dd>3</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-09-26</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="band" id="why">
+  <div class="wrap">
+    <h2>Why this exists</h2>
+    <div class="grid3">
+      <article class="card">
+        <h3>Speed to detection</h3>
+        <p>New intrusion reports land every day. Turning them into deployable detections within a day or two, instead of waiting for a signature update, closes the gap attackers rely on.</p>
+      </article>
+      <article class="card">
+        <h3>Behaviour over indicators</h3>
+        <p>Rules target what an adversary must <em>do</em>: process lineage, paths, command patterns, cloud API use. That sits high on the Pyramid of Pain; hash, IP and domain-only rules are deliberately excluded.</p>
+      </article>
+      <article class="card">
+        <h3>Every line is traceable</h3>
+        <p>Each selection value comes from a named primary report, cited on the rule page. No invented command lines, no guessed paths, and false positives documented up front.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section" id="approach">
+  <h2>Approach</h2>
+  <ol class="steps">
+    <li><span class="n">1</span><h3>Source</h3><p>Only vetted primary research: vendor threat intel teams, DFIR write-ups and government advisories.</p></li>
+    <li><span class="n">2</span><h3>Extract</h3><p>Isolate observable behaviours with the evidence quote, ATT&amp;CK technique and a realistic log source.</p></li>
+    <li><span class="n">3</span><h3>Engineer</h3><p>Write Sigma with precise modifiers, check for overlap with existing public rules, and document false positives.</p></li>
+    <li><span class="n">4</span><h3>Validate</h3><p>Schema and policy checks, pySigma parsing, Splunk and KQL compilation, and live ATT&amp;CK tag validation.</p></li>
+    <li><span class="n">5</span><h3>Review</h3><p>An independent adversarial review checks every value against its source and the false-positive risk before anything is published.</p></li>
+  </ol>
+</section>
+
+<section class="band" id="coverage">
+  <div class="wrap">
+    <h2>ATT&amp;CK coverage</h2>
+    <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Stealth</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Collection</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Impact</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li></ul>
+  </div>
+</section>
+
+<section class="wrap section" id="rules">
+  <div class="rules-head">
+    <h2>Rules</h2>
+    <input class="search" type="search" placeholder="Search title, technique, log source…" aria-label="Search rules" data-search-input>
+  </div>
+  <div class="filters" role="group" aria-label="Filters">
+    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
+  </div>
+  <div class="rule-list" data-rule-list>
+    <div class="rule-row rule-head" aria-hidden="true"><span>Rule</span><span class="rr-tech">ATT&amp;CK</span><span>Level</span><span class="rr-date">Updated</span></div>
+    
+      <a class="rule-row" href="rules/file_event_lnx_peoplesoft_war_directory_jsp_write.html" data-level="high" data-product="linux"
+         data-search="jsp file written to oracle peoplesoft web application archive directory - linux t1505.003 file_event detects creation of jsp or jspx files inside the peoplesoft psemhub.war or portal.war web application directories on linux (&lt;ps_cfg_home&gt;/webserv/&lt;domain&gt;/applications/peoplesoft/psemhub.war/). unc6240 (shinyhunters) exploited psemhub (cve-2026-35273) and wrote web shells (x.jsp, u.jsp, u2.jsp, sequentially numbered jsps, neo-regeorg tunnel.jsp/tunnel.jspx) into psemhub.war.">
+        <span class="rr-main">
+          <span class="rr-title">JSP File Written To Oracle PeopleSoft Web Application Archive Directory - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_meshagent_execution_from_tmp.html" data-level="high" data-product="linux"
+         data-search="meshagent executed from temporary directory - linux t1219 process_creation detects the meshcentral agent (meshagent) running from a world-writable temporary directory on linux. unc6240 (shinyhunters) dropped unencrypted meshagent binaries and configuration (meshagent, meshagent.msh, meshagent.db) directly into /tmp under the peoplesoft service account and used it as a remote access channel to microsoft-masquerading domains. legitimate meshcentral installs run from an installation directory such as /usr/local/mesh_services/, not /tmp.">
+        <span class="rr-main">
+          <span class="rr-title">MeshAgent Executed From Temporary Directory - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1219</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/web_peoplesoft_psemhub_webshell_command_request.html" data-level="high" data-product="web"
+         data-search="oracle peoplesoft psemhub jsp web shell command request t1505.003 t1082 webserver detects requests to a jsp file under the peoplesoft psemhub web application where the query string carries os discovery commands. unc6240 (shinyhunters) used web shells dropped into psemhub.war, for example get /%50semhub/&lt;webshell&gt;.jsp?c=id;hostname;uname+-a. the &#x27;semhub&#x27; substring matches both /psemhub/ and /%50semhub/. other encodings are covered by the non-normalized path rule. some of the actor&#x27;s shells (x.jsp) take hex-encoded commands in a post body, which access logs do not record; this rule only catches cleartext query-string commands.">
+        <span class="rr-main">
+          <span class="rr-title">Oracle PeopleSoft PSEMHUB JSP Web Shell Command Request</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span> <span class="chip">T1082</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/web_peoplesoft_psemhub_non_normalized_path_request.html" data-level="high" data-product="web"
+         data-search="oracle peoplesoft psemhub request via non-normalized path t1190 webserver detects requests to the oracle peoplesoft psemhub servlet through a percent-encoded or non-canonical-case path such as /%50semhub/. unc6240 (shinyhunters) bypassed string-based waf rules by url-encoding one character (/%50semhub/ in place of /psemhub/) and sent bursts of post requests carrying serialized java objects to /%50semhub/hub (cve-2026-35273 java deserialization). the report says to assume any percent-encoded, mixed-case or otherwise non-normalized variant of /psemhub/. requires access logs that record the raw, undecoded uri (weblogic pia access log, reverse proxy or waf). logs that store the decoded path will not show the encoding.">
+        <span class="rr-main">
+          <span class="rr-title">Oracle PeopleSoft PSEMHUB Request Via Non-Normalized Path</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1190</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/image_load_sideeye_ev_signer.html" data-level="high" data-product="windows"
+         data-search="image signed with certificate abused by sideeye loader t1553.002 image_load detects loading of an image signed with the extended validation certificate issued to &quot;tobias weihmann software development ou&quot; (via sectigo). unc6240 (shinyhunters) deployed ple64.exe, a trojanized installer masquerading as light alloy that delivers the sideeye backdoor, signed with this certificate. artifact-level indicator: it stops being useful once the certificate is revoked (gtig requested revocation) or the actor re-signs. uses the sysmon event id 7 signature field; process_creation logs do not carry signer data.">
+        <span class="rr-main">
+          <span class="rr-title">Image Signed With Certificate Abused By SIDEEYE Loader</span>
+          <span class="rr-sub">Windows · image load</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1553.002</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_peoplesoft_war_directory_payload_execution.html" data-level="high" data-product="windows"
+         data-search="payload execution from oracle peoplesoft web application archive directory t1059.003 t1057 t1083 process_creation detects execution of, or command lines referencing, an executable inside the peoplesoft psemhub.war or portal.war web application directory, and command lines referencing the sideeye loader name ple64. through a web shell, unc6240 (shinyhunters) checked the reassembled file size (for %f in (applications\peoplesoft\psemhub.war\ple64.exe) do @echo %~zf), launched it in the background (cmd.exe /c start /b &quot;&quot; applications\peoplesoft\psemhub.war\ple64.exe) and polled for it (tasklist | findstr /i ple64). the directory-based selections are ttp-level; the ple64 selection is an artifact and is trivially renamed.">
+        <span class="rr-main">
+          <span class="rr-title">Payload Execution From Oracle PeopleSoft Web Application Archive Directory</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.003</span> <span class="chip">T1057</span> <span class="chip">T1083</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-26</span>
+      </a>
+    <p class="empty" hidden data-empty>No rules match that filter.</p>
+  </div>
+  
+</section>
+
+<section class="band" id="about">
+  <div class="wrap about">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2>Esmond Er</h2>
+      <p class="muted">Detection engineer · 12+ years in cybersecurity · Singapore</p>
+      <p>I build detection content for enterprise SOCs across Splunk, Microsoft Sentinel and Google SecOps. This repository is where I turn newly published threat research into behaviour-based detections, openly and with the reasoning attached.</p>
+      <div class="certs"><span class="chip chip-solid">GCDA</span> <span class="chip chip-solid">GMON</span> <span class="chip chip-solid">GPEN</span> <span class="chip chip-solid">GDAT</span></div>
+      <div class="cta"><a class="btn btn-ghost" href="https://github.com/aienthues" rel="noopener">GitHub</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

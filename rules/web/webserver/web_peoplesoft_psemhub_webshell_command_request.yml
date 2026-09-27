@@ -1,0 +1,38 @@
+title: Oracle PeopleSoft PSEMHUB JSP Web Shell Command Request
+id: 17b6f196-98a7-4271-bb47-45e0d3c0e528
+status: experimental
+description: |
+    Detects requests to a JSP file under the PeopleSoft PSEMHUB web application where the query string carries OS discovery commands.
+    UNC6240 (ShinyHunters) used web shells dropped into PSEMHUB.war, for example GET /%50SEMHUB/<webshell>.jsp?c=id;hostname;uname+-a.
+    The 'SEMHUB' substring matches both /PSEMHUB/ and /%50SEMHUB/. Other encodings are covered by the non-normalized path rule.
+    Some of the actor's shells (x.jsp) take hex-encoded commands in a POST body, which access logs do not record; this rule only catches cleartext query-string commands.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+author: Esmond Er
+date: 2026-09-26
+tags:
+    - attack.persistence
+    - attack.t1505.003
+    - attack.discovery
+    - attack.t1082
+logsource:
+    category: webserver
+detection:
+    selection_path:
+        cs-uri-stem|contains: 'SEMHUB'
+        cs-uri-stem|endswith:
+            - '.jsp'
+            - '.jspx'
+    selection_cmd:
+        cs-uri-query|contains:
+            - 'id;'
+            - 'hostname'
+            - 'uname'
+            - 'whoami'
+            - 'tasklist'
+            - 'cmd.exe'
+            - '/bin/sh'
+    condition: all of selection_*
+falsepositives:
+    - Unlikely; PSEMHUB is a server-to-server messaging servlet, not a user-facing JSP application
+level: high

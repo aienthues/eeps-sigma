@@ -1,0 +1,41 @@
+title: Payload Execution From Oracle PeopleSoft Web Application Archive Directory
+id: 0394e0ec-48fe-491e-81b7-9cb43433977d
+status: experimental
+description: |
+    Detects execution of, or command lines referencing, an executable inside the PeopleSoft PSEMHUB.war or PORTAL.war web application directory,
+    and command lines referencing the SIDEEYE loader name Ple64.
+    Through a web shell, UNC6240 (ShinyHunters) checked the reassembled file size (for %F in (applications\peoplesoft\PSEMHUB.war\Ple64.exe) do @echo %~zF),
+    launched it in the background (cmd.exe /c start /b "" applications\peoplesoft\PSEMHUB.war\Ple64.exe) and polled for it (tasklist | findstr /i Ple64).
+    The directory-based selections are TTP-level; the Ple64 selection is an artifact and is trivially renamed.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+author: Esmond Er
+date: 2026-09-26
+tags:
+    - attack.execution
+    - attack.t1059.003
+    - attack.discovery
+    - attack.t1057
+    - attack.t1083
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img_dir:
+        Image|contains:
+            - '\PSEMHUB.war\'
+            - '\PORTAL.war\'
+    selection_img_ext:
+        Image|endswith: '.exe'
+    selection_cli:
+        CommandLine|re: '(?i)\\(PSEMHUB|PORTAL)\.war\\[^"\s]+\.exe'
+    selection_artifact:
+        - CommandLine|contains:
+              - '\Ple64.exe'
+              - ' Ple64.exe'
+              - 'findstr /i Ple64'
+        - Image|endswith: '\Ple64.exe'
+    condition: all of selection_img_* or selection_cli or selection_artifact
+falsepositives:
+    - None expected; PeopleSoft web application directories should not contain or launch executables
+level: high

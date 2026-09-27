@@ -1,0 +1,28 @@
+title: Oracle PeopleSoft PSEMHUB Request Via Non-Normalized Path
+id: bce839aa-9e5d-4b62-b939-d1f03c438bc2
+status: experimental
+description: |
+    Detects requests to the Oracle PeopleSoft PSEMHUB servlet through a percent-encoded or non-canonical-case path such as /%50SEMHUB/.
+    UNC6240 (ShinyHunters) bypassed string-based WAF rules by URL-encoding one character (/%50SEMHUB/ in place of /PSEMHUB/)
+    and sent bursts of POST requests carrying serialized Java objects to /%50SEMHUB/hub (CVE-2026-35273 Java deserialization).
+    The report says to assume any percent-encoded, mixed-case or otherwise non-normalized variant of /PSEMHUB/.
+    Requires access logs that record the raw, undecoded URI (WebLogic PIA access log, reverse proxy or WAF). Logs that store the decoded path will not show the encoding.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+author: Esmond Er
+date: 2026-09-26
+tags:
+    - attack.initial-access
+    - attack.t1190
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-uri-stem|re: '/(%(25)?[57]0|[Pp])(%(25)?[57]3|[Ss])(%(25)?[46]5|[Ee])(%(25)?[46][Dd]|[Mm])(%(25)?[46]8|[Hh])(%(25)?[57]5|[Uu])(%(25)?[46]2|[Bb])/'
+    filter_main_canonical:
+        cs-uri-stem|re: '/PSEMHUB/'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - Clients or integration agents that request the servlet in a non-canonical case (validate against a baseline of internal PSEMHUB/Integration Broker callers)
+    - Vulnerability scanners testing the same bypass
+level: high

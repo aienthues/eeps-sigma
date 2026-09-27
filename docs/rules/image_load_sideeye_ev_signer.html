@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image Signed With Certificate Abused By SIDEEYE Loader · eeps-sigma</title>
+<meta name="description" content="Detects loading of an image signed with the Extended Validation certificate issued to &quot;Tobias Weihmann Software Development OU&quot; (via Sectigo).">
+<meta property="og:title" content="Image Signed With Certificate Abused By SIDEEYE Loader · eeps-sigma">
+<meta property="og:description" content="Detects loading of an image signed with the Extended Validation certificate issued to &quot;Tobias Weihmann Software Development OU&quot; (via Sectigo).">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>image load</span></nav>
+    <h1>Image Signed With Certificate Abused By SIDEEYE Loader</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · image load</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/image_load/image_load_sideeye_ev_signer.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/image_load/image_load_sideeye_ev_signer.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects loading of an image signed with the Extended Validation certificate issued to &quot;Tobias Weihmann Software Development OU&quot; (via Sectigo).</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>UNC6240 (ShinyHunters) deployed Ple64.exe, a trojanized installer masquerading as Light Alloy that delivers the SIDEEYE backdoor, signed with this certificate.</p><p>Artifact-level indicator: it stops being useful once the certificate is revoked (GTIG requested revocation) or the actor re-signs.</p><p>Uses the Sysmon Event ID 7 Signature field; process_creation logs do not carry signer data.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Image Signed With Certificate Abused By SIDEEYE Loader
+<span class="y-key">id</span>: e15ab399-c4b5-4e62-8bc3-ae4805861eca
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects loading of an image signed with the Extended Validation certificate issued to <span class="y-str">&quot;Tobias Weihmann Software Development OU&quot;</span> (via Sectigo).
+    UNC6240 (ShinyHunters) deployed Ple64.exe, a trojanized installer masquerading as Light Alloy that delivers the SIDEEYE backdoor, signed with this certificate.
+    Artifact-level indicator: it stops being useful once the certificate is revoked (GTIG requested revocation) or the actor re-signs.
+    Uses the Sysmon Event ID 7 Signature field; process_creation logs do not carry signer data.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-09-26
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.defense-impairment
+<span class="y-dash">    -</span> attack.t1553.002
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: image_load
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">Signature</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;Tobias Weihmann Software Development&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Legitimate software genuinely published by the certificate holder, if any exists; verify the file hash against the report IOCs
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=7 Signature=&quot;*Tobias Weihmann Software Development*&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Legitimate software genuinely published by the certificate holder, if any exists; verify the file hash against the report IOCs</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Defense Impairment</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1553/002/" rel="noopener"><span class="chip">T1553.002</span></a> Subvert Trust Controls: Code Signing</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>image_load</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft" rel="noopener">cloud.google.com</a><span class="muted small ref-url">https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">e15ab399-c4b5-4e62-8bc3-ae4805861eca</dd></div>
+        <div><dt>Created</dt><dd>2026-09-26</dd></div>
+        
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

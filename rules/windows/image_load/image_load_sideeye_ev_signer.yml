@@ -1,0 +1,25 @@
+title: Image Signed With Certificate Abused By SIDEEYE Loader
+id: e15ab399-c4b5-4e62-8bc3-ae4805861eca
+status: experimental
+description: |
+    Detects loading of an image signed with the Extended Validation certificate issued to "Tobias Weihmann Software Development OU" (via Sectigo).
+    UNC6240 (ShinyHunters) deployed Ple64.exe, a trojanized installer masquerading as Light Alloy that delivers the SIDEEYE backdoor, signed with this certificate.
+    Artifact-level indicator: it stops being useful once the certificate is revoked (GTIG requested revocation) or the actor re-signs.
+    Uses the Sysmon Event ID 7 Signature field; process_creation logs do not carry signer data.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft
+author: Esmond Er
+date: 2026-09-26
+tags:
+    - attack.defense-impairment
+    - attack.t1553.002
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        Signature|contains: 'Tobias Weihmann Software Development'
+    condition: selection
+falsepositives:
+    - Legitimate software genuinely published by the certificate holder, if any exists; verify the file hash against the report IOCs
+level: high
