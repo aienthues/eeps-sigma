@@ -1,0 +1,27 @@
+title: Azure Resource Lock Deleted
+id: 87835f47-cdc5-4a9b-8397-bf8193533679
+status: experimental
+description: |
+    Detects deletion attempts (successful or failed) of Azure resource management locks.
+    Storm-3168 used a compromised service principal to make multiple unsuccessful attempts to delete Azure Site Recovery and Azure Backup protection locks protecting storage accounts, alongside mass deletion of storage accounts, to impair recovery.
+    The report describes the action but does not name the operation; MICROSOFT.AUTHORIZATION/LOCKS/DELETE is the standard ARM operation for lock deletion.
+    Both Success and Failure are matched on purpose. Treat a service principal caller, or deletion of Site Recovery or Backup protection locks on storage accounts, as higher priority.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/
+author: Esmond Er
+date: 2026-09-26
+modified: 2026-09-28
+tags:
+    - attack.impact
+    - attack.t1490
+logsource:
+    product: azure
+    service: activitylogs
+detection:
+    selection:
+        operationName|endswith: 'MICROSOFT.AUTHORIZATION/LOCKS/DELETE'
+    condition: selection
+falsepositives:
+    - Administrators removing a lock to decommission or change a protected resource
+    - IaC pipelines (Terraform, Bicep, ARM deployments) that manage locks as part of a deployment; baseline their service principals
+level: medium

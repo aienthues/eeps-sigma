@@ -1,0 +1,30 @@
+title: Azure Storage Account Deleted
+id: ef8f7fbd-9704-42ff-a5a2-ead3fd774eef
+status: experimental
+description: |
+    Detects deletion attempts of Azure Storage Accounts. This is a base rule for threshold alerting.
+    Storm-3168 used a compromised service principal to make 100+ storage account deletion attempts in a destructive sequence lasting about 7 minutes;
+    most targeted storage accounts were deleted, and deletion attempts were also made against Azure Site Recovery and Azure Backup protection locks protecting storage accounts.
+    Recommended aggregation: alert when one Caller produces deletion attempts against 10+ distinct ResourceId values (count Success and Failure; exclude Start/Accept events to avoid double counting) within 10 minutes.
+    Raise severity when ResourceId contains backup, recovery or asr, or when the target is one of the Site Recovery related storage accounts.
+    The operationName is the standard ARM operation for storage account deletion.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/
+author: Esmond Er
+date: 2026-09-26
+modified: 2026-09-28
+tags:
+    - attack.impact
+    - attack.t1485
+    - attack.t1490
+logsource:
+    product: azure
+    service: activitylogs
+detection:
+    selection:
+        operationName: 'MICROSOFT.STORAGE/STORAGEACCOUNTS/DELETE'
+    condition: selection
+falsepositives:
+    - Routine decommissioning of storage accounts by administrators
+    - Ephemeral environments torn down by CI/CD or IaC pipelines (terraform destroy); single events are expected, so use the volume threshold
+level: low

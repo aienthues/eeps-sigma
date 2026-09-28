@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azure Resource Lock Deleted · eeps-sigma</title>
+<meta name="description" content="Detects deletion attempts (successful or failed) of Azure resource management locks.">
+<meta property="og:title" content="Azure Resource Lock Deleted · eeps-sigma">
+<meta property="og:description" content="Detects deletion attempts (successful or failed) of Azure resource management locks.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Azure</span><span>/</span><span>activitylogs</span></nav>
+    <h1>Azure Resource Lock Deleted</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Azure · activitylogs</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/azure/activitylogs/azure_resource_lock_deleted.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/azure/activitylogs/azure_resource_lock_deleted.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects deletion attempts (successful or failed) of Azure resource management locks.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Storm-3168 used a compromised service principal to make multiple unsuccessful attempts to delete Azure Site Recovery and Azure Backup protection locks protecting storage accounts, alongside mass deletion of storage accounts, to impair recovery.</p><p>The report describes the action but does not name the operation; MICROSOFT.AUTHORIZATION/LOCKS/DELETE is the standard ARM operation for lock deletion.</p><p>Both Success and Failure are matched on purpose. Treat a service principal caller, or deletion of Site Recovery or Backup protection locks on storage accounts, as higher priority.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Azure Resource Lock Deleted
+<span class="y-key">id</span>: 87835f47-cdc5-4a9b-8397-bf8193533679
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects deletion attempts (successful or failed) of Azure resource management locks.
+    Storm-3168 used a compromised service principal to make multiple unsuccessful attempts to delete Azure Site Recovery and Azure Backup protection locks protecting storage accounts, alongside mass deletion of storage accounts, to impair recovery.
+    The report describes the action but does not name the operation; MICROSOFT.AUTHORIZATION/LOCKS/DELETE is the standard ARM operation for lock deletion.
+    Both Success and Failure are matched on purpose. Treat a service principal caller, or deletion of Site Recovery or Backup protection locks on storage accounts, as higher priority.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-09-26
+<span class="y-key">modified</span>: 2026-09-28
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.impact
+<span class="y-dash">    -</span> attack.t1490
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: azure
+    <span class="y-key">service</span>: activitylogs
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">operationName</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;MICROSOFT.AUTHORIZATION/LOCKS/DELETE&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Administrators removing a lock to decommission or change a protected resource
+<span class="y-dash">    -</span> IaC pipelines (Terraform, Bicep, ARM deployments) that manage locks as part of a deployment; baseline their service principals
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>operationName=&quot;*MICROSOFT.AUTHORIZATION/LOCKS/DELETE&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Administrators removing a lock to decommission or change a protected resource</li><li>IaC pipelines (Terraform, Bicep, ARM deployments) that manage locks as part of a deployment; baseline their service principals</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Impact</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1490/" rel="noopener"><span class="chip">T1490</span></a> Inhibit System Recovery</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>azure</dd></div><div><dt>Service</dt><dd>activitylogs</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/" rel="noopener">microsoft.com</a><span class="muted small ref-url">https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">87835f47-cdc5-4a9b-8397-bf8193533679</dd></div>
+        <div><dt>Created</dt><dd>2026-09-26</dd></div>
+        <div><dt>Modified</dt><dd>2026-09-28</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

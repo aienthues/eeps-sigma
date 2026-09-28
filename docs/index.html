@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="6 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="9 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="6 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="9 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>6</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>8</dd></div>
-      <div><dt>Platforms</dt><dd>3</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-09-26</dd></div>
+      <div><dt>Published rules</dt><dd>9</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>11</dd></div>
+      <div><dt>Platforms</dt><dd>4</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-09-28</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Stealth</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Collection</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Impact</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">3</span></li><li class=""><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Stealth</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Collection</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -94,7 +94,7 @@
     <input class="search" type="search" placeholder="Search title, technique, log source…" aria-label="Search rules" data-search-input>
   </div>
   <div class="filters" role="group" aria-label="Filters">
-    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
+    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
   </div>
   <div class="rule-list" data-rule-list>
     <div class="rule-row rule-head" aria-hidden="true"><span>Rule</span><span class="rr-tech">ATT&amp;CK</span><span>Level</span><span class="rr-date">Updated</span></div>
@@ -158,6 +158,36 @@
         <span class="rr-tech"><span class="chip">T1059.003</span> <span class="chip">T1057</span> <span class="chip">T1083</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_peoplesoft_war_directory_suspicious_file_write.html" data-level="high" data-product="windows"
+         data-search="suspicious file written to oracle peoplesoft web application archive directory - windows t1505.003 t1105 file_event detects creation of jsp, jspx or exe files inside the peoplesoft psemhub.war or portal.war web application directories. unc6240 (shinyhunters) exploited psemhub (cve-2026-35273), wrote web shells (x.jsp, u.jsp and sequentially numbered jsps) and other unexpected files such as tunnel.jsp and tunnel.jspx into psemhub.war, then uploaded ple64.exe, a trojanized installer delivering the sideeye backdoor, in chunks through u.jsp and reassembled it in the same directory. the report does not name the process that writes these files, so the rule does not filter on image.">
+        <span class="rr-main">
+          <span class="rr-title">Suspicious File Written To Oracle PeopleSoft Web Application Archive Directory - Windows</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span> <span class="chip">T1105</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-09-28</span>
+      </a>
+      <a class="rule-row" href="rules/azure_resource_lock_deleted.html" data-level="medium" data-product="azure"
+         data-search="azure resource lock deleted t1490 activitylogs detects deletion attempts (successful or failed) of azure resource management locks. storm-3168 used a compromised service principal to make multiple unsuccessful attempts to delete azure site recovery and azure backup protection locks protecting storage accounts, alongside mass deletion of storage accounts, to impair recovery. the report describes the action but does not name the operation; microsoft.authorization/locks/delete is the standard arm operation for lock deletion. both success and failure are matched on purpose. treat a service principal caller, or deletion of site recovery or backup protection locks on storage accounts, as higher priority.">
+        <span class="rr-main">
+          <span class="rr-title">Azure Resource Lock Deleted</span>
+          <span class="rr-sub">Azure · activitylogs</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1490</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-09-28</span>
+      </a>
+      <a class="rule-row" href="rules/azure_storage_account_deleted.html" data-level="low" data-product="azure"
+         data-search="azure storage account deleted t1485 t1490 activitylogs detects deletion attempts of azure storage accounts. this is a base rule for threshold alerting. storm-3168 used a compromised service principal to make 100+ storage account deletion attempts in a destructive sequence lasting about 7 minutes; most targeted storage accounts were deleted, and deletion attempts were also made against azure site recovery and azure backup protection locks protecting storage accounts. recommended aggregation: alert when one caller produces deletion attempts against 10+ distinct resourceid values (count success and failure; exclude start/accept events to avoid double counting) within 10 minutes. raise severity when resourceid contains backup, recovery or asr, or when the target is one of the site recovery related storage accounts. the operationname is the standard arm operation for storage account deletion.">
+        <span class="rr-main">
+          <span class="rr-title">Azure Storage Account Deleted</span>
+          <span class="rr-sub">Azure · activitylogs</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1485</span> <span class="chip">T1490</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
+        <span class="rr-date">2026-09-28</span>
       </a>
     <p class="empty" hidden data-empty>No rules match that filter.</p>
   </div>
