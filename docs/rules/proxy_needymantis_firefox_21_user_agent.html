@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeedyMantis Firefox 21 User-Agent · eeps-sigma</title>
+<meta name="description" content="Detects HTTP(S) requests whose user-agent contains &quot;Firefox/21.0&quot;. Microsoft reports that the implant of the NeedyMantis malware family (used by at least Storm-3069) has a hard-coded user-agent of firefox/21.0 for its C2 connection, which is later converted to WebSockets. Firefox 21 dates from 2013, so genuine browser traffic with this version is rare in modern environments.">
+<meta property="og:title" content="NeedyMantis Firefox 21 User-Agent · eeps-sigma">
+<meta property="og:description" content="Detects HTTP(S) requests whose user-agent contains &quot;Firefox/21.0&quot;. Microsoft reports that the implant of the NeedyMantis malware family (used by at least Storm-3069) has a hard-coded user-agent of firefox/21.0 for its C2 connection, which is later converted to WebSockets. Firefox 21 dates from 2013, so genuine browser traffic with this version is rare in modern environments.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Web server</span><span>/</span><span>proxy</span></nav>
+    <h1>NeedyMantis Firefox 21 User-Agent</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Web server · proxy</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/web/proxy/proxy_needymantis_firefox_21_user_agent.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/web/proxy/proxy_needymantis_firefox_21_user_agent.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects HTTP(S) requests whose user-agent contains &quot;Firefox/21.0&quot;. Microsoft reports that the implant of the NeedyMantis malware family (used by at least Storm-3069) has a hard-coded user-agent of firefox/21.0 for its C2 connection, which is later converted to WebSockets. Firefox 21 dates from 2013, so genuine browser traffic with this version is rare in modern environments.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Requires proxy or TLS-inspection logs that record the user-agent of HTTPS requests. Matching is case-insensitive, covering both &quot;firefox/21.0&quot; (report prose) and &quot;Firefox/21.0&quot; (report hunting query).</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Sentinel ASIM</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: NeedyMantis Firefox 21 User-Agent
+<span class="y-key">id</span>: ddb2bab0-dc4f-42ce-9268-cf0939bae906
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects HTTP(S) requests whose user-agent contains <span class="y-str">&quot;Firefox/21.0&quot;</span>. Microsoft reports that the implant of the NeedyMantis malware family (used by at least Storm-3069) has a hard-coded user-agent of firefox/21.0
+    for its C2 connection, which is later converted to WebSockets. Firefox 21 dates from 2013, so genuine browser traffic with this version is rare in modern environments.
+    Requires proxy or TLS-inspection logs that record the user-agent of HTTPS requests. Matching is case-insensitive, covering both <span class="y-str">&quot;firefox/21.0&quot;</span> (report prose) and <span class="y-str">&quot;Firefox/21.0&quot;</span> (report hunting query).
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-09-30
+<span class="y-key">modified</span>: 2026-10-01
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.command-and-control
+<span class="y-dash">    -</span> attack.t1071.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: proxy
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">c-useragent</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;Firefox/21.0&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Legacy systems or embedded devices still running Firefox 21 or a browser engine reporting that version
+<span class="y-dash">    -</span> Web scanners, scrapers and test scripts that spoof an old Firefox user-agent string
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>&quot;c-useragent&quot;=&quot;*Firefox/21.0*&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Sentinel ASIM</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>imWebSession
+| where HttpUserAgent contains &quot;Firefox/21.0&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Legacy systems or embedded devices still running Firefox 21 or a browser engine reporting that version</li><li>Web scanners, scrapers and test scripts that spoof an old Firefox user-agent string</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Command and Control</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1071/001/" rel="noopener"><span class="chip">T1071.001</span></a> Application Layer Protocol: Web Protocols</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>proxy</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/" rel="noopener">microsoft.com</a><span class="muted small ref-url">https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">ddb2bab0-dc4f-42ce-9268-cf0939bae906</dd></div>
+        <div><dt>Created</dt><dd>2026-09-30</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-01</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

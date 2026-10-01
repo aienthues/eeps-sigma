@@ -1,0 +1,29 @@
+title: Unsigned Ceiinfolog.DLL Loaded By Canon COTFileReadApp.EXE
+id: c5c0b859-b46b-4e4f-85c1-0467849492b2
+status: experimental
+description: |
+    Detects the Canon-signed COTFileReadApp.exe loading an unsigned ceiinfolog.dll, a DLL sideloading pattern.
+    Huntress reports an unattributed ClickFix campaign (lures delivered through a malicious ChatGPT Custom GPT) in which an MSI installed COTFileReadApp.exe into
+    %LOCALAPPDATA%\Programs\Advanced Printer Configuration Reader\ next to a malicious ceiinfolog.dll; the payload was a remote access trojan that the report does not name.
+    Huntress lists "An unsigned ceiinfolog.dll ... in the same folder as COTFileReadApp.exe" as an indicator. The rule keys on the signature status reported by Sysmon EID 7 and
+    does not depend on the actor-chosen install folder. The later V2 variant moved to a different signed host (Stardock DeElevate64.exe) and is not covered.
+references:
+    - https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-01
+tags:
+    - attack.stealth
+    - attack.t1574.001
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\COTFileReadApp.exe'
+        ImageLoaded|endswith: '\ceiinfolog.dll'
+        Signed: 'false'
+    condition: selection
+falsepositives:
+    - Unsigned ceiinfolog.dll shipped with an old or repackaged Canon printer utility build; compare the DLL hash against the vendor installer
+level: high

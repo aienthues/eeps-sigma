@@ -1,0 +1,25 @@
+title: NeedyMantis Firefox 21 User-Agent
+id: ddb2bab0-dc4f-42ce-9268-cf0939bae906
+status: experimental
+description: |
+    Detects HTTP(S) requests whose user-agent contains "Firefox/21.0". Microsoft reports that the implant of the NeedyMantis malware family (used by at least Storm-3069) has a hard-coded user-agent of firefox/21.0
+    for its C2 connection, which is later converted to WebSockets. Firefox 21 dates from 2013, so genuine browser traffic with this version is rare in modern environments.
+    Requires proxy or TLS-inspection logs that record the user-agent of HTTPS requests. Matching is case-insensitive, covering both "firefox/21.0" (report prose) and "Firefox/21.0" (report hunting query).
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/
+author: Esmond Er
+date: 2026-09-30
+modified: 2026-10-01
+tags:
+    - attack.command-and-control
+    - attack.t1071.001
+logsource:
+    category: proxy
+detection:
+    selection:
+        c-useragent|contains: 'Firefox/21.0'
+    condition: selection
+falsepositives:
+    - Legacy systems or embedded devices still running Firefox 21 or a browser engine reporting that version
+    - Web scanners, scrapers and test scripts that spoof an old Firefox user-agent string
+level: medium

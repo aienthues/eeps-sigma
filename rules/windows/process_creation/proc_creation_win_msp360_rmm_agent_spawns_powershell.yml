@@ -1,0 +1,31 @@
+title: PowerShell Spawned By MSP360 RMM Agent
+id: 039d9e54-0d0a-495c-a093-ef8e0dc2c1f8
+status: experimental
+description: |
+    Detects PowerShell launched by the MSP360 RMM agent service (RMM.Agent.exe).
+    Microsoft observed unattributed phishing campaigns that distributed the legitimate MSP360 RMM installer under deceptive names; after installation "the newly installed RMM.Agent.exe
+    service launched PowerShell", which changed the session execution policy and downloaded ClientSetup.msi (ScreenConnect) with Invoke-WebRequest, then installed it silently with msiexec /qn.
+    The report's hunting query notes the spawned PowerShell command line is just "powershell.exe" (commands supplied without arguments), so enable script block logging to see the payload.
+    Most useful in environments where MSP360 is not a sanctioned RMM tool.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/29/phishing-abuses-rmm-tools-persistent-access/
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-01
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.command-and-control
+    - attack.t1219.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\RMM Agent\RMM.Agent.exe'
+        Image|endswith: '\powershell.exe'
+    condition: selection
+falsepositives:
+    - Every PowerShell script or remote command pushed through a sanctioned MSP360 deployment (C:\Program Files\RMM Agent\ is the vendor's default install folder); exclude where MSP360 is approved
+    - Other software installed into a folder named "RMM Agent" with an RMM.Agent.exe binary that launches PowerShell
+level: low

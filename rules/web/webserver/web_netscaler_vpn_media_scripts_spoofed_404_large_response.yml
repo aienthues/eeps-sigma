@@ -1,0 +1,32 @@
+title: Citrix NetScaler VPN Media Or Scripts Request With Spoofed 404 And Large Response
+id: 377b856c-334e-475a-a513-7ffe1b0a8e81
+status: experimental
+description: |
+    Detects requests to /vpn/media/*.ico or /vpn/scripts/ on a Citrix NetScaler ADC/Gateway web server that return HTTP 404 with a response body larger than 5000 bytes.
+    GTIG/Mandiant report post-exploitation of CVE-2026-88772 by an unnamed actor who staged PHP web shells (.deb/.sig) under /netscaler/gui/vpn/scripts/linux, aliased
+    /vpn/media/<name>.ico to them, and had them (including WHIPSHOT) return a spoofed "404 Not Found" while carrying tunneled data in the body.
+    The report recommends hunting for "404 responses to /vpn/media/*.ico or /vpn/scripts/ paths that return multi-KB response bodies"; the 5000-byte threshold is taken from the
+    report's grep of /var/log/httpaccess.log. Requires the appliance Apache access log (or equivalent web logging) with path, status and response size parsed into W3C-style fields.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/defending-against-active-exploitation-of-citrix-netscaler-adc-and-gateway-appliances/
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-01
+tags:
+    - attack.persistence
+    - attack.t1505.003
+logsource:
+    category: webserver
+detection:
+    selection_media:
+        cs-uri-stem|startswith: '/vpn/media/'
+        cs-uri-stem|endswith: '.ico'
+    selection_scripts:
+        cs-uri-stem|startswith: '/vpn/scripts/'
+    selection_response:
+        sc-status: 404
+        sc-bytes|gt: 5000
+    condition: (selection_media or selection_scripts) and selection_response
+falsepositives:
+    - A customised NetScaler Gateway error page larger than 5000 bytes returned for genuinely missing /vpn/media or /vpn/scripts resources; baseline the normal 404 response size per appliance
+level: medium

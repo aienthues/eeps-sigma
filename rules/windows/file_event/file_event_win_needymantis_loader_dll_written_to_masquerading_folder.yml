@@ -1,0 +1,36 @@
+title: NeedyMantis Loader DLL Written To Masquerading Folder
+id: 6aa0fb54-c1f7-490f-bf3e-0544f0cb0e93
+status: experimental
+description: |
+    Detects creation of a DLL at one of the folder/file pairs Microsoft lists as used by the first-stage loader of the NeedyMantis malware family (used by at least Storm-3069), which is written under the name of a library
+    required by legitimate software (libcurl.dll, vim64.dll, dbghelp.dll, jli.dll, nvml.dll) into vendor-lookalike folders under ProgramData or Program Files, ahead of DLL sideloading.
+    Mirrors the DeviceFileEvents hunting query published in the report. Artifact-level: the actor can change folder names.
+    Program Files\Poedit\WinSparkle.dll (and its x86 variant) from the same hunting query is deliberately excluded because every legitimate Poedit install or update writes that file.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/
+author: Esmond Er
+date: 2026-09-30
+modified: 2026-10-01
+tags:
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith:
+            - '\ProgramData\USOShared\libcurl.dll'
+            - '\ProgramData\VIM\vim64.dll'
+            - '\ProgramData\TightVNC\VIM\vim64.dll'
+            - '\ProgramData\office\dbghelp.dll'
+            - '\ProgramData\broadcom\dbghelp.dll'
+            - '\ProgramData\Intel\jli.dll'
+            - '\ProgramData\ics\nvml.dll'
+            - '\Program Files\modifiable\nvml.dll'
+            - '\Program Files (x86)\modifiable\nvml.dll'
+    condition: selection
+falsepositives:
+    - Administrators or deployment tools unpacking portable curl, Vim or TightVNC builds into C:\ProgramData\USOShared, C:\ProgramData\VIM or C:\ProgramData\TightVNC\VIM (not default install locations)
+    - Vendor software that happens to drop dbghelp.dll, jli.dll or nvml.dll directly into a ProgramData folder named office, broadcom, Intel or ics; check the writing process and file signer
+level: high

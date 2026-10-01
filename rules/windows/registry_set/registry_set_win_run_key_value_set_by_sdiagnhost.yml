@@ -1,0 +1,32 @@
+title: Run Key Value Set By Scripted Diagnostics Host Sdiagnhost.EXE
+id: 4a07f09a-a90e-43ad-9518-fc92c9c4e28f
+status: experimental
+description: |
+    Detects the Windows Scripted Diagnostics native host (sdiagnhost.exe) writing a value under a CurrentVersion\Run key.
+    Cisco Talos reports that the Antino backdoor, delivered by UAT-11587 (which Talos assesses with high confidence is China-nexus), proxies its add_to_run persistence through Scripted Diagnostics:
+    it instantiates the CScriptedDiag COM class (sdiageng.dll), writes an attacker-controlled PowerShell script, and the engine delegates execution to
+    "%windir%\SysWOW64\sdiagnhost.exe -Embedding", which executes result.ps1. The resulting HKCU Run value launches the Antino executable at the next user sign-in.
+    Troubleshooting packs hosted by sdiagnhost.exe do not normally create autostart entries, so a Run value written by this process is anomalous.
+    The rule assumes the Run value is written by the PowerShell runspace hosted inside sdiagnhost.exe; a script that instead spawns reg.exe would be attributed to that child
+    (SigmaHQ "Sdiagnhost Calling Suspicious Child Process" covers sdiagnhost spawning powershell/cmd/rundll32 etc.).
+references:
+    - https://blog.talosintelligence.com/china-nexus-uat-11587-targets-government-and-policy-organizations-across-asia-with-antino-backdoor/
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-01
+tags:
+    - attack.persistence
+    - attack.t1547.001
+    - attack.stealth
+    - attack.t1218
+logsource:
+    category: registry_set
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\sdiagnhost.exe'
+        TargetObject|contains: '\Software\Microsoft\Windows\CurrentVersion\Run\'
+    condition: selection
+falsepositives:
+    - A custom or third-party troubleshooting pack that deliberately (re)registers an application autostart entry as part of its remediation; verify the diagnostic package and the Run value data
+level: high

