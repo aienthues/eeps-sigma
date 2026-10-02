@@ -1,0 +1,53 @@
+title: Zimbra Swatchdog Command Injection Child Process - Linux
+id: ce8ae1dd-c942-4242-a379-a7512ec42e72
+status: experimental
+description: |
+    Detects exploitation of CVE-2026-73570 in Zimbra, where an attacker-controlled SMTP-derived value reaches the swatchdog Perl monitor and "swatchdog incorporates the attacker-controlled value
+    into a snmptrap shell invocation". Two child-process patterns of the swatchdog Perl process (command line containing .swatchdog_script) are matched, both taken from Microsoft's hunting queries:
+    (1) a sh/bash/dash -c shell running snmptrap where the ::zmservicename argument carries shell metacharacters (; & | < > ` $) before the -mib::zmservicestatus argument, and
+    (2) a process run from an anonymous memfd ("memfd:") or from /proc/self/fd/ whose parent command line contains .swatchdog_script or snmptrap (the injected snmptrap shell),
+    i.e. the "XOR-decoded ELF run from memfd_create via /proc/self/fd" fileless stage.
+    Requires Linux process telemetry with parent command line (e.g. Sysmon for Linux Event ID 1).
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/30/unauthenticated-command-injection-on-internet-facing-mail-servers-tracking-cve-2026-73570/
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - attack.execution
+    - attack.t1059.004
+    - attack.stealth
+    - attack.t1620
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_parent_swatch:
+        ParentCommandLine|contains: '.swatchdog_script'
+    selection_inject_shell:
+        ParentImage|endswith: '/perl'
+        Image|endswith:
+            - '/sh'
+            - '/bash'
+            - '/dash'
+        CommandLine|contains|all:
+            - 'snmptrap'
+            - ' -c '
+    selection_inject_args:
+        CommandLine|re|i: '::zmservicename\s+s\s+.*[;&|<>`$].*\s+\S+-mib::zmservicestatus'
+    selection_parent_memfd:
+        ParentCommandLine|contains:
+            - '.swatchdog_script'
+            - 'snmptrap'
+    selection_memfd:
+        - Image|startswith:
+              - 'memfd:'
+              - '/proc/self/fd/'
+        - Image|contains: '/memfd:'
+        - CommandLine|contains: '/proc/self/fd/'
+    condition: (selection_parent_swatch and selection_inject_shell and selection_inject_args) or (selection_parent_memfd and selection_memfd)
+falsepositives:
+    - Unlikely; legitimate swatchdog snmptrap calls pass a plain Zimbra service name with no shell metacharacters, and neither swatchdog nor snmptrap executes binaries from memfd or /proc/self/fd
+level: high

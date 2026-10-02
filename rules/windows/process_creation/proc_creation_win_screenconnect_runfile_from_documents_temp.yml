@@ -1,0 +1,34 @@
+title: ScreenConnect RunFile Execution From Documents Temp Folder
+id: 9f5e5380-c228-41b2-a75c-f96c1d8472ca
+status: experimental
+description: |
+    Detects a process launched by ScreenConnect.WindowsClient.exe through ScreenConnect's built-in RunFile function where the parent command line references a file under the user's
+    Documents ...\Temp\ folder (e.g. C:\Users\<user>\Documents\ScreenConnect\Temp\ or C:\Users\<user>\OneDrive\Documents\ScreenConnect\Temp\).
+    Microsoft observed unattributed phishing campaigns in which the actor, after deploying ScreenConnect through an abused MSP360 RMM agent, transferred executables into these
+    folders and ran them via RunFile. The selection mirrors the advanced hunting query published in the report (ScreenConnect.WindowsClient.exe, RunFile, \Documents\, \Temp\).
+    Note: Documents\...\Temp\ is ScreenConnect's default RunFile staging folder, so this rule matches every RunFile use, legitimate or not; it is set to low (in line with SigmaHQ's ScreenConnect temp-file rule).
+    Raise the level only where ScreenConnect is not a sanctioned tool or where the ScreenConnect relay/instance is not a known company instance.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/29/phishing-abuses-rmm-tools-persistent-access/
+author: Esmond Er
+date: 2026-10-01
+modified: 2026-10-02
+tags:
+    - attack.command-and-control
+    - attack.t1219.002
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\ScreenConnect.WindowsClient.exe'
+        ParentCommandLine|contains|all:
+            - 'RunFile'
+            - '\Documents\'
+            - '\Temp\'
+    condition: selection
+falsepositives:
+    - Every legitimate RunFile use through a sanctioned ScreenConnect instance, because Documents\...\Temp\ is ScreenConnect's default RunFile staging folder; raise the level only where ScreenConnect is not sanctioned or the relay is not a known company instance
+    - Help-desk technicians legitimately pushing and running tools or installers on end-user machines through a sanctioned ScreenConnect instance; baseline by ScreenConnect relay/instance and technician
+level: low

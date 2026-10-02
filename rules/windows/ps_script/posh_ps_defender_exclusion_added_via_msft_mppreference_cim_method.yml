@@ -1,0 +1,31 @@
+title: Defender Exclusion Added Via MSFT_MpPreference CIM Method - PowerShell
+id: 78c018a7-ca45-47a2-97ac-af4ac1b1df4e
+status: experimental
+description: |
+    Detects a PowerShell script block that calls Invoke-CimMethod on the MSFT_MpPreference WMI class (root/Microsoft/Windows/Defender) with an ExclusionPath argument.
+    This adds a Microsoft Defender exclusion without the Add-MpPreference/Set-MpPreference cmdlets that existing exclusion rules look for.
+    Huntress attributes this method to GootKit, which "Creates an MDAV path exclusion via the MSFT_MpPreference WMI Class", e.g.
+    Invoke-CimMethod -Namespace root/Microsoft/Windows/Defender -ClassName MSFT_MpPreference -MethodName Add -Arguments @{ExclusionPath=@("C:\Temp"); ...}.
+    Requires PowerShell Script Block Logging (Event ID 4104).
+references:
+    - https://www.huntress.com/blog/you-can-run-but-you-cant-hide-defender-exclusions
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.defense-impairment
+    - attack.t1685
+logsource:
+    category: ps_script
+    product: windows
+    definition: 'Requirements: Script Block Logging must be enabled'
+detection:
+    selection:
+        ScriptBlockText|contains|all:
+            - 'Invoke-CimMethod'
+            - 'MSFT_MpPreference'
+            - 'ExclusionPath'
+    condition: selection
+falsepositives:
+    - Administrators or management scripts that set Defender exclusions on remote hosts through CIM sessions (Invoke-CimMethod -CimSession) instead of the Defender cmdlets; baseline by script author and host
+level: medium

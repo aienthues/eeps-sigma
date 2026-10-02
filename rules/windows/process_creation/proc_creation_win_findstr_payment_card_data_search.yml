@@ -1,0 +1,37 @@
+title: Findstr Search For Payment Card Data Fields
+id: 20e441c5-41a3-44b6-9982-207ae048920f
+status: experimental
+description: |
+    Detects findstr.exe run with payment card field names (CVV, CardNumber, CreditCard, CCNumber, card_number, first_six, last_four) as search strings.
+    Through ASPX webshells on IIS servers of a recreation management platform, the attacker searched web application source and payment webhook logs for cardholder data, e.g.
+    findstr /s /i /m /c:"CVV" /c:"CardNumber" /c:"CreditCard" /c:"CCNumber" ... E:\Content\info\*.aspx and
+    findstr /i "exp_date exp_month exp_year expiration cvv first_six last_four card_number" E:\Content\info\_fortis\Webhooks\<date>.txt.
+references:
+    - https://www.huntress.com/blog/parks-recreation-platform-webshell-attack
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.collection
+    - attack.t1005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\findstr.exe'
+        - OriginalFileName: 'FINDSTR.EXE'
+    selection_cli:
+        CommandLine|contains:
+            - 'CVV'
+            - 'CardNumber'
+            - 'CreditCard'
+            - 'CCNumber'
+            - 'card_number'
+            - 'first_six'
+            - 'last_four'
+    condition: all of selection_*
+falsepositives:
+    - Developers or PCI DSS assessors searching payment application source code or logs for card field names on development or audit workstations
+    - Card-data discovery scripts that call findstr
+level: medium

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="18 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="27 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="18 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="27 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>18</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>19</dd></div>
+      <div><dt>Published rules</dt><dd>27</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>28</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-01</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-02</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">5</span></li><li class=""><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li><li class=""><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Collection</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">6</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:29%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:57%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:86%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:43%"></i></span><span class="t-n">3</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:29%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">7</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:29%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -118,6 +118,46 @@
         <span class="rr-tech"><span class="chip">T1219</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_lnx_zimbra_jsp_written_to_jetty_mailboxd_webapps_by_shell_or_transfer_tool.html" data-level="high" data-product="linux"
+         data-search="zimbra jsp written to jetty or mailboxd webapps by shell or transfer tool - linux t1505.003 t1570 file_event detects a jsp file (.jsp or compiled _jsp.java) created under zimbra&#x27;s jetty or mailboxd web application folders (/jetty_base/webapps/, /jetty/webapps/, /mailboxd/webapps/) by a shell or file transfer utility (sh, bash, dash, curl, wget, tee, base64, rsync). after exploiting cve-2026-73570, &quot;multiple jsp webshells were deployed across jetty and mailboxd application paths&quot;, and rsync was used &quot;to move staged payload fragments, helper scripts, and jsp webshells between nodes&quot;. the selection mirrors microsoft&#x27;s published hunting query.">
+        <span class="rr-main">
+          <span class="rr-title">Zimbra JSP Written To Jetty Or Mailboxd Webapps By Shell Or Transfer Tool - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span> <span class="chip">T1570</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_zimbra_swatchdog_command_injection_child_process.html" data-level="high" data-product="linux"
+         data-search="zimbra swatchdog command injection child process - linux t1190 t1059.004 t1620 process_creation detects exploitation of cve-2026-73570 in zimbra, where an attacker-controlled smtp-derived value reaches the swatchdog perl monitor and &quot;swatchdog incorporates the attacker-controlled value into a snmptrap shell invocation&quot;. two child-process patterns of the swatchdog perl process (command line containing .swatchdog_script) are matched, both taken from microsoft&#x27;s hunting queries: (1) a sh/bash/dash -c shell running snmptrap where the ::zmservicename argument carries shell metacharacters (; &amp; | &lt; &gt; ` $) before the -mib::zmservicestatus argument, and (2) a process run from an anonymous memfd (&quot;memfd:&quot;) or from /proc/self/fd/ whose parent command line contains .swatchdog_script or snmptrap (the injected snmptrap shell), i.e. the &quot;xor-decoded elf run from memfd_create via /proc/self/fd&quot; fileless stage. requires linux process telemetry with parent command line (e.g. sysmon for linux event id 1).">
+        <span class="rr-main">
+          <span class="rr-title">Zimbra Swatchdog Command Injection Child Process - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1190</span> <span class="chip">T1059.004</span> <span class="chip">T1620</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_zimbra_zmmailboxd_out_linked_to_pam_sudo_config.html" data-level="high" data-product="linux"
+         data-search="zimbra zmmailboxd.out log linked to pam sudo config - linux t1068 process_creation detects a process whose command line references both zimbra&#x27;s zmmailboxd.out log and pam.d/sudo (/etc/pam.d/sudo, absolute or relative), as when the log is replaced with a symbolic link to the pam sudo configuration. in post-exploitation of cve-2026-73570 the attackers &quot;backed up /etc/pam.d/sudo, replaced the legitimate zmmailboxd.out log with a symlink to the pam configuration, and invoked the privileged zmmailboxdmgr process&quot;, so that the root-owned process overwrote the pam file and a pam_exec hook could grant the zimbra account root. the command line pattern is inferred from the described symlink step (e.g. ln -s); the report does not publish the literal command.">
+        <span class="rr-main">
+          <span class="rr-title">Zimbra Zmmailboxd.out Log Linked To PAM Sudo Config - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1068</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/web_aspx_request_to_documents_memberfiles_upload_directory.html" data-level="high" data-product="web"
+         data-search="aspx request to documents memberfiles upload directory t1505.003 webserver detects web requests for .aspx files under /documents/memberfiles/, the member file upload folder of a multi-tenant recreation management platform. huntress observed an attacker register a member account, &quot;upload malicious files directly to the /documents/memberfiles/ directory&quot; and use only the uploaded .aspx files (e.g. /documents/memberfiles/12345_67890_&lt;guid&gt;.aspx) to run commands as webshells. a user upload folder should not serve executable aspx pages.">
+        <span class="rr-main">
+          <span class="rr-title">ASPX Request To Documents MemberFiles Upload Directory</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-02</span>
       </a>
       <a class="rule-row" href="rules/web_peoplesoft_psemhub_webshell_command_request.html" data-level="high" data-product="web"
          data-search="oracle peoplesoft psemhub jsp web shell command request t1505.003 t1082 webserver detects requests to a jsp file under the peoplesoft psemhub web application where the query string carries os discovery commands. unc6240 (shinyhunters) used web shells dropped into psemhub.war, for example get /%50semhub/&lt;webshell&gt;.jsp?c=id;hostname;uname+-a. the &#x27;semhub&#x27; substring matches both /psemhub/ and /%50semhub/. other encodings are covered by the non-normalized path rule. some of the actor&#x27;s shells (x.jsp) take hex-encoded commands in a post body, which access logs do not record; this rule only catches cleartext query-string commands.">
@@ -259,6 +299,46 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-01</span>
       </a>
+      <a class="rule-row" href="rules/file_event_win_base64_encoded_script_staged_in_windows_temp.html" data-level="medium" data-product="windows"
+         data-search="base64 encoded script staged in windows temp t1140 t1027.013 file_event detects creation of a .ps1.b64 or .js.b64 file (a base64-encoded powershell or javascript file) in c:\windows\temp\. through aspx webshells, the attacker staged base64-encoded planter scripts in c:\windows\temp (plant_ccrtc_mousewheel.ps1.b64, plant_ccrtc_fast.ps1.ps1.b64, ccrtc_sdk_init.js.b64) and decoded them next to the originals (.ps1 / .js) before using them to trojanize a jquery file on the site&#x27;s login page.">
+        <span class="rr-main">
+          <span class="rr-title">Base64 Encoded Script Staged In Windows Temp</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1140</span> <span class="chip">T1027.013</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/posh_ps_defender_exclusion_added_via_msft_mppreference_cim_method.html" data-level="medium" data-product="windows"
+         data-search="defender exclusion added via msft_mppreference cim method - powershell t1685 ps_script detects a powershell script block that calls invoke-cimmethod on the msft_mppreference wmi class (root/microsoft/windows/defender) with an exclusionpath argument. this adds a microsoft defender exclusion without the add-mppreference/set-mppreference cmdlets that existing exclusion rules look for. huntress attributes this method to gootkit, which &quot;creates an mdav path exclusion via the msft_mppreference wmi class&quot;, e.g. invoke-cimmethod -namespace root/microsoft/windows/defender -classname msft_mppreference -methodname add -arguments @{exclusionpath=@(&quot;c:\temp&quot;); ...}. requires powershell script block logging (event id 4104).">
+        <span class="rr-main">
+          <span class="rr-title">Defender Exclusion Added Via MSFT_MpPreference CIM Method - PowerShell</span>
+          <span class="rr-sub">Windows · ps script</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1685</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/registry_set_win_defender_hide_exclusions_from_local_admins.html" data-level="medium" data-product="windows"
+         data-search="defender hideexclusionsfromlocaladmins value set t1685 t1112 registry_set detects the microsoft defender hideexclusionsfromlocaladmins policy value being set to 1 (enabled) (hklm\software\policies\microsoft\windows defender\hideexclusionsfromlocaladmins). huntress notes that &quot;attackers can set the following registry key value to &quot;hide&quot; exclusions from administrators when they try to query them&quot;, which hides attacker-added exclusions from local administrators. the value sits outside the \windows defender\exclusions key, so existing defender exclusion registry rules do not match it.">
+        <span class="rr-main">
+          <span class="rr-title">Defender HideExclusionsFromLocalAdmins Value Set</span>
+          <span class="rr-sub">Windows · registry set</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1685</span> <span class="chip">T1112</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_findstr_payment_card_data_search.html" data-level="medium" data-product="windows"
+         data-search="findstr search for payment card data fields t1005 process_creation detects findstr.exe run with payment card field names (cvv, cardnumber, creditcard, ccnumber, card_number, first_six, last_four) as search strings. through aspx webshells on iis servers of a recreation management platform, the attacker searched web application source and payment webhook logs for cardholder data, e.g. findstr /s /i /m /c:&quot;cvv&quot; /c:&quot;cardnumber&quot; /c:&quot;creditcard&quot; /c:&quot;ccnumber&quot; ... e:\content\info\*.aspx and findstr /i &quot;exp_date exp_month exp_year expiration cvv first_six last_four card_number&quot; e:\content\info\_fortis\webhooks\&lt;date&gt;.txt.">
+        <span class="rr-main">
+          <span class="rr-title">Findstr Search For Payment Card Data Fields</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-02</span>
+      </a>
       <a class="rule-row" href="rules/azure_storage_account_deleted.html" data-level="low" data-product="azure"
          data-search="azure storage account deleted t1485 t1490 activitylogs detects deletion attempts of azure storage accounts. this is a base rule for threshold alerting. storm-3168 used a compromised service principal to make 100+ storage account deletion attempts in a destructive sequence lasting about 7 minutes; most targeted storage accounts were deleted, and deletion attempts were also made against azure site recovery and azure backup protection locks protecting storage accounts. recommended aggregation: alert when one caller produces deletion attempts against 10+ distinct resourceid values (count success and failure; exclude start/accept events to avoid double counting) within 10 minutes. raise severity when resourceid contains backup, recovery or asr, or when the target is one of the site recovery related storage accounts. the operationname is the standard arm operation for storage account deletion.">
         <span class="rr-main">
@@ -278,6 +358,16 @@
         <span class="rr-tech"><span class="chip">T1059.001</span> <span class="chip">T1219.002</span></span>
         <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
         <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_screenconnect_runfile_from_documents_temp.html" data-level="low" data-product="windows"
+         data-search="screenconnect runfile execution from documents temp folder t1219.002 t1105 process_creation detects a process launched by screenconnect.windowsclient.exe through screenconnect&#x27;s built-in runfile function where the parent command line references a file under the user&#x27;s documents ...\temp\ folder (e.g. c:\users\&lt;user&gt;\documents\screenconnect\temp\ or c:\users\&lt;user&gt;\onedrive\documents\screenconnect\temp\). microsoft observed unattributed phishing campaigns in which the actor, after deploying screenconnect through an abused msp360 rmm agent, transferred executables into these folders and ran them via runfile. the selection mirrors the advanced hunting query published in the report (screenconnect.windowsclient.exe, runfile, \documents\, \temp\). note: documents\...\temp\ is screenconnect&#x27;s default runfile staging folder, so this rule matches every runfile use, legitimate or not; it is set to low (in line with sigmahq&#x27;s screenconnect temp-file rule). raise the level only where screenconnect is not a sanctioned tool or where the screenconnect relay/instance is not a known company instance.">
+        <span class="rr-main">
+          <span class="rr-title">ScreenConnect RunFile Execution From Documents Temp Folder</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1219.002</span> <span class="chip">T1105</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
+        <span class="rr-date">2026-10-02</span>
       </a>
     <p class="empty" hidden data-empty>No rules match that filter.</p>
   </div>

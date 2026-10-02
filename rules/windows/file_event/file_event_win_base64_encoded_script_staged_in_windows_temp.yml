@@ -1,0 +1,29 @@
+title: Base64 Encoded Script Staged In Windows Temp
+id: 7f5550e9-81e0-424c-b088-2cfe1bd87ab0
+status: experimental
+description: |
+    Detects creation of a .ps1.b64 or .js.b64 file (a Base64-encoded PowerShell or JavaScript file) in C:\Windows\Temp\.
+    Through ASPX webshells, the attacker staged Base64-encoded planter scripts in C:\Windows\Temp (plant_ccrtc_mousewheel.ps1.b64, plant_ccrtc_fast.ps1.ps1.b64, ccrtc_sdk_init.js.b64)
+    and decoded them next to the originals (.ps1 / .js) before using them to trojanize a jQuery file on the site's login page.
+references:
+    - https://www.huntress.com/blog/parks-recreation-platform-webshell-attack
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.stealth
+    - attack.t1140
+    - attack.t1027.013
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|contains: '\Windows\Temp\'
+        TargetFilename|endswith:
+            - '.ps1.b64'
+            - '.js.b64'
+    condition: selection
+falsepositives:
+    - Software deployment or management agents that transfer scripts Base64-encoded through C:\Windows\Temp before decoding them; baseline by writing process
+level: medium

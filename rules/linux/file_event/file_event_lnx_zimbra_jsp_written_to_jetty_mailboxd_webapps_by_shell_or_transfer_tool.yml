@@ -1,0 +1,45 @@
+title: Zimbra JSP Written To Jetty Or Mailboxd Webapps By Shell Or Transfer Tool - Linux
+id: 3b469c0e-a265-4eed-ae52-32a680377328
+status: experimental
+description: |
+    Detects a JSP file (.jsp or compiled _jsp.java) created under Zimbra's Jetty or mailboxd web application folders (/jetty_base/webapps/, /jetty/webapps/, /mailboxd/webapps/) by a shell or file
+    transfer utility (sh, bash, dash, curl, wget, tee, base64, rsync).
+    After exploiting CVE-2026-73570, "Multiple JSP webshells were deployed across Jetty and mailboxd application paths", and rsync was used "to move staged payload fragments, helper scripts,
+    and JSP webshells between nodes". The selection mirrors Microsoft's published hunting query.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/30/unauthenticated-command-injection-on-internet-facing-mail-servers-tracking-cve-2026-73570/
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.persistence
+    - attack.t1505.003
+    - attack.lateral-movement
+    - attack.t1570
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection_path:
+        TargetFilename|contains:
+            - '/jetty_base/webapps/'
+            - '/jetty/webapps/'
+            - '/mailboxd/webapps/'
+    selection_ext:
+        TargetFilename|endswith:
+            - '.jsp'
+            - '_jsp.java'
+    selection_img:
+        Image|endswith:
+            - '/sh'
+            - '/bash'
+            - '/dash'
+            - '/curl'
+            - '/wget'
+            - '/tee'
+            - '/base64'
+            - '/rsync'
+    condition: all of selection_*
+falsepositives:
+    - Zimbra upgrade or patch scripts, or administrator-run rsync between cluster nodes, that write JSPs into the webapps folders through a shell redirect or rsync; correlate with change windows
+level: high

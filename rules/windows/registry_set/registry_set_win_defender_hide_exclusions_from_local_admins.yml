@@ -1,0 +1,28 @@
+title: Defender HideExclusionsFromLocalAdmins Value Set
+id: 6bb10bf3-54a4-467e-8888-22e57bddedc4
+status: experimental
+description: |
+    Detects the Microsoft Defender HideExclusionsFromLocalAdmins policy value being set to 1 (enabled) (HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\HideExclusionsFromLocalAdmins).
+    Huntress notes that "attackers can set the following registry key value to "hide" exclusions from administrators when they try to query them", which hides attacker-added exclusions
+    from local administrators. The value sits outside the \Windows Defender\Exclusions key, so existing Defender exclusion registry rules do not match it.
+references:
+    - https://www.huntress.com/blog/you-can-run-but-you-cant-hide-defender-exclusions
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.defense-impairment
+    - attack.t1685
+    - attack.t1112
+logsource:
+    category: registry_set
+    product: windows
+detection:
+    selection:
+        TargetObject|contains: '\Windows Defender\'
+        TargetObject|endswith: '\HideExclusionsFromLocalAdmins'
+        Details: 'DWORD (0x00000001)'
+    condition: selection
+falsepositives:
+    - Organisations that deploy HideExclusionsFromLocalAdmins on purpose as a hardening setting through Group Policy (written by the gpsvc svchost.exe -k netsvcs -p -s gpsvc) or Intune; baseline against the managed policy rollout
+level: medium

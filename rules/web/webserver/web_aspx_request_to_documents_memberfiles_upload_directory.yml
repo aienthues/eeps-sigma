@@ -1,0 +1,25 @@
+title: ASPX Request To Documents MemberFiles Upload Directory
+id: 3d57cd73-ba60-4dfd-8e22-4c759855d764
+status: experimental
+description: |
+    Detects web requests for .aspx files under /documents/MemberFiles/, the member file upload folder of a multi-tenant recreation management platform.
+    Huntress observed an attacker register a member account, "upload malicious files directly to the /documents/MemberFiles/ directory" and use only the uploaded .aspx files
+    (e.g. /documents/MemberFiles/12345_67890_<GUID>.aspx) to run commands as webshells. A user upload folder should not serve executable ASPX pages.
+references:
+    - https://www.huntress.com/blog/parks-recreation-platform-webshell-attack
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.persistence
+    - attack.t1505.003
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-uri-stem|contains: '/documents/MemberFiles/'
+        cs-uri-stem|endswith: '.aspx'
+    condition: selection
+falsepositives:
+    - Unlikely; uploaded member files are documents and images. Other web applications with an unrelated /documents/MemberFiles/ path that serve ASPX pages from it
+level: high

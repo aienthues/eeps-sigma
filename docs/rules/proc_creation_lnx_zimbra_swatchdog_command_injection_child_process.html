@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zimbra Swatchdog Command Injection Child Process - Linux · eeps-sigma</title>
+<meta name="description" content="Detects exploitation of CVE-2026-73570 in Zimbra, where an attacker-controlled SMTP-derived value reaches the swatchdog Perl monitor and &quot;swatchdog incorporates the attacker-controlled value into a snmptrap shell invocation&quot;. Two child-process patterns of the swatchdog Perl process (command line containing .swatchdog_script) are matched, both taken from Microsoft&#x27;s hunting queries:">
+<meta property="og:title" content="Zimbra Swatchdog Command Injection Child Process - Linux · eeps-sigma">
+<meta property="og:description" content="Detects exploitation of CVE-2026-73570 in Zimbra, where an attacker-controlled SMTP-derived value reaches the swatchdog Perl monitor and &quot;swatchdog incorporates the attacker-controlled value into a snmptrap shell invocation&quot;. Two child-process patterns of the swatchdog Perl process (command line containing .swatchdog_script) are matched, both taken from Microsoft&#x27;s hunting queries:">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Linux</span><span>/</span><span>process creation</span></nav>
+    <h1>Zimbra Swatchdog Command Injection Child Process - Linux</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Linux · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/linux/process_creation/proc_creation_lnx_zimbra_swatchdog_command_injection_child_process.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/linux/process_creation/proc_creation_lnx_zimbra_swatchdog_command_injection_child_process.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects exploitation of CVE-2026-73570 in Zimbra, where an attacker-controlled SMTP-derived value reaches the swatchdog Perl monitor and &quot;swatchdog incorporates the attacker-controlled value into a snmptrap shell invocation&quot;. Two child-process patterns of the swatchdog Perl process (command line containing .swatchdog_script) are matched, both taken from Microsoft&#x27;s hunting queries:</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>(1) a sh/bash/dash -c shell running snmptrap where the ::zmservicename argument carries shell metacharacters (; &amp; | &lt; &gt; ` $) before the -mib::zmservicestatus argument, and (2) a process run from an anonymous memfd (&quot;memfd:&quot;) or from /proc/self/fd/ whose parent command line contains .swatchdog_script or snmptrap (the injected snmptrap shell), i.e. the &quot;XOR-decoded ELF run from memfd_create via /proc/self/fd&quot; fileless stage.</p><p>Requires Linux process telemetry with parent command line (e.g. Sysmon for Linux Event ID 1).</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Zimbra Swatchdog Command Injection Child Process - Linux
+<span class="y-key">id</span>: ce8ae1dd-c942-4242-a379-a7512ec42e72
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects exploitation of CVE-2026-73570 in Zimbra, where an attacker-controlled SMTP-derived value reaches the swatchdog Perl monitor and &quot;swatchdog incorporates the attacker-controlled value
+    into a snmptrap shell invocation&quot;. Two child-process patterns of the swatchdog Perl process (command line containing .swatchdog_script) are matched, both taken from Microsoft&#x27;s hunting queries:
+    (1) a sh/bash/dash -c shell running snmptrap where the ::zmservicename argument carries shell metacharacters (; &amp; | &lt; &gt; ` $) before the -mib::zmservicestatus argument, and
+    (2) a process run from an anonymous memfd (<span class="y-str">&quot;memfd:&quot;</span>) or from /proc/self/fd/ whose parent command line contains .swatchdog_script or snmptrap (the injected snmptrap shell),
+    i.e. the <span class="y-str">&quot;XOR-decoded ELF run from memfd_create via /proc/self/fd&quot;</span> fileless stage.
+    Requires Linux process telemetry with parent command line (e.g. Sysmon for Linux Event ID 1).
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.microsoft.com/en-us/security/blog/2026/09/30/unauthenticated-command-injection-on-internet-facing-mail-servers-tracking-cve-2026-73570/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-02
+<span class="y-key">modified</span>: 2026-10-02
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.initial-access
+<span class="y-dash">    -</span> attack.t1190
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1059.004
+<span class="y-dash">    -</span> attack.stealth
+<span class="y-dash">    -</span> attack.t1620
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: process_creation
+    <span class="y-key">product</span>: linux
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_parent_swatch</span>:
+        <span class="y-key">ParentCommandLine</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;.swatchdog_script&#x27;</span>
+    <span class="y-key">selection_inject_shell</span>:
+        <span class="y-key">ParentImage</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;/perl&#x27;</span>
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/sh&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/bash&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/dash&#x27;</span>
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains|all</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;snmptrap&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27; -c &#x27;</span>
+    <span class="y-key">selection_inject_args</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|re|i</span>: <span class="y-str">&#x27;::zmservicename\s+s\s+.*[;&amp;|&lt;&gt;`$].*\s+\S+-mib::zmservicestatus&#x27;</span>
+    <span class="y-key">selection_parent_memfd</span>:
+        <span class="y-key">ParentCommandLine</span><span class="y-mod">|contains</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;.swatchdog_script&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;snmptrap&#x27;</span>
+    <span class="y-key">selection_memfd</span>:
+        - <span class="y-key">Image</span><span class="y-mod">|startswith</span>:
+<span class="y-dash">              -</span> <span class="y-str">&#x27;memfd:&#x27;</span>
+<span class="y-dash">              -</span> <span class="y-str">&#x27;/proc/self/fd/&#x27;</span>
+        - <span class="y-key">Image</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;/memfd:&#x27;</span>
+        - <span class="y-key">CommandLine</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;/proc/self/fd/&#x27;</span>
+    <span class="y-key">condition</span>: (selection_parent_swatch and selection_inject_shell and selection_inject_args) or (selection_parent_memfd and selection_memfd)
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Unlikely; legitimate swatchdog snmptrap calls pass a plain Zimbra service name with no shell metacharacters, and neither swatchdog nor snmptrap executes binaries from memfd or /proc/self/fd
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>| rex field=CommandLine &quot;(?&lt;CommandLineMatch&gt;(?i)::zmservicename\\s+s\\s+.*[;&amp;|&lt;&gt;`$].*\\s+\\S+-mib::zmservicestatus)&quot;
+| eval CommandLineCondition=if(isnotnull(CommandLineMatch), &quot;true&quot;, &quot;false&quot;)
+| search (ParentCommandLine=&quot;*.swatchdog_script*&quot; ParentImage=&quot;*/perl&quot; Image IN (&quot;*/sh&quot;, &quot;*/bash&quot;, &quot;*/dash&quot;) CommandLine=&quot;*snmptrap*&quot; CommandLine=&quot;* -c *&quot; CommandLineCondition=&quot;true&quot;) OR (ParentCommandLine IN (&quot;*.swatchdog_script*&quot;, &quot;*snmptrap*&quot;) Image IN (&quot;memfd:*&quot;, &quot;/proc/self/fd/*&quot;) OR Image=&quot;*/memfd:*&quot; OR CommandLine=&quot;*/proc/self/fd/*&quot;)</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where (InitiatingProcessCommandLine contains &quot;.swatchdog_script&quot; and (InitiatingProcessFolderPath endswith &quot;/perl&quot; and (FolderPath endswith &quot;/sh&quot; or FolderPath endswith &quot;/bash&quot; or FolderPath endswith &quot;/dash&quot;) and (ProcessCommandLine contains &quot;snmptrap&quot; and ProcessCommandLine contains &quot; -c &quot;)) and ProcessCommandLine matches regex &quot;(?i)::zmservicename\\s+s\\s+.*[;&amp;|&lt;&gt;`$].*\\s+\\S+-mib::zmservicestatus&quot;) or ((InitiatingProcessCommandLine contains &quot;.swatchdog_script&quot; or InitiatingProcessCommandLine contains &quot;snmptrap&quot;) and ((FolderPath startswith &quot;memfd:&quot; or FolderPath startswith &quot;/proc/self/fd/&quot;) or FolderPath contains &quot;/memfd:&quot; or ProcessCommandLine contains &quot;/proc/self/fd/&quot;))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Unlikely; legitimate swatchdog snmptrap calls pass a plain Zimbra service name with no shell metacharacters, and neither swatchdog nor snmptrap executes binaries from memfd or /proc/self/fd</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Initial Access</span> <span class="chip chip-soft">Execution</span> <span class="chip chip-soft">Stealth</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1190/" rel="noopener"><span class="chip">T1190</span></a> Exploit Public-Facing Application</li><li><a href="https://attack.mitre.org/techniques/T1059/004/" rel="noopener"><span class="chip">T1059.004</span></a> Command and Scripting Interpreter: Unix Shell</li><li><a href="https://attack.mitre.org/techniques/T1620/" rel="noopener"><span class="chip">T1620</span></a> Reflective Code Loading</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>process_creation</dd></div><div><dt>Product</dt><dd>linux</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.microsoft.com/en-us/security/blog/2026/09/30/unauthenticated-command-injection-on-internet-facing-mail-servers-tracking-cve-2026-73570/" rel="noopener">microsoft.com</a><span class="muted small ref-url">https://www.microsoft.com/en-us/security/blog/2026/09/30/unauthenticated-command-injection-on-internet-facing-mail-servers-tracking-cve-2026-73570/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">ce8ae1dd-c942-4242-a379-a7512ec42e72</dd></div>
+        <div><dt>Created</dt><dd>2026-10-02</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-02</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

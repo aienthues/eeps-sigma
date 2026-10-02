@@ -1,0 +1,28 @@
+title: Zimbra Zmmailboxd.out Log Linked To PAM Sudo Config - Linux
+id: a74dc2c1-488e-401d-8c10-29037af605a7
+status: experimental
+description: |
+    Detects a process whose command line references both Zimbra's zmmailboxd.out log and pam.d/sudo (/etc/pam.d/sudo, absolute or relative), as when the log is replaced with a symbolic link to the PAM sudo configuration.
+    In post-exploitation of CVE-2026-73570 the attackers "backed up /etc/pam.d/sudo, replaced the legitimate zmmailboxd.out log with a symlink to the PAM configuration, and invoked the
+    privileged zmmailboxdmgr process", so that the root-owned process overwrote the PAM file and a pam_exec hook could grant the zimbra account root.
+    The command line pattern is inferred from the described symlink step (e.g. ln -s); the report does not publish the literal command.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/09/30/unauthenticated-command-injection-on-internet-facing-mail-servers-tracking-cve-2026-73570/
+author: Esmond Er
+date: 2026-10-02
+modified: 2026-10-02
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        CommandLine|contains|all:
+            - 'zmmailboxd.out'
+            - 'pam.d/sudo'
+    condition: selection
+falsepositives:
+    - Unlikely; no Zimbra or OS maintenance task links or copies the mailboxd log to the PAM sudo configuration
+level: high
