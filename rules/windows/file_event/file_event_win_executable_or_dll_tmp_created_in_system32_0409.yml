@@ -1,0 +1,35 @@
+title: Executable Or Staged DLL Created In System32 0409 Folder
+id: 13fe0acb-70ac-4fd6-8c68-2d734081050b
+status: experimental
+description: |
+    Detects creation of an .exe or .dll.tmp file in the System32\0409 subfolder.
+    Symantec reports that the Warlock ransomware attackers deployed ssvagent.exe and logger.exe "in a subdirectory of the Windows system folder (CSIDL_SYSTEM\0409\)"
+    alongside the DLLs gsdll64.dll.tmp and doexeloc.dll.tmp for DLL side-loading, before copying them into ProgramData.
+    CSIDL_SYSTEM is Symantec's placeholder for the Windows system folder (System32). The rule keys on the folder rather than the file names, which are trivially changed.
+    Writes by Windows servicing (TiWorker.exe, TrustedInstaller.exe) and Windows Installer (msiexec.exe) are filtered out.
+references:
+    - https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-04
+tags:
+    - attack.stealth
+    - attack.t1574.001
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|contains: '\System32\0409\'
+        TargetFilename|endswith:
+            - '.exe'
+            - '.dll.tmp'
+    filter_main_servicing:
+        Image|endswith:
+            - '\TiWorker.exe'
+            - '\TrustedInstaller.exe'
+            - '\msiexec.exe'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - Legacy installers that place language-specific (LCID 0409, en-US) resources under System32\0409 through a process other than the filtered servicing/Windows Installer processes; verify the writing process and file signature
+level: medium

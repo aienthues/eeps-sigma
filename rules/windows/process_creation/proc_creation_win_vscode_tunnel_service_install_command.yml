@@ -1,0 +1,27 @@
+title: Visual Studio Code Tunnel Installed As A Service Via Command Line
+id: 3e999a30-0cc9-46c6-a251-0595f3fc5f06
+status: experimental
+description: |
+    Detects the Visual Studio Code CLI installing its remote tunnel as a Windows service ("tunnel service install").
+    Symantec reports that the Warlock ransomware attackers used Visual Studio Code's built-in tunnel feature for persistence and remote access, running
+    "CSIDL_WINDOWS\debug\code-insiders.exe" tunnel service install --accept-server-license-terms from the Windows\debug folder.
+    The SigmaHQ VS Code tunnel rules match '.exe tunnel' (missed when the image path is quoted) or the later 'internal-run' service execution, not the install command itself.
+    A code-insiders.exe or code.exe image outside a normal VS Code install location (such as C:\Windows\debug\) should be treated as highly suspicious.
+references:
+    - https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-04
+tags:
+    - attack.command-and-control
+    - attack.t1219.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains: 'tunnel service install'
+    condition: selection
+falsepositives:
+    - Developers or administrators deliberately registering a VS Code remote tunnel service on a workstation or build host (verify against approved remote-access tooling)
+level: medium

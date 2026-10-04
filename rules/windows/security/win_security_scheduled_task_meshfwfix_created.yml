@@ -1,0 +1,26 @@
+title: Scheduled Task MeshFwFix Created
+id: baca9e1a-842d-4f2b-a228-619701c1fc0f
+status: experimental
+description: |
+    Detects creation (Security event 4698) of a scheduled task whose name contains MeshFwFix.
+    Sekoia's hunting query for the ShinyHunters MeshCentral/MeshAgent deployment looks for scheduled-task creation events (event code 4698) where the task name contains "MeshFwFix".
+    The task name is an attacker-chosen artifact; requires "Audit Other Object Access Events" to be enabled.
+references:
+    - https://www.sekoia.com/blog/gotta-breach-em-all-the-journey-of-shinyhunters
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-04
+tags:
+    - attack.persistence
+    - attack.t1053.005
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4698
+        TaskName|contains: 'MeshFwFix'
+    condition: selection
+falsepositives:
+    - A legitimate, administrator-managed MeshCentral deployment that uses a task of this name (confirm with the MeshCentral owners)
+level: high

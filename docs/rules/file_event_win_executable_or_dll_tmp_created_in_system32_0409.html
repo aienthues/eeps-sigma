@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executable Or Staged DLL Created In System32 0409 Folder · eeps-sigma</title>
+<meta name="description" content="Detects creation of an .exe or .dll.tmp file in the System32\0409 subfolder.">
+<meta property="og:title" content="Executable Or Staged DLL Created In System32 0409 Folder · eeps-sigma">
+<meta property="og:description" content="Detects creation of an .exe or .dll.tmp file in the System32\0409 subfolder.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>file event</span></nav>
+    <h1>Executable Or Staged DLL Created In System32 0409 Folder</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Windows · file event</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/file_event/file_event_win_executable_or_dll_tmp_created_in_system32_0409.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/file_event/file_event_win_executable_or_dll_tmp_created_in_system32_0409.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects creation of an .exe or .dll.tmp file in the System32\0409 subfolder.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Symantec reports that the Warlock ransomware attackers deployed ssvagent.exe and logger.exe &quot;in a subdirectory of the Windows system folder (CSIDL_SYSTEM\0409\)&quot; alongside the DLLs gsdll64.dll.tmp and doexeloc.dll.tmp for DLL side-loading, before copying them into ProgramData.</p><p>CSIDL_SYSTEM is Symantec&#x27;s placeholder for the Windows system folder (System32). The rule keys on the folder rather than the file names, which are trivially changed.</p><p>Writes by Windows servicing (TiWorker.exe, TrustedInstaller.exe) and Windows Installer (msiexec.exe) are filtered out.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Executable Or Staged DLL Created In System32 0409 Folder
+<span class="y-key">id</span>: 13fe0acb-70ac-4fd6-8c68-2d734081050b
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects creation of an .exe or .dll.tmp file in the System32\0409 subfolder.
+    Symantec reports that the Warlock ransomware attackers deployed ssvagent.exe and logger.exe <span class="y-str">&quot;in a subdirectory of the Windows system folder (CSIDL_SYSTEM\0409\)&quot;</span>
+    alongside the DLLs gsdll64.dll.tmp and doexeloc.dll.tmp for DLL side-loading, before copying them into ProgramData.
+    CSIDL_SYSTEM is Symantec&#x27;s placeholder for the Windows system folder (System32). The rule keys on the folder rather than the file names, which are trivially changed.
+    Writes by Windows servicing (TiWorker.exe, TrustedInstaller.exe) and Windows Installer (msiexec.exe) are filtered out.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-04
+<span class="y-key">modified</span>: 2026-10-04
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.stealth
+<span class="y-dash">    -</span> attack.t1574.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: file_event
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">TargetFilename</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;\System32\0409\&#x27;</span>
+        <span class="y-key">TargetFilename</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;.dll.tmp&#x27;</span>
+    <span class="y-key">filter_main_servicing</span>:
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\TiWorker.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\TrustedInstaller.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\msiexec.exe&#x27;</span>
+    <span class="y-key">condition</span>: selection and not 1 of filter_main_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Legacy installers that place language-specific (LCID 0409, en-US) resources under System32\0409 through a process other than the filtered servicing/Windows Installer processes; verify the writing process and file signature
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=11 TargetFilename=&quot;*\\System32\\0409\\*&quot; TargetFilename IN (&quot;*.exe&quot;, &quot;*.dll.tmp&quot;) NOT (Image IN (&quot;*\\TiWorker.exe&quot;, &quot;*\\TrustedInstaller.exe&quot;, &quot;*\\msiexec.exe&quot;))</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceFileEvents
+| where (FolderPath contains &quot;\\System32\\0409\\&quot; and (FolderPath endswith &quot;.exe&quot; or FolderPath endswith &quot;.dll.tmp&quot;)) and (not((InitiatingProcessFolderPath endswith &quot;\\TiWorker.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\TrustedInstaller.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\msiexec.exe&quot;)))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Legacy installers that place language-specific (LCID 0409, en-US) resources under System32\0409 through a process other than the filtered servicing/Windows Installer processes; verify the writing process and file signature</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Stealth</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1574/001/" rel="noopener"><span class="chip">T1574.001</span></a> Hijack Execution Flow: DLL</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>file_event</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure" rel="noopener">security.com</a><span class="muted small ref-url">https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">13fe0acb-70ac-4fd6-8c68-2d734081050b</dd></div>
+        <div><dt>Created</dt><dd>2026-10-04</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-04</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+title: Script Executed From Windows Temp .bea-cache Folder
+id: 91470a9a-30cd-4b79-9229-bbf4728d43e9
+status: experimental
+description: |
+    Detects a process command line referencing the C:\Windows\Temp\.bea-cache\ folder or the cs_disable.cmd script.
+    Sekoia reports that during the ShinyHunters Oracle PeopleSoft campaign "Attacks against security tools also included a small windows script that disables CrowdStrike EDR",
+    hunted for as file path C:\Windows\Temp\.bea-cache\cs_disable.cmd or a command line containing cs_disable.cmd.
+    The folder and script names are attacker-chosen artifacts and are trivially changed.
+references:
+    - https://www.sekoia.com/blog/gotta-breach-em-all-the-journey-of-shinyhunters
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-04
+tags:
+    - attack.defense-impairment
+    - attack.t1685
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - '\Windows\Temp\.bea-cache\'
+            - 'cs_disable.cmd'
+    condition: selection
+falsepositives:
+    - Unlikely; confirm that no WebLogic or PeopleSoft maintenance tooling in the environment uses a .bea-cache folder under C:\Windows\Temp
+level: high

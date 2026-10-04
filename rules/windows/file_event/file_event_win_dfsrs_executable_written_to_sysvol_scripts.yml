@@ -1,0 +1,28 @@
+title: Executable Written To SYSVOL Scripts Folder By DFS Replication Service
+id: 55ddd88d-a9ac-4942-a862-70094c5f5c34
+status: experimental
+description: |
+    Detects the DFS Replication service (dfsrs.exe) writing an executable under the SYSVOL\domain\scripts folder on a domain controller.
+    Symantec reports that the Warlock ransomware attackers staged run.exe and rune.exe in SYSVOL\domain\scripts\run, and that telemetry recorded
+    dfsrs.exe, "the process responsible for replicating SYSVOL between domain controllers", as the parent that delivered run.exe and rune.exe, confirming the payload spread via ordinary SYSVOL replication.
+    DFSR may first write replicated files into its DfsrPrivate staging folders, so coverage depends on how the EDR attributes the final file write.
+references:
+    - https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-04
+tags:
+    - attack.lateral-movement
+    - attack.t1570
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\dfsrs.exe'
+        TargetFilename|contains: '\SYSVOL\domain\scripts\'
+        TargetFilename|endswith: '.exe'
+    condition: selection
+falsepositives:
+    - Administrators distributing legitimate tools (for example inventory or software deployment executables) through NETLOGON/SYSVOL scripts; these replicate to every domain controller when added or updated
+level: medium
