@@ -1,0 +1,39 @@
+title: PowerShell Command Line Loads System.Workflow.ComponentModel Via Reflection
+id: ffb2b604-4201-4bdb-8c31-c235c6f04f85
+related:
+    - id: 62b7ccc9-23b4-471e-aa15-6da3663c4d59
+      type: similar
+status: experimental
+description: |
+    Detects a PowerShell command line that loads the System.Workflow.ComponentModel assembly with [Reflection.Assembly]::Load,
+    either in plain text or as the UTF-16LE base64 form used by -EncodedCommand (not observed in the source; defensive variant).
+    Symantec reports that the Warlock ransomware attackers (Longlegs), in an intrusion that began with a webshell on a SharePoint server, ran
+    "cmd.exe" /c powershell.exe -NoProfile -NonInteractive -[void][Reflection.Assembly]::Load('System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35').
+    Loading this legacy workflow assembly inline from a process command line is uncommon in administrative use.
+references:
+    - https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+author: Esmond Er
+date: 2026-10-04
+modified: 2026-10-05
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\powershell.exe'
+        - OriginalFileName: 'PowerShell.EXE'
+    selection_cli_plain:
+        CommandLine|contains|all:
+            - 'Reflection.Assembly]::Load('
+            - 'System.Workflow.ComponentModel'
+    selection_cli_encoded:
+        CommandLine|wide|base64offset|contains|all:
+            - 'Reflection.Assembly]::Load('
+            - 'System.Workflow.ComponentModel'
+    condition: selection_img and 1 of selection_cli_*
+falsepositives:
+    - SharePoint or Workflow Foundation administrators running one-liners (plain or encoded) that load System.Workflow.ComponentModel to inspect or test legacy workflows
+level: high

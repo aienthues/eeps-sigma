@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PowerShell Command Line Loads System.Workflow.ComponentModel Via Reflection · eeps-sigma</title>
+<meta name="description" content="Detects a PowerShell command line that loads the System.Workflow.ComponentModel assembly with [Reflection.Assembly]::Load, either in plain text or as the UTF-16LE base64 form used by -EncodedCommand (not observed in the source; defensive variant).">
+<meta property="og:title" content="PowerShell Command Line Loads System.Workflow.ComponentModel Via Reflection · eeps-sigma">
+<meta property="og:description" content="Detects a PowerShell command line that loads the System.Workflow.ComponentModel assembly with [Reflection.Assembly]::Load, either in plain text or as the UTF-16LE base64 form used by -EncodedCommand (not observed in the source; defensive variant).">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>process creation</span></nav>
+    <h1>PowerShell Command Line Loads System.Workflow.ComponentModel Via Reflection</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/process_creation/proc_creation_win_powershell_reflection_load_system_workflow_componentmodel.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/process_creation/proc_creation_win_powershell_reflection_load_system_workflow_componentmodel.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a PowerShell command line that loads the System.Workflow.ComponentModel assembly with [Reflection.Assembly]::Load, either in plain text or as the UTF-16LE base64 form used by -EncodedCommand (not observed in the source; defensive variant).</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Symantec reports that the Warlock ransomware attackers (Longlegs), in an intrusion that began with a webshell on a SharePoint server, ran &quot;cmd.exe&quot; /c powershell.exe -NoProfile -NonInteractive -[void][Reflection.Assembly]::Load(&#x27;System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35&#x27;).</p><p>Loading this legacy workflow assembly inline from a process command line is uncommon in administrative use.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: PowerShell Command Line Loads System.Workflow.ComponentModel Via Reflection
+<span class="y-key">id</span>: ffb2b604-4201-4bdb-8c31-c235c6f04f85
+<span class="y-key">related</span>:
+    - <span class="y-key">id</span>: 62b7ccc9-23b4-471e-aa15-6da3663c4d59
+      <span class="y-key">type</span>: similar
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a PowerShell command line that loads the System.Workflow.ComponentModel assembly with [Reflection.Assembly]::Load,
+    either in plain text or as the UTF-16LE base64 form used by -EncodedCommand (not observed in the source; defensive variant).
+    Symantec reports that the Warlock ransomware attackers (Longlegs), in an intrusion that began with a webshell on a SharePoint server, ran
+    <span class="y-str">&quot;cmd.exe&quot;</span> /c powershell.exe -NoProfile -NonInteractive -[void][Reflection.Assembly]::Load(<span class="y-str">&#x27;System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35&#x27;</span>).
+    Loading this legacy workflow assembly inline from a process command line is uncommon in administrative use.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-04
+<span class="y-key">modified</span>: 2026-10-05
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1059.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: process_creation
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_img</span>:
+        - <span class="y-key">Image</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\powershell.exe&#x27;</span>
+        - <span class="y-key">OriginalFileName</span>: <span class="y-str">&#x27;PowerShell.EXE&#x27;</span>
+    <span class="y-key">selection_cli_plain</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains|all</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;Reflection.Assembly]::Load(&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;System.Workflow.ComponentModel&#x27;</span>
+    <span class="y-key">selection_cli_encoded</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|wide|base64offset|contains|all</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;Reflection.Assembly]::Load(&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;System.Workflow.ComponentModel&#x27;</span>
+    <span class="y-key">condition</span>: selection_img and 1 of selection_cli_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> SharePoint or Workflow Foundation administrators running one-liners (plain or encoded) that load System.Workflow.ComponentModel to inspect or test legacy workflows
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=1 Image=&quot;*\\powershell.exe&quot; OR OriginalFileName=&quot;PowerShell.EXE&quot; (CommandLine=&quot;*Reflection.Assembly]::Load(*&quot; CommandLine=&quot;*System.Workflow.ComponentModel*&quot;) OR (CommandLine=&quot;*UgBlAGYAbABlAGMAdABpAG8AbgAuAEEAcwBzAGUAbQBiAGwAeQBdADoAOgBMAG8AYQBkACgA*&quot; OR CommandLine=&quot;*IAZQBmAGwAZQBjAHQAaQBvAG4ALgBBAHMAcwBlAG0AYgBsAHkAXQA6ADoATABvAGEAZAAoA*&quot; OR CommandLine=&quot;*SAGUAZgBsAGUAYwB0AGkAbwBuAC4AQQBzAHMAZQBtAGIAbAB5AF0AOgA6AEwAbwBhAGQAKA*&quot; CommandLine=&quot;*UwB5AHMAdABlAG0ALgBXAG8AcgBrAGYAbABvAHcALgBDAG8AbQBwAG8AbgBlAG4AdABNAG8AZABlAGwA*&quot; OR CommandLine=&quot;*MAeQBzAHQAZQBtAC4AVwBvAHIAawBmAGwAbwB3AC4AQwBvAG0AcABvAG4AZQBuAHQATQBvAGQAZQBsA*&quot; OR CommandLine=&quot;*TAHkAcwB0AGUAbQAuAFcAbwByAGsAZgBsAG8AdwAuAEMAbwBtAHAAbwBuAGUAbgB0AE0AbwBkAGUAbA*&quot;)</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where (FolderPath endswith &quot;\\powershell.exe&quot; or ProcessVersionInfoOriginalFileName =~ &quot;PowerShell.EXE&quot;) and ((ProcessCommandLine contains &quot;Reflection.Assembly]::Load(&quot; and ProcessCommandLine contains &quot;System.Workflow.ComponentModel&quot;) or ((ProcessCommandLine contains &quot;UgBlAGYAbABlAGMAdABpAG8AbgAuAEEAcwBzAGUAbQBiAGwAeQBdADoAOgBMAG8AYQBkACgA&quot; or ProcessCommandLine contains &quot;IAZQBmAGwAZQBjAHQAaQBvAG4ALgBBAHMAcwBlAG0AYgBsAHkAXQA6ADoATABvAGEAZAAoA&quot; or ProcessCommandLine contains &quot;SAGUAZgBsAGUAYwB0AGkAbwBuAC4AQQBzAHMAZQBtAGIAbAB5AF0AOgA6AEwAbwBhAGQAKA&quot;) and (ProcessCommandLine contains &quot;UwB5AHMAdABlAG0ALgBXAG8AcgBrAGYAbABvAHcALgBDAG8AbQBwAG8AbgBlAG4AdABNAG8AZABlAGwA&quot; or ProcessCommandLine contains &quot;MAeQBzAHQAZQBtAC4AVwBvAHIAawBmAGwAbwB3AC4AQwBvAG0AcABvAG4AZQBuAHQATQBvAGQAZQBsA&quot; or ProcessCommandLine contains &quot;TAHkAcwB0AGUAbQAuAFcAbwByAGsAZgBsAG8AdwAuAEMAbwBtAHAAbwBuAGUAbgB0AE0AbwBkAGUAbA&quot;)))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>SharePoint or Workflow Foundation administrators running one-liners (plain or encoded) that load System.Workflow.ComponentModel to inspect or test legacy workflows</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Execution</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1059/001/" rel="noopener"><span class="chip">T1059.001</span></a> Command and Scripting Interpreter: PowerShell</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>process_creation</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure" rel="noopener">security.com</a><span class="muted small ref-url">https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">ffb2b604-4201-4bdb-8c31-c235c6f04f85</dd></div>
+        <div><dt>Created</dt><dd>2026-10-04</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-05</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
