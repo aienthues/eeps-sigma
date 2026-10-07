@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="35 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="38 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="35 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="38 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>35</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>30</dd></div>
+      <div><dt>Published rules</dt><dd>38</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>33</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-05</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-07</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:22%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:67%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">9</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:11%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:78%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:44%"></i></span><span class="t-n">4</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:22%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:33%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:11%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:89%"></i></span><span class="t-n">8</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:22%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:20%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:70%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">10</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:10%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:90%"></i></span><span class="t-n">9</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:40%"></i></span><span class="t-n">4</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:20%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:30%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:10%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:80%"></i></span><span class="t-n">8</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:20%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -179,6 +179,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_explorer_cmd_caret_escaped_for_loop_clickfix.html" data-level="high" data-product="windows"
+         data-search="caret-escaped cmd for-loop launched from explorer - clickfix t1204.004 t1027.010 process_creation detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the windows run dialog) whose command line contains a &quot;for /f&quot; loop together with a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the clickfix lure padding string &quot;p_u_s_h----t_h_e----_e_n_t_e_r_----k_e_y&quot;. huntress reports a clickfix attack where the pasted command, parent explorer.exe, was &quot;c:\windows\system32\cmd.exe&quot; /c s^t^a^r^t &quot;&quot; /min for /f &quot;delims=@&quot; %k in (...,f^^i^^n^^g^^e^^r unynqaplrs@f^^i^^n^^g^^e^^r^^...) do %k, i.e. a for /f loop that executes each line returned by finger.exe as a command. the carets are present in the raw process command line; the contiguous &quot;start ... for /f ... finger ...&quot; string shown by huntress is their de-obfuscated rendering and does not appear in telemetry, so this rule matches the loop keyword plus an in-keyword caret (one or two carets between two letters) rather than the stripped string. ordinary metacharacter escaping such as &#x27;^|&#x27; or &#x27;^&amp;&#x27; is not matched. known evasion: obfuscating the loop keyword itself (e.g. f^or /f) or using extra whitespace (e.g. &quot;for  /f&quot;) breaks the &#x27;for /f&#x27; literal; the lure branch and the complementary sigmahq rules still apply in that case. complementary sigmahq rules cover the later stages: &quot;finger.exe execution&quot; (proc_creation_win_finger_execution), &quot;network connection initiated via finger.exe&quot; and the generic &quot;potential dosfuscation activity&quot; (&#x27;^^&#x27;).">
+        <span class="rr-main">
+          <span class="rr-title">Caret-Escaped Cmd For-Loop Launched From Explorer - ClickFix</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1204.004</span> <span class="chip">T1027.010</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-07</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_cmd_copy_from_share_to_users_public_and_start_background.html" data-level="high" data-product="windows"
          data-search="cmd copies files from network share to users public and starts them in background t1570 t1059.003 process_creation detects a cmd.exe one-liner that copies files from a unc share and then launches an executable from c:\users\public with start /b cmd /c &quot;... 2&gt;nul || exit&quot;. symantec reports that the warlock ransomware attackers pushed an av/edr-killing tool with net use \\[ip_address] ... &amp; copy \\[ip_address]\av\* csidl_profile\public /y &amp; start /b cmd /c &quot;c:\users\public\a.exe log 2&gt;nul || exit&quot; and deployed the ransomware with copy \\[removed]\sysvol\[victim domain]\scripts\run\* csidl_profile\public /y &amp; start /b cmd /c &quot;c:\users\public\run.exe 2&gt;nul || exit&quot;.">
         <span class="rr-main">
@@ -269,6 +279,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
       </a>
+      <a class="rule-row" href="rules/registry_set_win_run_key_value_launching_runtimebroker_exe.html" data-level="high" data-product="windows"
+         data-search="run key value launching runtimebroker.exe t1547.001 registry_set detects a currentversion\run value whose data points to runtimebroker.exe, or the run value name &quot;microsoftruntime&quot;. unit 42 reports that shelbyloader v2 (blinder tunnel campaign) copies a renamed benign microsoft binary, runtimebroker.exe, into the deceptive folder %localappdata%\microsoft\runtimebrokers and persists via &quot;hkcu\software\microsoft\windows\currentversion\run\microsoftruntime&quot; pointing to &quot;%localappdata%\microsoft\runtimebrokers\runtimebroker.exe&quot;. the genuine windows runtime broker is started on demand by the system (dcom) and is not registered as a run-key autostart, so any run value launching a binary named runtimebroker.exe is anomalous. sysmon logs hkcu as hku\&lt;sid&gt;, hence the contains/endswith matching on the key path below the hive. the report states the value is re-written on a 120-second interval, so expect repeated events per host; deduplicate on host and targetobject.">
+        <span class="rr-main">
+          <span class="rr-title">Run Key Value Launching RuntimeBroker.EXE</span>
+          <span class="rr-sub">Windows · registry set</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1547.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-07</span>
+      </a>
       <a class="rule-row" href="rules/registry_set_win_run_key_value_set_by_sdiagnhost.html" data-level="high" data-product="windows"
          data-search="run key value set by scripted diagnostics host sdiagnhost.exe t1547.001 t1218 registry_set detects the windows scripted diagnostics native host (sdiagnhost.exe) writing a value under a currentversion\run key. cisco talos reports that the antino backdoor, delivered by uat-11587 (which talos assesses with high confidence is china-nexus), proxies its add_to_run persistence through scripted diagnostics: it instantiates the cscripteddiag com class (sdiageng.dll), writes an attacker-controlled powershell script, and the engine delegates execution to &quot;%windir%\syswow64\sdiagnhost.exe -embedding&quot;, which executes result.ps1. the resulting hkcu run value launches the antino executable at the next user sign-in. troubleshooting packs hosted by sdiagnhost.exe do not normally create autostart entries, so a run value written by this process is anomalous. the rule assumes the run value is written by the powershell runspace hosted inside sdiagnhost.exe; a script that instead spawns reg.exe would be attributed to that child (sigmahq &quot;sdiagnhost calling suspicious child process&quot; covers sdiagnhost spawning powershell/cmd/rundll32 etc.).">
         <span class="rr-main">
@@ -278,6 +298,16 @@
         <span class="rr-tech"><span class="chip">T1547.001</span> <span class="chip">T1218</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_runtimebroker_exe_config_file_created.html" data-level="high" data-product="windows"
+         data-search="runtimebroker.exe application configuration file created t1574.014 file_event detects creation of a file named runtimebroker.exe.config, the .net application configuration file that would be read by a runtimebroker.exe in the same folder. unit 42 reports that in the blinder tunnel campaign a renamed runtimebroker.exe was staged in %localappdata%\microsoft\runtimebrokers together with a runtimebroker.exe.config that the attackers &quot;used ... to replace the application&#x27;s default startup manager with their own malicious version&quot; (appdomainmanager hijacking), and that also disabled etw for the process via the &lt;etwenable enabled=&quot;false&quot;/&gt; directive. the configuration file contents are not visible in file creation telemetry; this rule keys on the file name only. the genuine c:\windows\system32\runtimebroker.exe is not shipped with an application configuration file, so the file name alone is a strong signal regardless of folder.">
+        <span class="rr-main">
+          <span class="rr-title">RuntimeBroker.EXE Application Configuration File Created</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1574.014</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-07</span>
       </a>
       <a class="rule-row" href="rules/win_security_scheduled_task_meshfwfix_created.html" data-level="high" data-product="windows"
          data-search="scheduled task meshfwfix created t1053.005 security detects creation (security event 4698) of a scheduled task whose name contains meshfwfix. sekoia&#x27;s hunting query for the shinyhunters meshcentral/meshagent deployment looks for scheduled-task creation events (event code 4698) where the task name contains &quot;meshfwfix&quot;. the task name is an attacker-chosen artifact; requires &quot;audit other object access events&quot; to be enabled.">

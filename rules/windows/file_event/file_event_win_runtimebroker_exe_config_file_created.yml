@@ -1,0 +1,27 @@
+title: RuntimeBroker.EXE Application Configuration File Created
+id: 85faa6cd-23a8-4c0e-aa32-270dee0afe0b
+status: experimental
+description: |
+    Detects creation of a file named RuntimeBroker.exe.config, the .NET application configuration file that would be read by a RuntimeBroker.exe in the same folder.
+    Unit 42 reports that in the Blinder Tunnel campaign a renamed RuntimeBroker.exe was staged in %LOCALAPPDATA%\Microsoft\RuntimeBrokers together with a RuntimeBroker.exe.config
+    that the attackers "used ... to replace the application's default startup manager with their own malicious version" (AppDomainManager hijacking), and that also disabled ETW
+    for the process via the <etwEnable enabled="false"/> directive. The configuration file contents are not visible in file creation telemetry; this rule keys on the file name only.
+    The genuine C:\Windows\System32\RuntimeBroker.exe is not shipped with an application configuration file, so the file name alone is a strong signal regardless of folder.
+references:
+    - https://unit42.paloaltonetworks.com/blinder-tunnel-targets-critical-infrastructure/
+author: Esmond Er
+date: 2026-10-07
+modified: 2026-10-07
+tags:
+    - attack.stealth
+    - attack.t1574.014
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith: '\RuntimeBroker.exe.config'
+    condition: selection
+falsepositives:
+    - A third-party .NET application whose executable is itself named RuntimeBroker.exe being installed or updated; verify the folder, the writing process and the companion executable's signer
+level: high

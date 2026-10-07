@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caret-Escaped Cmd For-Loop Launched From Explorer - ClickFix · eeps-sigma</title>
+<meta name="description" content="Detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the Windows Run dialog) whose command line contains a &quot;for /f&quot; loop together with a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the ClickFix lure padding string &quot;P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y&quot;.">
+<meta property="og:title" content="Caret-Escaped Cmd For-Loop Launched From Explorer - ClickFix · eeps-sigma">
+<meta property="og:description" content="Detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the Windows Run dialog) whose command line contains a &quot;for /f&quot; loop together with a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the ClickFix lure padding string &quot;P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y&quot;.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>process creation</span></nav>
+    <h1>Caret-Escaped Cmd For-Loop Launched From Explorer - ClickFix</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/process_creation/proc_creation_win_explorer_cmd_caret_escaped_for_loop_clickfix.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/process_creation/proc_creation_win_explorer_cmd_caret_escaped_for_loop_clickfix.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the Windows Run dialog) whose command line contains a &quot;for /f&quot; loop together with a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the ClickFix lure padding string &quot;P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y&quot;.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Huntress reports a ClickFix attack where the pasted command, parent explorer.exe, was &quot;C:\Windows\system32\cmd.exe&quot; /c s^t^a^r^t &quot;&quot; /min for /f &quot;delims=@&quot; %k in (...,f^^i^^n^^g^^e^^r UNyNQAplRS@f^^i^^n^^g^^e^^r^^...) do %k, i.e. a for /f loop that executes each line returned by finger.exe as a command. The carets are present in the raw process command line; the contiguous &quot;start ... for /f ... finger ...&quot; string shown by Huntress is their de-obfuscated rendering and does not appear in telemetry, so this rule matches the loop keyword plus an in-keyword caret (one or two carets between two letters) rather than the stripped string. Ordinary metacharacter escaping such as &#x27;^|&#x27; or &#x27;^&amp;&#x27; is not matched.</p><p>Known evasion: obfuscating the loop keyword itself (e.g. f^or /f) or using extra whitespace (e.g. &quot;for  /f&quot;) breaks the &#x27;for /f&#x27; literal; the lure branch and the complementary SigmaHQ rules still apply in that case.</p><p>Complementary SigmaHQ rules cover the later stages: &quot;Finger.EXE Execution&quot; (proc_creation_win_finger_execution), &quot;Network Connection Initiated via Finger.EXE&quot; and the generic &quot;Potential Dosfuscation Activity&quot; (&#x27;^^&#x27;).</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Caret-Escaped Cmd For-Loop Launched From Explorer - ClickFix
+<span class="y-key">id</span>: 431fc675-f2f2-4098-a993-84920e05f747
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the Windows Run dialog) whose command line contains a <span class="y-str">&quot;for /f&quot;</span> loop together with
+    a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the ClickFix lure padding string <span class="y-str">&quot;P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y&quot;</span>.
+    Huntress reports a ClickFix attack where the pasted command, parent explorer.exe, was
+    <span class="y-str">&quot;C:\Windows\system32\cmd.exe&quot;</span> /c s^t^a^r^t <span class="y-str">&quot;&quot;</span> /min for /f <span class="y-str">&quot;delims=@&quot;</span> %k in (...,f^^i^^n^^g^^e^^r UNyNQAplRS@f^^i^^n^^g^^e^^r^^...) do %k,
+    i.e. a for /f loop that executes each line returned by finger.exe as a command. The carets are present in the raw process command line; the contiguous
+    <span class="y-str">&quot;start ... for /f ... finger ...&quot;</span> string shown by Huntress is their de-obfuscated rendering and does not appear in telemetry, so this rule matches the loop keyword plus
+    an in-keyword caret (one or two carets between two letters) rather than the stripped string. Ordinary metacharacter escaping such as <span class="y-str">&#x27;^|&#x27;</span> or <span class="y-str">&#x27;^&amp;&#x27;</span> is not matched.
+    Known evasion: obfuscating the loop keyword itself (e.g. f^or /f) or using extra whitespace (e.g. <span class="y-str">&quot;for  /f&quot;</span>) breaks the <span class="y-str">&#x27;for /f&#x27;</span> literal; the lure branch and the
+    complementary SigmaHQ rules still apply in that case.
+    Complementary SigmaHQ rules cover the later stages: <span class="y-str">&quot;Finger.EXE Execution&quot;</span> (proc_creation_win_finger_execution), <span class="y-str">&quot;Network Connection Initiated via Finger.EXE&quot;</span>
+    and the generic <span class="y-str">&quot;Potential Dosfuscation Activity&quot;</span> (<span class="y-str">&#x27;^^&#x27;</span>).
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.huntress.com/blog/fix-for-clickfix
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-07
+<span class="y-key">modified</span>: 2026-10-07
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1204.004
+<span class="y-dash">    -</span> attack.stealth
+<span class="y-dash">    -</span> attack.t1027.010
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: process_creation
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_parent</span>:
+        <span class="y-key">ParentImage</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\explorer.exe&#x27;</span>
+    <span class="y-key">selection_img</span>:
+        - <span class="y-key">Image</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\cmd.exe&#x27;</span>
+        - <span class="y-key">OriginalFileName</span>: <span class="y-str">&#x27;Cmd.Exe&#x27;</span>
+    <span class="y-key">selection_cli_loop_kw</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;for /f&#x27;</span>
+    <span class="y-key">selection_cli_loop_caret</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|re</span>: <span class="y-str">&#x27;[A-Za-z]\^{1,2}[A-Za-z]&#x27;</span>
+    <span class="y-key">selection_cli_lure</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y&#x27;</span>
+    <span class="y-key">condition</span>: selection_parent and selection_img and ((selection_cli_loop_kw and selection_cli_loop_caret) or selection_cli_lure)
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Administrators or power users typing a <span class="y-str">&quot;for /f&quot;</span> one-liner that contains a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r) into the Run dialog or launching it from an Explorer shortcut (.lnk) whose target is cmd.exe; this is unusual outside deliberate obfuscation. Review the full command line for remote retrieval (finger, curl, http) and the executed loop body
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=1 ParentImage=&quot;*\\explorer.exe&quot; Image=&quot;*\\cmd.exe&quot;
+| rex field=CommandLine &quot;(?&lt;CommandLineMatch&gt;[A-Za-z]\\^{1,2}[A-Za-z])&quot;
+| eval CommandLineCondition=if(isnotnull(CommandLineMatch), &quot;true&quot;, &quot;false&quot;)
+| search OR OriginalFileName=&quot;Cmd.Exe&quot; (CommandLine=&quot;*for /f*&quot; CommandLineCondition=&quot;true&quot;) OR CommandLine=&quot;*P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y*&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where InitiatingProcessFolderPath endswith &quot;\\explorer.exe&quot; and (FolderPath endswith &quot;\\cmd.exe&quot; or ProcessVersionInfoOriginalFileName =~ &quot;Cmd.Exe&quot;) and ((ProcessCommandLine contains &quot;for /f&quot; and ProcessCommandLine matches regex &quot;[A-Za-z]\\^{1,2}[A-Za-z]&quot;) or ProcessCommandLine contains &quot;P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y&quot;)</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Administrators or power users typing a &quot;for /f&quot; one-liner that contains a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r) into the Run dialog or launching it from an Explorer shortcut (.lnk) whose target is cmd.exe; this is unusual outside deliberate obfuscation. Review the full command line for remote retrieval (finger, curl, http) and the executed loop body</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Execution</span> <span class="chip chip-soft">Stealth</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1204/004/" rel="noopener"><span class="chip">T1204.004</span></a> User Execution: Malicious Copy and Paste</li><li><a href="https://attack.mitre.org/techniques/T1027/010/" rel="noopener"><span class="chip">T1027.010</span></a> Obfuscated Files or Information: Command Obfuscation</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>process_creation</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.huntress.com/blog/fix-for-clickfix" rel="noopener">huntress.com</a><span class="muted small ref-url">https://www.huntress.com/blog/fix-for-clickfix</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">431fc675-f2f2-4098-a993-84920e05f747</dd></div>
+        <div><dt>Created</dt><dd>2026-10-07</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-07</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

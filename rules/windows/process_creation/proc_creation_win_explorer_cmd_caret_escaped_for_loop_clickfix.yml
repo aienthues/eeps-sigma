@@ -1,0 +1,44 @@
+title: Caret-Escaped Cmd For-Loop Launched From Explorer - ClickFix
+id: 431fc675-f2f2-4098-a993-84920e05f747
+status: experimental
+description: |
+    Detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the Windows Run dialog) whose command line contains a "for /f" loop together with
+    a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the ClickFix lure padding string "P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y".
+    Huntress reports a ClickFix attack where the pasted command, parent explorer.exe, was
+    "C:\Windows\system32\cmd.exe" /c s^t^a^r^t "" /min for /f "delims=@" %k in (...,f^^i^^n^^g^^e^^r UNyNQAplRS@f^^i^^n^^g^^e^^r^^...) do %k,
+    i.e. a for /f loop that executes each line returned by finger.exe as a command. The carets are present in the raw process command line; the contiguous
+    "start ... for /f ... finger ..." string shown by Huntress is their de-obfuscated rendering and does not appear in telemetry, so this rule matches the loop keyword plus
+    an in-keyword caret (one or two carets between two letters) rather than the stripped string. Ordinary metacharacter escaping such as '^|' or '^&' is not matched.
+    Known evasion: obfuscating the loop keyword itself (e.g. f^or /f) or using extra whitespace (e.g. "for  /f") breaks the 'for /f' literal; the lure branch and the
+    complementary SigmaHQ rules still apply in that case.
+    Complementary SigmaHQ rules cover the later stages: "Finger.EXE Execution" (proc_creation_win_finger_execution), "Network Connection Initiated via Finger.EXE"
+    and the generic "Potential Dosfuscation Activity" ('^^').
+references:
+    - https://www.huntress.com/blog/fix-for-clickfix
+author: Esmond Er
+date: 2026-10-07
+modified: 2026-10-07
+tags:
+    - attack.execution
+    - attack.t1204.004
+    - attack.stealth
+    - attack.t1027.010
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_parent:
+        ParentImage|endswith: '\explorer.exe'
+    selection_img:
+        - Image|endswith: '\cmd.exe'
+        - OriginalFileName: 'Cmd.Exe'
+    selection_cli_loop_kw:
+        CommandLine|contains: 'for /f'
+    selection_cli_loop_caret:
+        CommandLine|re: '[A-Za-z]\^{1,2}[A-Za-z]'
+    selection_cli_lure:
+        CommandLine|contains: 'P_u_s_h----t_h_e----_E_n_t_e_r_----k_e_y'
+    condition: selection_parent and selection_img and ((selection_cli_loop_kw and selection_cli_loop_caret) or selection_cli_lure)
+falsepositives:
+    - Administrators or power users typing a "for /f" one-liner that contains a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r) into the Run dialog or launching it from an Explorer shortcut (.lnk) whose target is cmd.exe; this is unusual outside deliberate obfuscation. Review the full command line for remote retrieval (finger, curl, http) and the executed loop body
+level: high

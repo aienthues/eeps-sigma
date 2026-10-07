@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run Key Value Launching RuntimeBroker.EXE · eeps-sigma</title>
+<meta name="description" content="Detects a CurrentVersion\Run value whose data points to RuntimeBroker.exe, or the Run value name &quot;MicrosoftRuntime&quot;.">
+<meta property="og:title" content="Run Key Value Launching RuntimeBroker.EXE · eeps-sigma">
+<meta property="og:description" content="Detects a CurrentVersion\Run value whose data points to RuntimeBroker.exe, or the Run value name &quot;MicrosoftRuntime&quot;.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>registry set</span></nav>
+    <h1>Run Key Value Launching RuntimeBroker.EXE</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · registry set</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/registry_set/registry_set_win_run_key_value_launching_runtimebroker_exe.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/registry_set/registry_set_win_run_key_value_launching_runtimebroker_exe.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a CurrentVersion\Run value whose data points to RuntimeBroker.exe, or the Run value name &quot;MicrosoftRuntime&quot;.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Unit 42 reports that ShelbyLoader V2 (Blinder Tunnel campaign) copies a renamed benign Microsoft binary, RuntimeBroker.exe, into the deceptive folder %LOCALAPPDATA%\Microsoft\RuntimeBrokers and persists via &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MicrosoftRuntime&quot; pointing to &quot;%LOCALAPPDATA%\Microsoft\RuntimeBrokers\RuntimeBroker.exe&quot;. The genuine Windows Runtime Broker is started on demand by the system (DCOM) and is not registered as a Run-key autostart, so any Run value launching a binary named RuntimeBroker.exe is anomalous.</p><p>Sysmon logs HKCU as HKU\&lt;SID&gt;, hence the contains/endswith matching on the key path below the hive.</p><p>The report states the value is re-written on a 120-second interval, so expect repeated events per host; deduplicate on host and TargetObject.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Run Key Value Launching RuntimeBroker.EXE
+<span class="y-key">id</span>: 76d1c176-bbbb-415f-a9c3-3c6c755543d2
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a CurrentVersion\Run value whose data points to RuntimeBroker.exe, or the Run value name <span class="y-str">&quot;MicrosoftRuntime&quot;</span>.
+    Unit 42 reports that ShelbyLoader V2 (Blinder Tunnel campaign) copies a renamed benign Microsoft binary, RuntimeBroker.exe, into the deceptive folder
+    %LOCALAPPDATA%\Microsoft\RuntimeBrokers and persists via <span class="y-str">&quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MicrosoftRuntime&quot;</span> pointing to
+    <span class="y-str">&quot;%LOCALAPPDATA%\Microsoft\RuntimeBrokers\RuntimeBroker.exe&quot;</span>. The genuine Windows Runtime Broker is started on demand by the system (DCOM) and is not registered as a Run-key autostart,
+    so any Run value launching a binary named RuntimeBroker.exe is anomalous.
+    Sysmon logs HKCU as HKU\&lt;SID&gt;, hence the contains/endswith matching on the key path below the hive.
+    The report states the value is re-written on a 120-second interval, so expect repeated events per host; deduplicate on host and TargetObject.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://unit42.paloaltonetworks.com/blinder-tunnel-targets-critical-infrastructure/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-07
+<span class="y-key">modified</span>: 2026-10-07
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.persistence
+<span class="y-dash">    -</span> attack.t1547.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: registry_set
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_key</span>:
+        <span class="y-key">TargetObject</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\&#x27;</span>
+        <span class="y-key">Details</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;\RuntimeBroker.exe&#x27;</span>
+    <span class="y-key">selection_value_name</span>:
+        <span class="y-key">TargetObject</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MicrosoftRuntime&#x27;</span>
+    <span class="y-key">condition</span>: 1 of selection_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Third-party software that ships its own executable named RuntimeBroker.exe and registers it for autostart; verify the binary path, signer and the process that wrote the value
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=13 (TargetObject=&quot;*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\*&quot; Details=&quot;*\\RuntimeBroker.exe*&quot;) OR TargetObject=&quot;*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\MicrosoftRuntime&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceRegistryEvents
+| where (RegistryKey endswith &quot;\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run*&quot; and RegistryValueData contains &quot;\\RuntimeBroker.exe&quot;) or RegistryKey endswith &quot;\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\MicrosoftRuntime&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Third-party software that ships its own executable named RuntimeBroker.exe and registers it for autostart; verify the binary path, signer and the process that wrote the value</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Persistence</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1547/001/" rel="noopener"><span class="chip">T1547.001</span></a> Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>registry_set</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://unit42.paloaltonetworks.com/blinder-tunnel-targets-critical-infrastructure/" rel="noopener">unit42.paloaltonetworks.com</a><span class="muted small ref-url">https://unit42.paloaltonetworks.com/blinder-tunnel-targets-critical-infrastructure/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">76d1c176-bbbb-415f-a9c3-3c6c755543d2</dd></div>
+        <div><dt>Created</dt><dd>2026-10-07</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-07</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

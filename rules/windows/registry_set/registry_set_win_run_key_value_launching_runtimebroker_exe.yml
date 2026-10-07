@@ -1,0 +1,32 @@
+title: Run Key Value Launching RuntimeBroker.EXE
+id: 76d1c176-bbbb-415f-a9c3-3c6c755543d2
+status: experimental
+description: |
+    Detects a CurrentVersion\Run value whose data points to RuntimeBroker.exe, or the Run value name "MicrosoftRuntime".
+    Unit 42 reports that ShelbyLoader V2 (Blinder Tunnel campaign) copies a renamed benign Microsoft binary, RuntimeBroker.exe, into the deceptive folder
+    %LOCALAPPDATA%\Microsoft\RuntimeBrokers and persists via "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MicrosoftRuntime" pointing to
+    "%LOCALAPPDATA%\Microsoft\RuntimeBrokers\RuntimeBroker.exe". The genuine Windows Runtime Broker is started on demand by the system (DCOM) and is not registered as a Run-key autostart,
+    so any Run value launching a binary named RuntimeBroker.exe is anomalous.
+    Sysmon logs HKCU as HKU\<SID>, hence the contains/endswith matching on the key path below the hive.
+    The report states the value is re-written on a 120-second interval, so expect repeated events per host; deduplicate on host and TargetObject.
+references:
+    - https://unit42.paloaltonetworks.com/blinder-tunnel-targets-critical-infrastructure/
+author: Esmond Er
+date: 2026-10-07
+modified: 2026-10-07
+tags:
+    - attack.persistence
+    - attack.t1547.001
+logsource:
+    category: registry_set
+    product: windows
+detection:
+    selection_key:
+        TargetObject|contains: '\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'
+        Details|contains: '\RuntimeBroker.exe'
+    selection_value_name:
+        TargetObject|endswith: '\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MicrosoftRuntime'
+    condition: 1 of selection_*
+falsepositives:
+    - Third-party software that ships its own executable named RuntimeBroker.exe and registers it for autostart; verify the binary path, signer and the process that wrote the value
+level: high
