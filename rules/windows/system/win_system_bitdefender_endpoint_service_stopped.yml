@@ -1,0 +1,30 @@
+title: Bitdefender Endpoint Service Stopped
+id: 1ee480f4-7a04-4f4d-af2f-7f7e9a956e72
+status: experimental
+description: |
+    Detects the Service Control Manager reporting (System event 7036) that a Bitdefender Endpoint service entered the stopped state.
+    Huntress reports that during an Akira ransomware intrusion "the threat actor accessed the BitDefender console, and several Windows services associated with the antivirus application were stopped",
+    visible as "Service Control Manager/7036;Bitdefender Endpoint Update Service,stopped". Because the stop was driven from the management console rather than a local command line,
+    process-creation rules for sc.exe/net.exe service tampering do not see it; the System log state change does. param1 and param2 are localized, so 'stopped' only matches English-language systems.
+references:
+    - https://www.huntress.com/blog/mapping-akira-ransomware-attack
+author: Esmond Er
+date: 2026-10-08
+modified: 2026-10-08
+tags:
+    - attack.defense-impairment
+    - attack.t1685
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        Provider_Name: 'Service Control Manager'
+        EventID: 7036
+        param1|startswith: 'Bitdefender Endpoint '
+        param2: 'stopped'
+    condition: selection
+falsepositives:
+    - Bitdefender GravityZone agent upgrades, reinstalls or uninstalls, which stop and restart the endpoint services; correlate with the GravityZone task history and look for the service not returning to the running state
+    - System shutdown or reboot, during which services report the stopped state; exclude stops that fall between a User32 1074 shutdown event and the next 6005 startup event on the same host
+level: medium
