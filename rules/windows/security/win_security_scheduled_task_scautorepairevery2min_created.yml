@@ -1,0 +1,29 @@
+title: Scheduled Task SCAutoRepairEvery2Min Or SCAutoFix Script Created
+id: 49bf5d72-57f3-44e9-86e4-e973b2ab4d05
+status: experimental
+description: |
+    Detects creation (Security event 4698) of a scheduled task named SCAutoRepairEvery2Min, or of any scheduled task whose action references the script SCAutoFix.ps1.
+    Huntress observed a phishing campaign that abused public Microsoft Power BI dashboards to deliver rogue ScreenConnect clients; in one incident "a Scheduled Task (SCAutoRepairEvery2Min)
+    was created and configured to run the script (SCAutoFix.ps1)", the PowerShell script that was deployed from the temp directory and installed a second, redundant ScreenConnect instance.
+    Both values are attacker-chosen artifacts. Requires "Audit Other Object Access Events" to be enabled.
+references:
+    - https://www.huntress.com/blog/screenconnect-power-bi
+author: Esmond Er
+date: 2026-10-09
+modified: 2026-10-09
+tags:
+    - attack.persistence
+    - attack.t1053.005
+logsource:
+    product: windows
+    service: security
+detection:
+    selection_eid:
+        EventID: 4698
+    selection_artifact:
+        - TaskName|contains: 'SCAutoRepairEvery2Min'
+        - TaskContent|contains: 'SCAutoFix.ps1'
+    condition: all of selection_*
+falsepositives:
+    - An administrator-written ScreenConnect self-repair task that happens to reuse the name SCAutoRepairEvery2Min or a script named SCAutoFix.ps1 (confirm with the ScreenConnect owners)
+level: high

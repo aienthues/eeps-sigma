@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduled Task SCAutoRepairEvery2Min Or SCAutoFix Script Created · eeps-sigma</title>
+<meta name="description" content="Detects creation (Security event 4698) of a scheduled task named SCAutoRepairEvery2Min, or of any scheduled task whose action references the script SCAutoFix.ps1.">
+<meta property="og:title" content="Scheduled Task SCAutoRepairEvery2Min Or SCAutoFix Script Created · eeps-sigma">
+<meta property="og:description" content="Detects creation (Security event 4698) of a scheduled task named SCAutoRepairEvery2Min, or of any scheduled task whose action references the script SCAutoFix.ps1.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>security</span></nav>
+    <h1>Scheduled Task SCAutoRepairEvery2Min Or SCAutoFix Script Created</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · security</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/security/win_security_scheduled_task_scautorepairevery2min_created.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/security/win_security_scheduled_task_scautorepairevery2min_created.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects creation (Security event 4698) of a scheduled task named SCAutoRepairEvery2Min, or of any scheduled task whose action references the script SCAutoFix.ps1.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Huntress observed a phishing campaign that abused public Microsoft Power BI dashboards to deliver rogue ScreenConnect clients; in one incident &quot;a Scheduled Task (SCAutoRepairEvery2Min)</p><p>was created and configured to run the script (SCAutoFix.ps1)&quot;, the PowerShell script that was deployed from the temp directory and installed a second, redundant ScreenConnect instance.</p><p>Both values are attacker-chosen artifacts. Requires &quot;Audit Other Object Access Events&quot; to be enabled.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Scheduled Task SCAutoRepairEvery2Min Or SCAutoFix Script Created
+<span class="y-key">id</span>: 49bf5d72-57f3-44e9-86e4-e973b2ab4d05
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects creation (Security event 4698) of a scheduled task named SCAutoRepairEvery2Min, or of any scheduled task whose action references the script SCAutoFix.ps1.
+    Huntress observed a phishing campaign that abused public Microsoft Power BI dashboards to deliver rogue ScreenConnect clients; in one incident &quot;a Scheduled Task (SCAutoRepairEvery2Min)
+    was created and configured to run the script (SCAutoFix.ps1)&quot;, the PowerShell script that was deployed from the temp directory and installed a second, redundant ScreenConnect instance.
+    Both values are attacker-chosen artifacts. Requires <span class="y-str">&quot;Audit Other Object Access Events&quot;</span> to be enabled.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.huntress.com/blog/screenconnect-power-bi
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-09
+<span class="y-key">modified</span>: 2026-10-09
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.persistence
+<span class="y-dash">    -</span> attack.t1053.005
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: windows
+    <span class="y-key">service</span>: security
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_eid</span>:
+        <span class="y-key">EventID</span>: 4698
+    <span class="y-key">selection_artifact</span>:
+        - <span class="y-key">TaskName</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;SCAutoRepairEvery2Min&#x27;</span>
+        - <span class="y-key">TaskContent</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;SCAutoFix.ps1&#x27;</span>
+    <span class="y-key">condition</span>: all of selection_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> An administrator-written ScreenConnect self-repair task that happens to reuse the name SCAutoRepairEvery2Min or a script named SCAutoFix.ps1 (confirm with the ScreenConnect owners)
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Security&quot; EventCode=4698 TaskName=&quot;*SCAutoRepairEvery2Min*&quot; OR TaskContent=&quot;*SCAutoFix.ps1*&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>An administrator-written ScreenConnect self-repair task that happens to reuse the name SCAutoRepairEvery2Min or a script named SCAutoFix.ps1 (confirm with the ScreenConnect owners)</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Persistence</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1053/005/" rel="noopener"><span class="chip">T1053.005</span></a> Scheduled Task/Job: Scheduled Task</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>windows</dd></div><div><dt>Service</dt><dd>security</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.huntress.com/blog/screenconnect-power-bi" rel="noopener">huntress.com</a><span class="muted small ref-url">https://www.huntress.com/blog/screenconnect-power-bi</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">49bf5d72-57f3-44e9-86e4-e973b2ab4d05</dd></div>
+        <div><dt>Created</dt><dd>2026-10-09</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-09</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
