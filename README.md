@@ -2,7 +2,7 @@
 
 **Behaviour-based Sigma detections, built from the latest primary threat research.**
 
-![Rules](https://img.shields.io/badge/rules-40-2f5bd3) ![ATT&CK techniques](https://img.shields.io/badge/ATT%26CK%20techniques-33-555) ![Sigma](https://img.shields.io/badge/format-Sigma-0a7ea4) ![License: DRL 1.1](https://img.shields.io/badge/license-DRL%201.1-lightgrey)
+![Rules](https://img.shields.io/badge/rules-41-2f5bd3) ![ATT&CK techniques](https://img.shields.io/badge/ATT%26CK%20techniques-33-555) ![Sigma](https://img.shields.io/badge/format-Sigma-0a7ea4) ![License: DRL 1.1](https://img.shields.io/badge/license-DRL%201.1-lightgrey)
 
 **Browse the rules with context, ATT&CK mapping and Splunk/KQL conversions: [https://aienthues.github.io/eeps-sigma/](https://aienthues.github.io/eeps-sigma/)**
 
@@ -70,6 +70,7 @@ ATT&CK-mapped Sigma rules, each with the reasoning, source and false-positive gu
 | [Visual Studio Code Tunnel Installed As A Service Via Command Line](https://aienthues.github.io/eeps-sigma/rules/proc_creation_win_vscode_tunnel_service_install_command.html) ([yml](rules/windows/process_creation/proc_creation_win_vscode_tunnel_service_install_command.yml)) | Windows / process creation | medium | [T1219.001](https://attack.mitre.org/techniques/T1219/001/) |
 | [Azure Storage Account Deleted](https://aienthues.github.io/eeps-sigma/rules/azure_storage_account_deleted.html) ([yml](rules/azure/activitylogs/azure_storage_account_deleted.yml)) | Azure / activitylogs | low | [T1485](https://attack.mitre.org/techniques/T1485/), [T1490](https://attack.mitre.org/techniques/T1490/) |
 | [PowerShell Spawned By MSP360 RMM Agent](https://aienthues.github.io/eeps-sigma/rules/proc_creation_win_msp360_rmm_agent_spawns_powershell.html) ([yml](rules/windows/process_creation/proc_creation_win_msp360_rmm_agent_spawns_powershell.yml)) | Windows / process creation | low | [T1059.001](https://attack.mitre.org/techniques/T1059/001/), [T1219.002](https://attack.mitre.org/techniques/T1219/002/) |
+| [ScreenConnect Client MSI Installer Written By PowerShell](https://aienthues.github.io/eeps-sigma/rules/file_event_win_powershell_writes_screenconnect_client_setup_msi.html) ([yml](rules/windows/file_event/file_event_win_powershell_writes_screenconnect_client_setup_msi.yml)) | Windows / file event | low | [T1105](https://attack.mitre.org/techniques/T1105/), [T1219.002](https://attack.mitre.org/techniques/T1219/002/) |
 | [ScreenConnect RunFile Execution From Documents Temp Folder](https://aienthues.github.io/eeps-sigma/rules/proc_creation_win_screenconnect_runfile_from_documents_temp.html) ([yml](rules/windows/process_creation/proc_creation_win_screenconnect_runfile_from_documents_temp.yml)) | Windows / process creation | low | [T1219.002](https://attack.mitre.org/techniques/T1219/002/), [T1105](https://attack.mitre.org/techniques/T1105/) |
 
 ## Using the rules

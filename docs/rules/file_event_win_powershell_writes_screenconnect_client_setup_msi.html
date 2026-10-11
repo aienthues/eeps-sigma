@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScreenConnect Client MSI Installer Written By PowerShell · eeps-sigma</title>
+<meta name="description" content="Detects PowerShell writing a ScreenConnect client MSI installer (ScreenConnect.ClientSetup.msi) to disk.">
+<meta property="og:title" content="ScreenConnect Client MSI Installer Written By PowerShell · eeps-sigma">
+<meta property="og:description" content="Detects PowerShell writing a ScreenConnect client MSI installer (ScreenConnect.ClientSetup.msi) to disk.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>file event</span></nav>
+    <h1>ScreenConnect Client MSI Installer Written By PowerShell</h1>
+    <div class="badges"><span class="lvl lvl-low">Low</span><span class="pill">Experimental</span><span class="pill">Windows · file event</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/file_event/file_event_win_powershell_writes_screenconnect_client_setup_msi.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/file_event/file_event_win_powershell_writes_screenconnect_client_setup_msi.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects PowerShell writing a ScreenConnect client MSI installer (ScreenConnect.ClientSetup.msi) to disk.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Huntress observed a phishing campaign that abused public Microsoft Power BI dashboards to deliver rogue ScreenConnect clients; a PowerShell script (SCAutoFix.ps1) launched by the first rogue client &quot;downloaded and executed the additional RMM installer (C:\Temp\ScreenConnect.ClientSetup.msi,&quot; to install a second ScreenConnect instance for redundant access.</p><p>Interactive installs normally arrive through a browser into the Downloads folder; a script-driven download of the client MSI is less common outside managed deployments.</p><p>The writer process (powershell.exe/pwsh.exe) is inferred from &quot;a PowerShell script (SCAutoFix.ps1)&quot; and &quot;This script then downloaded...&quot;; the report does not give the download method, so downloads made through curl.exe, certutil or BITS would be missed by this rule.</p><p>Most useful where ScreenConnect is not a sanctioned tool; where it is, tune by the deployment account (User), the known staging directory in TargetFilename, or the managed host group.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: ScreenConnect Client MSI Installer Written By PowerShell
+<span class="y-key">id</span>: 4586d856-93e6-4811-9b88-9331094b2ec0
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects PowerShell writing a ScreenConnect client MSI installer (ScreenConnect.ClientSetup.msi) to disk.
+    Huntress observed a phishing campaign that abused public Microsoft Power BI dashboards to deliver rogue ScreenConnect clients; a PowerShell script (SCAutoFix.ps1) launched by the first
+    rogue client <span class="y-str">&quot;downloaded and executed the additional RMM installer (C:\Temp\ScreenConnect.ClientSetup.msi,&quot;</span> to install a second ScreenConnect instance for redundant access.
+    Interactive installs normally arrive through a browser into the Downloads folder; a script-driven download of the client MSI is less common outside managed deployments.
+    The writer process (powershell.exe/pwsh.exe) is inferred from <span class="y-str">&quot;a PowerShell script (SCAutoFix.ps1)&quot;</span> and <span class="y-str">&quot;This script then downloaded...&quot;</span>; the report does not give the download
+    method, so downloads made through curl.exe, certutil or BITS would be missed by this rule.
+    Most useful where ScreenConnect is not a sanctioned tool; where it is, tune by the deployment account (User), the known staging directory in TargetFilename, or the managed host group.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.huntress.com/blog/screenconnect-power-bi
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-09
+<span class="y-key">modified</span>: 2026-10-11
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.command-and-control
+<span class="y-dash">    -</span> attack.t1105
+<span class="y-dash">    -</span> attack.t1219.002
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: windows
+    <span class="y-key">category</span>: file_event
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\powershell.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\pwsh.exe&#x27;</span>
+        <span class="y-key">TargetFilename</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\ScreenConnect.ClientSetup.msi&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> MSP or IT deployment scripts that download the company&#x27;s own ScreenConnect client MSI with PowerShell (e.g. Intune/RMM-pushed onboarding scripts); exclude by deployment account (User), the known staging directory in TargetFilename, or the managed host group
+<span class="y-dash">    -</span> Administrators manually fetching the ScreenConnect installer with Invoke-WebRequest during troubleshooting
+<span class="y-dash">    -</span> Legitimate RMM-driven installs that often run as NT AUTHORITY\SYSTEM and write the installer into C:\Windows\Temp; tune User/path exclusions locally
+<span class="y-key">level</span>: low</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=11 Image IN (&quot;*\\powershell.exe&quot;, &quot;*\\pwsh.exe&quot;) TargetFilename=&quot;*\\ScreenConnect.ClientSetup.msi&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceFileEvents
+| where (InitiatingProcessFolderPath endswith &quot;\\powershell.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\pwsh.exe&quot;) and FolderPath endswith &quot;\\ScreenConnect.ClientSetup.msi&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>MSP or IT deployment scripts that download the company&#x27;s own ScreenConnect client MSI with PowerShell (e.g. Intune/RMM-pushed onboarding scripts); exclude by deployment account (User), the known staging directory in TargetFilename, or the managed host group</li><li>Administrators manually fetching the ScreenConnect installer with Invoke-WebRequest during troubleshooting</li><li>Legitimate RMM-driven installs that often run as NT AUTHORITY\SYSTEM and write the installer into C:\Windows\Temp; tune User/path exclusions locally</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Command and Control</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1105/" rel="noopener"><span class="chip">T1105</span></a> Ingress Tool Transfer</li><li><a href="https://attack.mitre.org/techniques/T1219/002/" rel="noopener"><span class="chip">T1219.002</span></a> Remote Access Tools: Remote Desktop Software</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>windows</dd></div><div><dt>Category</dt><dd>file_event</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.huntress.com/blog/screenconnect-power-bi" rel="noopener">huntress.com</a><span class="muted small ref-url">https://www.huntress.com/blog/screenconnect-power-bi</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">4586d856-93e6-4811-9b88-9331094b2ec0</dd></div>
+        <div><dt>Created</dt><dd>2026-10-09</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-11</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

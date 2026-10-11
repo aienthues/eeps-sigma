@@ -1,0 +1,35 @@
+title: ScreenConnect Client MSI Installer Written By PowerShell
+id: 4586d856-93e6-4811-9b88-9331094b2ec0
+status: experimental
+description: |
+    Detects PowerShell writing a ScreenConnect client MSI installer (ScreenConnect.ClientSetup.msi) to disk.
+    Huntress observed a phishing campaign that abused public Microsoft Power BI dashboards to deliver rogue ScreenConnect clients; a PowerShell script (SCAutoFix.ps1) launched by the first
+    rogue client "downloaded and executed the additional RMM installer (C:\Temp\ScreenConnect.ClientSetup.msi," to install a second ScreenConnect instance for redundant access.
+    Interactive installs normally arrive through a browser into the Downloads folder; a script-driven download of the client MSI is less common outside managed deployments.
+    The writer process (powershell.exe/pwsh.exe) is inferred from "a PowerShell script (SCAutoFix.ps1)" and "This script then downloaded..."; the report does not give the download
+    method, so downloads made through curl.exe, certutil or BITS would be missed by this rule.
+    Most useful where ScreenConnect is not a sanctioned tool; where it is, tune by the deployment account (User), the known staging directory in TargetFilename, or the managed host group.
+references:
+    - https://www.huntress.com/blog/screenconnect-power-bi
+author: Esmond Er
+date: 2026-10-09
+modified: 2026-10-11
+tags:
+    - attack.command-and-control
+    - attack.t1105
+    - attack.t1219.002
+logsource:
+    product: windows
+    category: file_event
+detection:
+    selection:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+        TargetFilename|endswith: '\ScreenConnect.ClientSetup.msi'
+    condition: selection
+falsepositives:
+    - MSP or IT deployment scripts that download the company's own ScreenConnect client MSI with PowerShell (e.g. Intune/RMM-pushed onboarding scripts); exclude by deployment account (User), the known staging directory in TargetFilename, or the managed host group
+    - Administrators manually fetching the ScreenConnect installer with Invoke-WebRequest during troubleshooting
+    - Legitimate RMM-driven installs that often run as NT AUTHORITY\SYSTEM and write the installer into C:\Windows\Temp; tune User/path exclusions locally
+level: low
