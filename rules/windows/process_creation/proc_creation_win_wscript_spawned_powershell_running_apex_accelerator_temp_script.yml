@@ -1,0 +1,39 @@
+title: Wscript Spawned PowerShell Running Apex Accelerator Temp Script
+id: cf827a8f-1dd6-45cb-9b3a-8d62dc81a618
+status: experimental
+description: |
+    Detects wscript.exe launching PowerShell on a script named _apex_run.ps1 or _audit_run.ps1, or wscript.exe being started on _apex_run.vbs.
+    Elastic Security Labs reports that the Bun bootstrap delivered by the malicious npm packages @apexacc/cli and @apexacc/audit writes
+    %TEMP%\_apex_run.ps1 / %TEMP%\_audit_run.ps1 plus a _apex_run.vbs launcher, then "launches wscript.exe with the VBScript file as its argument",
+    which runs "powershell -NoProfile -ExecutionPolicy Bypass -File <path-to-ps1>" (wscript.exe -> PowerShell -> drop.ps1).
+    The PowerShell flags are not required so that reordered or abbreviated flags still match. The generic wscript -> PowerShell-from-Temp pattern
+    is covered by SigmaHQ; this rule adds the campaign-specific script names, which are attacker-chosen and trivially changed.
+references:
+    - https://www.elastic.co/security-labs/threat-command/apex-accelerator-malicious-npm-packages
+author: Esmond Er
+date: 2026-10-14
+modified: 2026-10-14
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.t1059.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_parent:
+        ParentImage|endswith: '\wscript.exe'
+    selection_img:
+        - Image|endswith: '\powershell.exe'
+        - OriginalFileName: 'PowerShell.EXE'
+    selection_cli_script:
+        CommandLine|contains:
+            - '_apex_run.ps1'
+            - '_audit_run.ps1'
+    selection_vbs:
+        Image|endswith: '\wscript.exe'
+        CommandLine|contains: '_apex_run.vbs'
+    condition: (selection_parent and selection_img and selection_cli_script) or selection_vbs
+falsepositives:
+    - Unlikely; an internal tool that happens to name its launcher scripts _apex_run.ps1, _audit_run.ps1 or _apex_run.vbs would match - verify the script content and the npm package that created it
+level: high

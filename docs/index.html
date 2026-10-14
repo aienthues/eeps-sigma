@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="41 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="45 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="41 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="45 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>41</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>33</dd></div>
+      <div><dt>Published rules</dt><dd>45</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>35</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-11</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-14</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:64%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">11</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">9</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:45%"></i></span><span class="t-n">5</span></li><li class=""><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:27%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:36%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:73%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">11</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">9</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:45%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:27%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -94,7 +94,7 @@
     <input class="search" type="search" placeholder="Search title, technique, log source…" aria-label="Search rules" data-search-input>
   </div>
   <div class="filters" role="group" aria-label="Filters">
-    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
+    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><button type="button" class="f" data-filter="level" data-value="informational">Informational</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
   </div>
   <div class="rule-list" data-rule-list>
     <div class="rule-row rule-head" aria-hidden="true"><span>Rule</span><span class="rr-tech">ATT&amp;CK</span><span>Level</span><span class="rr-date">Updated</span></div>
@@ -158,6 +158,16 @@
         <span class="rr-tech"><span class="chip">T1505.003</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/web_ivanti_connect_secure_welcome_cgi_x_dscgi_path_redirect.html" data-level="high" data-product="web"
+         data-search="ivanti connect secure welcome.cgi request with x-dscgi-path header pointing to wu.cgi or runtime tmp t1190 webserver detects requests to the unauthenticated ivanti connect secure (ics) sign-in script welcome.cgi (observed as /dana-na/auth/url_default/welcome.cgi) that carry an x-dscgi-path request header naming a different script: the protected upload handler /home/webserver/htdocs/dana/fb/smb/wu.cgi, or a file under /home/runtime/tmp/. volexity reports that uta0576 exploited cve-2026-104935 this way: the url path decides access, the x-dscgi-path header decides which script runs (&quot;this network request names a different script in its headers, x-dscgi-path: /home/webserver/htdocs/dana/fb/smb/wu.cgi.&quot;). the actor then uploaded a perl script with a .zip extension through wu.cgi, which was written to /home/runtime/tmp/&lt;md5(filename)&gt;, and executed it by pointing x-dscgi-path at that path. commands and results travelled in these same https requests, rather than a separate command-and-control channel. logging prerequisite: native ics access logs are not known to record request headers. this rule needs a tls-terminating waf, reverse proxy or decrypting nids in front of the appliance that logs the x-dscgi-path request header. the field is named cs-x-dscgi-path following the w3c cs(&lt;header&gt;) convention used for cs-user-agent / cs-referer / cs-cookie; map it to your product&#x27;s field (e.g. an nginx $http_x_dscgi_path log variable).">
+        <span class="rr-main">
+          <span class="rr-title">Ivanti Connect Secure Welcome.cgi Request With X-DSCGI-PATH Header Pointing To Wu.cgi Or Runtime Tmp</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1190</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-14</span>
       </a>
       <a class="rule-row" href="rules/web_peoplesoft_psemhub_webshell_command_request.html" data-level="high" data-product="web"
          data-search="oracle peoplesoft psemhub jsp web shell command request t1505.003 t1082 webserver detects requests to a jsp file under the peoplesoft psemhub web application where the query string carries os discovery commands. unc6240 (shinyhunters) used web shells dropped into psemhub.war, for example get /%50semhub/&lt;webshell&gt;.jsp?c=id;hostname;uname+-a. the &#x27;semhub&#x27; substring matches both /psemhub/ and /%50semhub/. other encodings are covered by the non-normalized path rule. some of the actor&#x27;s shells (x.jsp) take hex-encoded commands in a post body, which access logs do not record; this rule only catches cleartext query-string commands.">
@@ -359,6 +369,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_wscript_spawned_powershell_running_apex_accelerator_temp_script.html" data-level="high" data-product="windows"
+         data-search="wscript spawned powershell running apex accelerator temp script t1059.001 t1059.005 process_creation detects wscript.exe launching powershell on a script named _apex_run.ps1 or _audit_run.ps1, or wscript.exe being started on _apex_run.vbs. elastic security labs reports that the bun bootstrap delivered by the malicious npm packages @apexacc/cli and @apexacc/audit writes %temp%\_apex_run.ps1 / %temp%\_audit_run.ps1 plus a _apex_run.vbs launcher, then &quot;launches wscript.exe with the vbscript file as its argument&quot;, which runs &quot;powershell -noprofile -executionpolicy bypass -file &lt;path-to-ps1&gt;&quot; (wscript.exe -&gt; powershell -&gt; drop.ps1). the powershell flags are not required so that reordered or abbreviated flags still match. the generic wscript -&gt; powershell-from-temp pattern is covered by sigmahq; this rule adds the campaign-specific script names, which are attacker-chosen and trivially changed.">
+        <span class="rr-main">
+          <span class="rr-title">Wscript Spawned PowerShell Running Apex Accelerator Temp Script</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.001</span> <span class="chip">T1059.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-14</span>
+      </a>
       <a class="rule-row" href="rules/azure_resource_lock_deleted.html" data-level="medium" data-product="azure"
          data-search="azure resource lock deleted t1490 activitylogs detects deletion attempts (successful or failed) of azure resource management locks. storm-3168 used a compromised service principal to make multiple unsuccessful attempts to delete azure site recovery and azure backup protection locks protecting storage accounts, alongside mass deletion of storage accounts, to impair recovery. the report describes the action but does not name the operation; microsoft.authorization/locks/delete is the standard arm operation for lock deletion. both success and failure are matched on purpose. treat a service principal caller, or deletion of site recovery or backup protection locks on storage accounts, as higher priority.">
         <span class="rr-main">
@@ -388,6 +408,16 @@
         <span class="rr-tech"><span class="chip">T1071.001</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/file_access_win_ai_coding_assistant_config_files_accessed_by_uncommon_process.html" data-level="medium" data-product="windows"
+         data-search="ai coding assistant config files accessed by uncommon process t1552.001 file_access detects a process other than the owning application accessing the claude, cursor or windsurf configuration/auth files under %appdata%. elastic security labs reports that the windows infostealer delivered through the malicious @apexacc npm packages collects ai coding-tool / mcp configuration files, including %appdata%\claude\config.json, %appdata%\cursor\user\storage.json and %appdata%\windsurf\auth.json, which can hold api keys and session tokens. owner applications are filtered by their default per-user install paths; processes under program files, system32/syswow64, the system process and microsoft defender are excluded.">
+        <span class="rr-main">
+          <span class="rr-title">AI Coding Assistant Config Files Accessed By Uncommon Process</span>
+          <span class="rr-sub">Windows · file access</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1552.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-14</span>
       </a>
       <a class="rule-row" href="rules/file_event_win_base64_encoded_script_staged_in_windows_temp.html" data-level="medium" data-product="windows"
          data-search="base64 encoded script staged in windows temp t1140 t1027.013 file_event detects creation of a .ps1.b64 or .js.b64 file (a base64-encoded powershell or javascript file) in c:\windows\temp\. through aspx webshells, the attacker staged base64-encoded planter scripts in c:\windows\temp (plant_ccrtc_mousewheel.ps1.b64, plant_ccrtc_fast.ps1.ps1.b64, ccrtc_sdk_init.js.b64) and decoded them next to the originals (.ps1 / .js) before using them to trojanize a jquery file on the site&#x27;s login page.">
@@ -508,6 +538,16 @@
         <span class="rr-tech"><span class="chip">T1219.002</span> <span class="chip">T1105</span></span>
         <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
         <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/web_ivanti_connect_secure_welcome_cgi_high_request_volume_from_single_source.html" data-level="informational" data-product="web"
+         data-search="ivanti connect secure welcome.cgi high request volume from single source t1190 webserver base rule: matches each request for /dana-na/auth/url_default/welcome.cgi on an ivanti connect secure appliance, as seen by a reverse proxy, waf or load balancer in front of it. every legitimate browser login also hits this endpoint, so this base rule is informational and is intended to feed the correlation rule below. volexity reports uta0576 chaining cve-2026-104935 against this endpoint and advises: &quot;monitor for large numbers of network requests for /dana-na/auth/url_default/welcome.cgi.&quot;">
+        <span class="rr-main">
+          <span class="rr-title">Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source</span>
+          <span class="rr-sub">Web server · webserver · correlation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1190</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-informational">Informational</span></span>
+        <span class="rr-date">2026-10-14</span>
       </a>
     <p class="empty" hidden data-empty>No rules match that filter.</p>
   </div>

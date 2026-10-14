@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source · eeps-sigma</title>
+<meta name="description" content="Base rule: matches each request for /dana-na/auth/url_default/welcome.cgi on an Ivanti Connect Secure appliance, as seen by a reverse proxy, WAF or load balancer in front of it.">
+<meta property="og:title" content="Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source · eeps-sigma">
+<meta property="og:description" content="Base rule: matches each request for /dana-na/auth/url_default/welcome.cgi on an Ivanti Connect Secure appliance, as seen by a reverse proxy, WAF or load balancer in front of it.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Web server</span><span>/</span><span>webserver</span></nav>
+    <h1>Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source</h1>
+    <div class="badges"><span class="lvl lvl-informational">Informational</span><span class="pill">Experimental</span><span class="pill">Web server · webserver</span><span class="pill">Correlation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/web/webserver/web_ivanti_connect_secure_welcome_cgi_high_request_volume_from_single_source.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/web/webserver/web_ivanti_connect_secure_welcome_cgi_high_request_volume_from_single_source.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Base rule: matches each request for /dana-na/auth/url_default/welcome.cgi on an Ivanti Connect Secure appliance, as seen by a reverse proxy, WAF or load balancer in front of it.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Every legitimate browser login also hits this endpoint, so this base rule is informational and is intended to feed the correlation rule below.</p><p>Volexity reports UTA0576 chaining CVE-2026-104935 against this endpoint and advises: &quot;Monitor for large numbers of network requests for /dana-na/auth/url_default/welcome.cgi.&quot;</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source
+<span class="y-key">id</span>: 0dd78d3d-e660-473b-af21-07ec5c2d87c5
+<span class="y-key">name</span>: ivanti_connect_secure_welcome_cgi_request
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Base rule: matches each request for /dana-na/auth/url_default/welcome.cgi on an Ivanti Connect Secure appliance, as seen by a reverse proxy, WAF or load balancer in front of it.
+    Every legitimate browser login also hits this endpoint, so this base rule is informational and is intended to feed the correlation rule below.
+    Volexity reports UTA0576 chaining CVE-2026-104935 against this endpoint and advises: <span class="y-str">&quot;Monitor for large numbers of network requests for /dana-na/auth/url_default/welcome.cgi.&quot;</span>
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-14
+<span class="y-key">modified</span>: 2026-10-14
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.initial-access
+<span class="y-dash">    -</span> attack.t1190
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: webserver
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">cs-uri-stem</span>: <span class="y-str">&#x27;/dana-na/auth/url_default/welcome.cgi&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Every legitimate VPN web login requests this page; use only as input to the correlation rule
+<span class="y-key">level</span>: informational
+<span class="y-sep">---</span>
+<span class="y-key">title</span>: Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source - Correlation
+<span class="y-key">id</span>: db7ae6af-b0f0-4255-8d98-1451f06e4512
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects 100 or more requests for /dana-na/auth/url_default/welcome.cgi from a single client IP within 5 minutes, following Volexity&#x27;s advice to
+    monitor for large numbers of requests to this endpoint as a sign of CVE-2026-104935 exploitation attempts. Volexity gives no number; the 100-in-5-minutes
+    threshold is a starting value and should be tuned to the appliance&#x27;s normal login rate per source.
+    c-ip must hold the true client IP: when logs come from a reverse proxy or load balancer, map c-ip from X-Forwarded-For (or equivalent), otherwise
+    all traffic groups under the proxy&#x27;s address. Attempts spread across many source IPs stay under the per-source threshold and will not be detected.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-14
+<span class="y-key">modified</span>: 2026-10-14
+<span class="y-key">correlation</span>:
+    <span class="y-key">type</span>: event_count
+    <span class="y-key">rules</span>:
+<span class="y-dash">        -</span> ivanti_connect_secure_welcome_cgi_request
+    <span class="y-key">group-by</span>:
+<span class="y-dash">        -</span> c-ip
+    <span class="y-key">timespan</span>: 5m
+    <span class="y-key">condition</span>:
+        <span class="y-key">gte</span>: 100
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Many users logging in behind one NAT or corporate egress IP, or an availability monitor polling the login page; allowlist known monitor and egress addresses
+<span class="y-dash">    -</span> All requests attributed to the reverse proxy or load balancer address when c-ip is not mapped from X-Forwarded-For
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>&quot;cs-uri-stem&quot;=&quot;/dana-na/auth/url_default/welcome.cgi&quot;
+
+| bin _time span=5m
+| stats count as event_count by _time &quot;c-ip&quot;
+
+| search event_count &gt;= 100</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Every legitimate VPN web login requests this page; use only as input to the correlation rule</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Initial Access</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1190/" rel="noopener"><span class="chip">T1190</span></a> Exploit Public-Facing Application</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>webserver</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/" rel="noopener">volexity.com</a><span class="muted small ref-url">https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">0dd78d3d-e660-473b-af21-07ec5c2d87c5</dd></div>
+        <div><dt>Created</dt><dd>2026-10-14</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-14</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

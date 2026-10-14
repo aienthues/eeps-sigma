@@ -1,0 +1,53 @@
+title: Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source
+id: 0dd78d3d-e660-473b-af21-07ec5c2d87c5
+name: ivanti_connect_secure_welcome_cgi_request
+status: experimental
+description: |
+    Base rule: matches each request for /dana-na/auth/url_default/welcome.cgi on an Ivanti Connect Secure appliance, as seen by a reverse proxy, WAF or load balancer in front of it.
+    Every legitimate browser login also hits this endpoint, so this base rule is informational and is intended to feed the correlation rule below.
+    Volexity reports UTA0576 chaining CVE-2026-104935 against this endpoint and advises: "Monitor for large numbers of network requests for /dana-na/auth/url_default/welcome.cgi."
+references:
+    - https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/
+author: Esmond Er
+date: 2026-10-14
+modified: 2026-10-14
+tags:
+    - attack.initial-access
+    - attack.t1190
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-uri-stem: '/dana-na/auth/url_default/welcome.cgi'
+    condition: selection
+falsepositives:
+    - Every legitimate VPN web login requests this page; use only as input to the correlation rule
+level: informational
+---
+title: Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source - Correlation
+id: db7ae6af-b0f0-4255-8d98-1451f06e4512
+status: experimental
+description: |
+    Detects 100 or more requests for /dana-na/auth/url_default/welcome.cgi from a single client IP within 5 minutes, following Volexity's advice to
+    monitor for large numbers of requests to this endpoint as a sign of CVE-2026-104935 exploitation attempts. Volexity gives no number; the 100-in-5-minutes
+    threshold is a starting value and should be tuned to the appliance's normal login rate per source.
+    c-ip must hold the true client IP: when logs come from a reverse proxy or load balancer, map c-ip from X-Forwarded-For (or equivalent), otherwise
+    all traffic groups under the proxy's address. Attempts spread across many source IPs stay under the per-source threshold and will not be detected.
+references:
+    - https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/
+author: Esmond Er
+date: 2026-10-14
+modified: 2026-10-14
+correlation:
+    type: event_count
+    rules:
+        - ivanti_connect_secure_welcome_cgi_request
+    group-by:
+        - c-ip
+    timespan: 5m
+    condition:
+        gte: 100
+falsepositives:
+    - Many users logging in behind one NAT or corporate egress IP, or an availability monitor polling the login page; allowlist known monitor and egress addresses
+    - All requests attributed to the reverse proxy or load balancer address when c-ip is not mapped from X-Forwarded-For
+level: medium

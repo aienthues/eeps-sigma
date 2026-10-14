@@ -1,0 +1,34 @@
+title: Ivanti Connect Secure Welcome.cgi Request With X-DSCGI-PATH Header Pointing To Wu.cgi Or Runtime Tmp
+id: 5238db8f-76df-40db-9b9e-b6cb08e765ca
+status: experimental
+description: |
+    Detects requests to the unauthenticated Ivanti Connect Secure (ICS) sign-in script welcome.cgi (observed as /dana-na/auth/url_default/welcome.cgi)
+    that carry an X-DSCGI-PATH request header naming a different script: the protected upload handler /home/webserver/htdocs/dana/fb/smb/wu.cgi, or a file
+    under /home/runtime/tmp/. Volexity reports that UTA0576 exploited CVE-2026-104935 this way: the URL path decides access, the X-DSCGI-PATH header decides
+    which script runs ("This network request names a different script in its headers, X-DSCGI-PATH: /home/webserver/htdocs/dana/fb/smb/wu.cgi."). The actor then
+    uploaded a Perl script with a .zip extension through wu.cgi, which was written to /home/runtime/tmp/<MD5(filename)>, and executed it by pointing X-DSCGI-PATH
+    at that path. Commands and results travelled in these same HTTPS requests, rather than a separate command-and-control channel.
+    Logging prerequisite: native ICS access logs are not known to record request headers. This rule needs a TLS-terminating WAF, reverse proxy or decrypting
+    NIDS in front of the appliance that logs the X-DSCGI-PATH request header. The field is named cs-x-dscgi-path following the W3C cs(<header>) convention
+    used for cs-user-agent / cs-referer / cs-cookie; map it to your product's field (e.g. an nginx $http_x_dscgi_path log variable).
+references:
+    - https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/
+author: Esmond Er
+date: 2026-10-14
+modified: 2026-10-14
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-104935
+logsource:
+    category: webserver
+detection:
+    selection_uri:
+        cs-uri-stem|endswith: '/welcome.cgi'
+    selection_header:
+        - cs-x-dscgi-path|contains: '/dana/fb/smb/wu.cgi'
+        - cs-x-dscgi-path|startswith: '/home/runtime/tmp/'
+    condition: selection_uri and selection_header
+falsepositives:
+    - Vulnerability scanners or penetration tests checking for CVE-2026-104935, which send the same header combination
+level: high
