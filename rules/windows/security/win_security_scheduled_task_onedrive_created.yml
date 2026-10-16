@@ -1,0 +1,29 @@
+title: Scheduled Task Named Onedrive Created
+id: 952c5718-1d90-4608-8f43-fc6992abc054
+status: experimental
+description: |
+    Detects creation (Security event 4698) of a scheduled task whose name is Onedrive, in any task folder.
+    Unit 42 reports that the Windows build of SysGoRAT (CL-UNK-1211) "Creates a daily scheduled task named Onedrive" as a persistence method.
+    Legitimate Microsoft OneDrive tasks carry longer names such as "OneDrive Standalone Update Task-S-1-5-21-..." or "OneDrive Reporting Task-S-1-5-21-...",
+    so a match on the bare task name Onedrive is specific. Requires "Audit Other Object Access Events" to be enabled.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-16
+tags:
+    - attack.persistence
+    - attack.t1053.005
+    - attack.stealth
+    - attack.t1036.004
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4698
+        TaskName|endswith: '\Onedrive'
+    condition: selection
+falsepositives:
+    - An administrator- or software-created task deliberately named "Onedrive" (for example a custom OneDrive deployment script); review the task action
+level: medium

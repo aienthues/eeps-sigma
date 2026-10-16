@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHP Auto_prepend_file Directive Modified In System Or Plesk PHP Configuration - Linux · eeps-sigma</title>
+<meta name="description" content="Detects a command line that references both the PHP auto_prepend_file directive and the system (/etc/php/) or Plesk (/opt/plesk/php/) PHP configuration trees, excluding read-only viewers.">
+<meta property="og:title" content="PHP Auto_prepend_file Directive Modified In System Or Plesk PHP Configuration - Linux · eeps-sigma">
+<meta property="og:description" content="Detects a command line that references both the PHP auto_prepend_file directive and the system (/etc/php/) or Plesk (/opt/plesk/php/) PHP configuration trees, excluding read-only viewers.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Linux</span><span>/</span><span>process creation</span></nav>
+    <h1>PHP Auto_prepend_file Directive Modified In System Or Plesk PHP Configuration - Linux</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Linux · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/linux/process_creation/proc_creation_lnx_php_auto_prepend_file_modified_in_system_or_plesk_php_config.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/linux/process_creation/proc_creation_lnx_php_auto_prepend_file_modified_in_system_or_plesk_php_config.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a command line that references both the PHP auto_prepend_file directive and the system (/etc/php/) or Plesk (/opt/plesk/php/) PHP configuration trees, excluding read-only viewers.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Unit 42 reports that, to make their web shell load before every PHP script, &quot;the attackers modified the auto_prepend_file value across all PHP configurations under the directories /etc/php/ and /opt/plesk/php/&quot;.</p><p>The report does not show the exact modification command; this rule targets the common pattern of editing php.ini files in bulk with sed, perl, echo or tee.</p><p>Edits made directly by a PHP web shell (file writes without a child process) are not visible to this rule.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: PHP Auto_prepend_file Directive Modified In System Or Plesk PHP Configuration - Linux
+<span class="y-key">id</span>: 1430f648-11c4-4363-b9e3-21d90f07ca39
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a command line that references both the PHP auto_prepend_file directive and the system (/etc/php/) or Plesk (/opt/plesk/php/) PHP configuration trees, excluding read-only viewers.
+    Unit 42 reports that, to make their web shell load before every PHP script, <span class="y-str">&quot;the attackers modified the auto_prepend_file value across all PHP configurations under the directories /etc/php/ and /opt/plesk/php/&quot;</span>.
+    The report does not show the exact modification command; this rule targets the common pattern of editing php.ini files in bulk with sed, perl, echo or tee.
+    Edits made directly by a PHP web shell (file writes without a child process) are not visible to this rule.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-16
+<span class="y-key">modified</span>: 2026-10-16
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.persistence
+<span class="y-dash">    -</span> attack.t1505.003
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: process_creation
+    <span class="y-key">product</span>: linux
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_directive</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;auto_prepend_file&#x27;</span>
+    <span class="y-key">selection_path</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/etc/php/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/opt/plesk/php/&#x27;</span>
+    <span class="y-key">filter_main_readers</span>:
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/grep&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/egrep&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/fgrep&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/rg&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/cat&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/less&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/more&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/head&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/tail&#x27;</span>
+    <span class="y-key">condition</span>: all of selection_* and not 1 of filter_main_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Administrators or installers enabling legitimate prepend files (for example the Wordfence WAF, APM agents or PHP profilers) across PHP versions
+<span class="y-dash">    -</span> Shell wrappers (sh -c) around read-only grep commands, which are not removed by the filter
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>CommandLine=&quot;*auto_prepend_file*&quot; CommandLine IN (&quot;*/etc/php/*&quot;, &quot;*/opt/plesk/php/*&quot;) NOT (Image IN (&quot;*/grep&quot;, &quot;*/egrep&quot;, &quot;*/fgrep&quot;, &quot;*/rg&quot;, &quot;*/cat&quot;, &quot;*/less&quot;, &quot;*/more&quot;, &quot;*/head&quot;, &quot;*/tail&quot;))</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where (ProcessCommandLine contains &quot;auto_prepend_file&quot; and (ProcessCommandLine contains &quot;/etc/php/&quot; or ProcessCommandLine contains &quot;/opt/plesk/php/&quot;)) and (not((FolderPath endswith &quot;/grep&quot; or FolderPath endswith &quot;/egrep&quot; or FolderPath endswith &quot;/fgrep&quot; or FolderPath endswith &quot;/rg&quot; or FolderPath endswith &quot;/cat&quot; or FolderPath endswith &quot;/less&quot; or FolderPath endswith &quot;/more&quot; or FolderPath endswith &quot;/head&quot; or FolderPath endswith &quot;/tail&quot;)))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Administrators or installers enabling legitimate prepend files (for example the Wordfence WAF, APM agents or PHP profilers) across PHP versions</li><li>Shell wrappers (sh -c) around read-only grep commands, which are not removed by the filter</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Persistence</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1505/003/" rel="noopener"><span class="chip">T1505.003</span></a> Server Software Component: Web Shell</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>process_creation</dd></div><div><dt>Product</dt><dd>linux</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/" rel="noopener">unit42.paloaltonetworks.com</a><span class="muted small ref-url">https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">1430f648-11c4-4363-b9e3-21d90f07ca39</dd></div>
+        <div><dt>Created</dt><dd>2026-10-16</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-16</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

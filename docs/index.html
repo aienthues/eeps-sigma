@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="45 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="51 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="45 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="51 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>45</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>35</dd></div>
+      <div><dt>Published rules</dt><dd>51</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>38</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-14</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-16</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:36%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:73%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">11</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">9</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:45%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:27%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:9%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:25%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">16</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:75%"></i></span><span class="t-n">12</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:31%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:19%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:56%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -118,6 +118,16 @@
         <span class="rr-tech"><span class="chip">T1219</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_lnx_sysgorat_sys_update_service_unit_created.html" data-level="high" data-product="linux"
+         data-search="sysgorat sys-update systemd service unit created - linux t1543.002 file_event detects creation of the systemd unit file /etc/systemd/system/sys-update.service. unit 42 documents the &quot;persist&quot; command of sysgorat, the go-based websocket rat used by activity cluster cl-unk-1211, whose systemd method &quot;writes a unit (service) file to /etc/systemd/system/sys-update.service; reloads and enables the service&quot;. the unit name is hard-coded in the malware and is not shipped by any mainstream distribution package.">
+        <span class="rr-main">
+          <span class="rr-title">SysGoRAT Sys-Update Systemd Service Unit Created - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1543.002</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-16</span>
       </a>
       <a class="rule-row" href="rules/file_event_lnx_zimbra_jsp_written_to_jetty_mailboxd_webapps_by_shell_or_transfer_tool.html" data-level="high" data-product="linux"
          data-search="zimbra jsp written to jetty or mailboxd webapps by shell or transfer tool - linux t1505.003 t1570 file_event detects a jsp file (.jsp or compiled _jsp.java) created under zimbra&#x27;s jetty or mailboxd web application folders (/jetty_base/webapps/, /jetty/webapps/, /mailboxd/webapps/) by a shell or file transfer utility (sh, bash, dash, curl, wget, tee, base64, rsync). after exploiting cve-2026-73570, &quot;multiple jsp webshells were deployed across jetty and mailboxd application paths&quot;, and rsync was used &quot;to move staged payload fragments, helper scripts, and jsp webshells between nodes&quot;. the selection mirrors microsoft&#x27;s published hunting query.">
@@ -369,6 +379,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
       </a>
+      <a class="rule-row" href="rules/file_event_win_sysgorat_updater_exe_written_to_appdata_onedrive_update.html" data-level="high" data-product="windows"
+         data-search="updater.exe written to appdata onedrive update folder t1547.001 t1036.005 file_event detects creation of updater.exe inside a folder named &quot;onedrive update&quot; under the user&#x27;s roaming appdata (%appdata%). unit 42 reports that the windows build of sysgorat, the go-based websocket rat used by activity cluster cl-unk-1211, persists as follows: &quot;the malware copies itself to %appdata%\onedrive update\updater.exe and adds a run key to hkcu&quot;. the folder name is attacker-chosen; genuine microsoft onedrive installs under %localappdata%\microsoft\onedrive or program files and does not use a &quot;onedrive update&quot; folder in roaming appdata. the run key pointing into appdata\roaming is already caught generically by sigmahq registry_set_susp_run_key_img_folder.yml; this rule covers the file drop itself.">
+        <span class="rr-main">
+          <span class="rr-title">Updater.EXE Written To AppData Onedrive Update Folder</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1547.001</span> <span class="chip">T1036.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-16</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_wscript_spawned_powershell_running_apex_accelerator_temp_script.html" data-level="high" data-product="windows"
          data-search="wscript spawned powershell running apex accelerator temp script t1059.001 t1059.005 process_creation detects wscript.exe launching powershell on a script named _apex_run.ps1 or _audit_run.ps1, or wscript.exe being started on _apex_run.vbs. elastic security labs reports that the bun bootstrap delivered by the malicious npm packages @apexacc/cli and @apexacc/audit writes %temp%\_apex_run.ps1 / %temp%\_audit_run.ps1 plus a _apex_run.vbs launcher, then &quot;launches wscript.exe with the vbscript file as its argument&quot;, which runs &quot;powershell -noprofile -executionpolicy bypass -file &lt;path-to-ps1&gt;&quot; (wscript.exe -&gt; powershell -&gt; drop.ps1). the powershell flags are not required so that reordered or abbreviated flags still match. the generic wscript -&gt; powershell-from-temp pattern is covered by sigmahq; this rule adds the campaign-specific script names, which are attacker-chosen and trivially changed.">
         <span class="rr-main">
@@ -388,6 +408,36 @@
         <span class="rr-tech"><span class="chip">T1490</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-09-28</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_php_auto_prepend_file_modified_in_system_or_plesk_php_config.html" data-level="medium" data-product="linux"
+         data-search="php auto_prepend_file directive modified in system or plesk php configuration - linux t1505.003 process_creation detects a command line that references both the php auto_prepend_file directive and the system (/etc/php/) or plesk (/opt/plesk/php/) php configuration trees, excluding read-only viewers. unit 42 reports that, to make their web shell load before every php script, &quot;the attackers modified the auto_prepend_file value across all php configurations under the directories /etc/php/ and /opt/plesk/php/&quot;. the report does not show the exact modification command; this rule targets the common pattern of editing php.ini files in bulk with sed, perl, echo or tee. edits made directly by a php web shell (file writes without a child process) are not visible to this rule.">
+        <span class="rr-main">
+          <span class="rr-title">PHP Auto_prepend_file Directive Modified In System Or Plesk PHP Configuration - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-16</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_lnx_php_file_created_in_usr_lib_php.html" data-level="medium" data-product="linux"
+         data-search="php file created in /usr/lib/php by non-package-manager process - linux t1505.003 file_event detects creation of a .php file under /usr/lib/php/ by a process other than a package manager, and the specific cl-unk-1211 web shell file name plesk_sys_driver.php anywhere. unit 42 reports that cl-unk-1211 dropped a php web shell at &quot;/usr/lib/php/plesk_sys_driver.php&quot;, a system path and plesk-like name chosen to look like a legitimate driver file, and then loaded it into every php script through auto_prepend_file. /usr/lib/php/ normally holds php extension modules and helper scripts installed by the package manager, not php source files written at runtime. note: on rhel-family systems yum/dnf run as python, so the package-manager filter by image may not match there; tune the filter for those hosts.">
+        <span class="rr-main">
+          <span class="rr-title">PHP File Created In /usr/lib/php By Non-Package-Manager Process - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-16</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_lnx_solarwinds_statuslog_txt_created.html" data-level="medium" data-product="linux"
+         data-search="solarwinds.statuslog.txt credential log created - linux t1056.003 t1036.005 file_event detects creation of a file named solarwinds.statuslog.txt on a linux host. unit 42 reports that cl-unk-1211 inserted a credential logger into a php login page and that &quot;the attackers named the log file solarwinds.statuslog.txt, to mimic legitimate solarwinds activity in the environment.&quot; the name is attacker-chosen; the writing process is typically the php worker or web server user. the report does not give the directory, so the rule matches the file name anywhere.">
+        <span class="rr-main">
+          <span class="rr-title">Solarwinds.StatusLog.txt Credential Log Created - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1056.003</span> <span class="chip">T1036.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-16</span>
       </a>
       <a class="rule-row" href="rules/web_netscaler_vpn_media_scripts_spoofed_404_large_response.html" data-level="medium" data-product="web"
          data-search="citrix netscaler vpn media or scripts request with spoofed 404 and large response t1505.003 webserver detects requests to /vpn/media/*.ico or /vpn/scripts/ on a citrix netscaler adc/gateway web server that return http 404 with a response body larger than 5000 bytes. gtig/mandiant report post-exploitation of cve-2026-88772 by an unnamed actor who staged php web shells (.deb/.sig) under /netscaler/gui/vpn/scripts/linux, aliased /vpn/media/&lt;name&gt;.ico to them, and had them (including whipshot) return a spoofed &quot;404 not found&quot; while carrying tunneled data in the body. the report recommends hunting for &quot;404 responses to /vpn/media/*.ico or /vpn/scripts/ paths that return multi-kb response bodies&quot;; the 5000-byte threshold is taken from the report&#x27;s grep of /var/log/httpaccess.log. requires the appliance apache access log (or equivalent web logging) with path, status and response size parsed into w3c-style fields.">
@@ -488,6 +538,16 @@
         <span class="rr-tech"><span class="chip">T1005</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/win_security_scheduled_task_onedrive_created.html" data-level="medium" data-product="windows"
+         data-search="scheduled task named onedrive created t1053.005 t1036.004 security detects creation (security event 4698) of a scheduled task whose name is onedrive, in any task folder. unit 42 reports that the windows build of sysgorat (cl-unk-1211) &quot;creates a daily scheduled task named onedrive&quot; as a persistence method. legitimate microsoft onedrive tasks carry longer names such as &quot;onedrive standalone update task-s-1-5-21-...&quot; or &quot;onedrive reporting task-s-1-5-21-...&quot;, so a match on the bare task name onedrive is specific. requires &quot;audit other object access events&quot; to be enabled.">
+        <span class="rr-main">
+          <span class="rr-title">Scheduled Task Named Onedrive Created</span>
+          <span class="rr-sub">Windows · security</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1053.005</span> <span class="chip">T1036.004</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-16</span>
       </a>
       <a class="rule-row" href="rules/proc_creation_win_vscode_tunnel_service_install_command.html" data-level="medium" data-product="windows"
          data-search="visual studio code tunnel installed as a service via command line t1219.001 process_creation detects the visual studio code cli installing its remote tunnel as a windows service (&quot;tunnel service install&quot;). symantec reports that the warlock ransomware attackers used visual studio code&#x27;s built-in tunnel feature for persistence and remote access, running &quot;csidl_windows\debug\code-insiders.exe&quot; tunnel service install --accept-server-license-terms from the windows\debug folder. the sigmahq vs code tunnel rules match &#x27;.exe tunnel&#x27; (missed when the image path is quoted) or the later &#x27;internal-run&#x27; service execution, not the install command itself. a code-insiders.exe or code.exe image outside a normal vs code install location (such as c:\windows\debug\) should be treated as highly suspicious.">

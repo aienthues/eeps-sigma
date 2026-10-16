@@ -1,0 +1,42 @@
+title: PHP Auto_prepend_file Directive Modified In System Or Plesk PHP Configuration - Linux
+id: 1430f648-11c4-4363-b9e3-21d90f07ca39
+status: experimental
+description: |
+    Detects a command line that references both the PHP auto_prepend_file directive and the system (/etc/php/) or Plesk (/opt/plesk/php/) PHP configuration trees, excluding read-only viewers.
+    Unit 42 reports that, to make their web shell load before every PHP script, "the attackers modified the auto_prepend_file value across all PHP configurations under the directories /etc/php/ and /opt/plesk/php/".
+    The report does not show the exact modification command; this rule targets the common pattern of editing php.ini files in bulk with sed, perl, echo or tee.
+    Edits made directly by a PHP web shell (file writes without a child process) are not visible to this rule.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-16
+tags:
+    - attack.persistence
+    - attack.t1505.003
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_directive:
+        CommandLine|contains: 'auto_prepend_file'
+    selection_path:
+        CommandLine|contains:
+            - '/etc/php/'
+            - '/opt/plesk/php/'
+    filter_main_readers:
+        Image|endswith:
+            - '/grep'
+            - '/egrep'
+            - '/fgrep'
+            - '/rg'
+            - '/cat'
+            - '/less'
+            - '/more'
+            - '/head'
+            - '/tail'
+    condition: all of selection_* and not 1 of filter_main_*
+falsepositives:
+    - Administrators or installers enabling legitimate prepend files (for example the Wordfence WAF, APM agents or PHP profilers) across PHP versions
+    - Shell wrappers (sh -c) around read-only grep commands, which are not removed by the filter
+level: medium

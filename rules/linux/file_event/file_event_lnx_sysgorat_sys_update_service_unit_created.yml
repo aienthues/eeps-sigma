@@ -1,0 +1,26 @@
+title: SysGoRAT Sys-Update Systemd Service Unit Created - Linux
+id: 7e5ed4d2-e7c0-4b1c-9cbd-94990f9579d7
+status: experimental
+description: |
+    Detects creation of the systemd unit file /etc/systemd/system/sys-update.service.
+    Unit 42 documents the "persist" command of SysGoRAT, the Go-based WebSocket RAT used by activity cluster CL-UNK-1211, whose systemd method
+    "writes a unit (service) file to /etc/systemd/system/sys-update.service; reloads and enables the service".
+    The unit name is hard-coded in the malware and is not shipped by any mainstream distribution package.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-16
+tags:
+    - attack.persistence
+    - attack.t1543.002
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection:
+        TargetFilename: '/etc/systemd/system/sys-update.service'
+    condition: selection
+falsepositives:
+    - An in-house update service that administrators named sys-update.service (verify the ExecStart binary and who created the unit)
+level: high

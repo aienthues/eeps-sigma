@@ -1,0 +1,41 @@
+title: PHP File Created In /usr/lib/php By Non-Package-Manager Process - Linux
+id: d43de31f-9a8f-436c-b2f4-c8555c47c84a
+status: experimental
+description: |
+    Detects creation of a .php file under /usr/lib/php/ by a process other than a package manager, and the specific CL-UNK-1211 web shell file name plesk_sys_driver.php anywhere.
+    Unit 42 reports that CL-UNK-1211 dropped a PHP web shell at "/usr/lib/php/plesk_sys_driver.php", a system path and Plesk-like name chosen to look like a legitimate driver file,
+    and then loaded it into every PHP script through auto_prepend_file.
+    /usr/lib/php/ normally holds PHP extension modules and helper scripts installed by the package manager, not PHP source files written at runtime.
+    Note: on RHEL-family systems yum/dnf run as Python, so the package-manager filter by Image may not match there; tune the filter for those hosts.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-16
+tags:
+    - attack.persistence
+    - attack.t1505.003
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection_dir:
+        TargetFilename|startswith: '/usr/lib/php/'
+        TargetFilename|endswith: '.php'
+    filter_main_pkg:
+        Image|endswith:
+            - '/dpkg'
+            - '/rpm'
+            - '/yum'
+            - '/dnf'
+            - '/apt'
+            - '/apt-get'
+            - '/microdnf'
+            - '/zypper'
+    selection_name:
+        TargetFilename|endswith: '/plesk_sys_driver.php'
+    condition: (selection_dir and not 1 of filter_main_*) or selection_name
+falsepositives:
+    - Software installed outside the package manager (manual builds, PECL or vendor installers) that places .php helper files under /usr/lib/php/
+    - Configuration management tools (Ansible, Puppet, Chef) deploying PHP files to that directory
+level: medium

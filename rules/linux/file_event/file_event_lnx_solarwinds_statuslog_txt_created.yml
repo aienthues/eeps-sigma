@@ -1,0 +1,28 @@
+title: Solarwinds.StatusLog.txt Credential Log Created - Linux
+id: 2e43f763-faf4-45e8-ab7f-ec600ada33a2
+status: experimental
+description: |
+    Detects creation of a file named Solarwinds.StatusLog.txt on a Linux host.
+    Unit 42 reports that CL-UNK-1211 inserted a credential logger into a PHP login page and that
+    "The attackers named the log file Solarwinds.StatusLog.txt, to mimic legitimate SolarWinds activity in the environment."
+    The name is attacker-chosen; the writing process is typically the PHP worker or web server user. The report does not give the directory, so the rule matches the file name anywhere.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-16
+tags:
+    - attack.credential-access
+    - attack.t1056.003
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection:
+        TargetFilename|endswith: '/Solarwinds.StatusLog.txt'
+    condition: selection
+falsepositives:
+    - A SolarWinds agent or integration on Linux that writes a status log with this exact name (not documented; check that the writer is not a web server or PHP process)
+level: medium

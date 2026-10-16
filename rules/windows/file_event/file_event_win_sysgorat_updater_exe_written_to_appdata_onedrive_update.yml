@@ -1,0 +1,29 @@
+title: Updater.EXE Written To AppData Onedrive Update Folder
+id: 123b9344-3db9-4097-804a-a4d6c2c59f7a
+status: experimental
+description: |
+    Detects creation of Updater.exe inside a folder named "Onedrive Update" under the user's roaming AppData (%APPDATA%).
+    Unit 42 reports that the Windows build of SysGoRAT, the Go-based WebSocket RAT used by activity cluster CL-UNK-1211, persists as follows:
+    "The malware copies itself to %APPDATA%\Onedrive Update\Updater.exe and adds a Run key to HKCU".
+    The folder name is attacker-chosen; genuine Microsoft OneDrive installs under %LOCALAPPDATA%\Microsoft\OneDrive or Program Files and does not use a "Onedrive Update" folder in roaming AppData.
+    The Run key pointing into AppData\Roaming is already caught generically by SigmaHQ registry_set_susp_run_key_img_folder.yml; this rule covers the file drop itself.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-16
+tags:
+    - attack.persistence
+    - attack.t1547.001
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith: '\AppData\Roaming\Onedrive Update\Updater.exe'
+    condition: selection
+falsepositives:
+    - A third-party or in-house updater that happens to install to %APPDATA%\Onedrive Update\Updater.exe (none known; check the writing process and file signature)
+level: high
