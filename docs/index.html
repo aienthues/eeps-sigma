@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="51 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="55 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="51 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="55 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>51</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>38</dd></div>
+      <div><dt>Published rules</dt><dd>55</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>42</dd></div>
       <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-16</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-17</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:25%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">16</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:75%"></i></span><span class="t-n">12</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:31%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:19%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:56%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:31%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">16</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:88%"></i></span><span class="t-n">14</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:31%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:25%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:56%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -118,6 +118,16 @@
         <span class="rr-tech"><span class="chip">T1219</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_suid_bash_copy_tourch_execution.html" data-level="high" data-product="linux"
+         data-search="suid bit set on hidden file or .tourch suid bash copy executed - linux t1548.001 t1564.001 process_creation detects either of two steps of a hidden suid shell backdoor: (1) chmod setting the suid bit (u+s) on a hidden dot-file, and (2) execution of a binary named .tourch. unit 42 reports that cl-unk-1211 copied /bin/bash to a hidden file named .tourch and set the suid bit on it (&quot;modified its permissions using the command chmod u+s&quot;), noting: &quot;because .tourch is actually the /bin/bash binary, this allowed the attackers to execute bash commands as root.&quot; the .tourch name is attacker-chosen (a hidden misspelling of &quot;touch&quot;); the chmod branch covers the same technique under any hidden file name.">
+        <span class="rr-main">
+          <span class="rr-title">SUID Bit Set On Hidden File Or .tourch SUID Bash Copy Executed - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1548.001</span> <span class="chip">T1564.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-17</span>
       </a>
       <a class="rule-row" href="rules/file_event_lnx_sysgorat_sys_update_service_unit_created.html" data-level="high" data-product="linux"
          data-search="sysgorat sys-update systemd service unit created - linux t1543.002 file_event detects creation of the systemd unit file /etc/systemd/system/sys-update.service. unit 42 documents the &quot;persist&quot; command of sysgorat, the go-based websocket rat used by activity cluster cl-unk-1211, whose systemd method &quot;writes a unit (service) file to /etc/systemd/system/sys-update.service; reloads and enables the service&quot;. the unit name is hard-coded in the malware and is not shipped by any mainstream distribution package.">
@@ -409,6 +419,16 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-09-28</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_hidden_libpython_helper_execution.html" data-level="medium" data-product="linux"
+         data-search="hidden executable in x86_64-linux-gnu library directory or .libpython-helper executed - linux t1036.003 t1564.001 process_creation detects execution of a hidden (dot-prefixed) executable from /usr/lib/x86_64-linux-gnu/, or of any binary named .libpython-helper. unit 42 reports that cl-unk-1211 copied a python interpreter and &quot;renamed it to .libpython-helper to execute shell commands with high privileges&quot;. the extracted observables place it at /usr/lib/x86_64-linux-gnu/.libpython-helper. the name is attacker-chosen; the behavioural branch covers the same placement (a hidden executable among shared libraries) under any name.">
+        <span class="rr-main">
+          <span class="rr-title">Hidden Executable In x86_64-linux-gnu Library Directory Or .libpython-helper Executed - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1036.003</span> <span class="chip">T1564.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-17</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_lnx_php_auto_prepend_file_modified_in_system_or_plesk_php_config.html" data-level="medium" data-product="linux"
          data-search="php auto_prepend_file directive modified in system or plesk php configuration - linux t1505.003 process_creation detects a command line that references both the php auto_prepend_file directive and the system (/etc/php/) or plesk (/opt/plesk/php/) php configuration trees, excluding read-only viewers. unit 42 reports that, to make their web shell load before every php script, &quot;the attackers modified the auto_prepend_file value across all php configurations under the directories /etc/php/ and /opt/plesk/php/&quot;. the report does not show the exact modification command; this rule targets the common pattern of editing php.ini files in bulk with sed, perl, echo or tee. edits made directly by a php web shell (file writes without a child process) are not visible to this rule.">
         <span class="rr-main">
@@ -439,6 +459,16 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-16</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_sshpass_password_with_stricthostkeychecking_disabled.html" data-level="medium" data-product="linux"
+         data-search="sshpass inline password with host key checking disabled - linux t1021.004 process_creation detects sshpass supplying a password on the command line (&quot;sshpass -p&quot;, including the -ppassword form) to an ssh session that disables host key verification (stricthostkeychecking=no). unit 42 reports that cl-unk-1211 moved laterally between linux servers with &quot;sshpass -p [password] ssh -o stricthostkeychecking=no -o connecttimeout=5 [username]@[ip_address] [command] 2&gt;&amp;1&quot;. the combination lets a script push commands to many hosts with harvested credentials without interactive prompts. the &#x27;sshpass -p&#x27; match is a case-sensitive regex so the -p (prompt string) option is excluded.">
+        <span class="rr-main">
+          <span class="rr-title">Sshpass Inline Password With Host Key Checking Disabled - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1021.004</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-17</span>
+      </a>
       <a class="rule-row" href="rules/web_netscaler_vpn_media_scripts_spoofed_404_large_response.html" data-level="medium" data-product="web"
          data-search="citrix netscaler vpn media or scripts request with spoofed 404 and large response t1505.003 webserver detects requests to /vpn/media/*.ico or /vpn/scripts/ on a citrix netscaler adc/gateway web server that return http 404 with a response body larger than 5000 bytes. gtig/mandiant report post-exploitation of cve-2026-88772 by an unnamed actor who staged php web shells (.deb/.sig) under /netscaler/gui/vpn/scripts/linux, aliased /vpn/media/&lt;name&gt;.ico to them, and had them (including whipshot) return a spoofed &quot;404 not found&quot; while carrying tunneled data in the body. the report recommends hunting for &quot;404 responses to /vpn/media/*.ico or /vpn/scripts/ paths that return multi-kb response bodies&quot;; the 5000-byte threshold is taken from the report&#x27;s grep of /var/log/httpaccess.log. requires the appliance apache access log (or equivalent web logging) with path, status and response size parsed into w3c-style fields.">
         <span class="rr-main">
@@ -458,6 +488,16 @@
         <span class="rr-tech"><span class="chip">T1071.001</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/web_post_request_to_percent_encoded_php_extension.html" data-level="medium" data-product="web"
+         data-search="post request to percent-encoded php extension t1190 webserver detects http post requests whose uri path carries a percent-encoded dot before a php extension (%2ephp). gtig/mandiant report that, while exploiting the beyondtrust remote support arbitrary file upload cve-2026-102764, &quot;armory castle initiated post requests to /app_84304470%2ephp.&quot; browsers and normal clients send a literal dot in a file extension. encoding it is a way to slip a php path past extension or path filters that match on the decoded form. the rule therefore keys on the encoding, not on the actor&#x27;s file name, and applies to any web server or reverse proxy. it needs logs that record the raw, undecoded request path. servers that write the decoded path (/app_84304470.php) will not match.">
+        <span class="rr-main">
+          <span class="rr-title">POST Request To Percent-Encoded PHP Extension</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1190</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-17</span>
       </a>
       <a class="rule-row" href="rules/file_access_win_ai_coding_assistant_config_files_accessed_by_uncommon_process.html" data-level="medium" data-product="windows"
          data-search="ai coding assistant config files accessed by uncommon process t1552.001 file_access detects a process other than the owning application accessing the claude, cursor or windsurf configuration/auth files under %appdata%. elastic security labs reports that the windows infostealer delivered through the malicious @apexacc npm packages collects ai coding-tool / mcp configuration files, including %appdata%\claude\config.json, %appdata%\cursor\user\storage.json and %appdata%\windsurf\auth.json, which can hold api keys and session tokens. owner applications are filtered by their default per-user install paths; processes under program files, system32/syswow64, the system process and microsoft defender are excluded.">

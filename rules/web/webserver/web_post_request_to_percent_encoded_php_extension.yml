@@ -1,0 +1,29 @@
+title: POST Request To Percent-Encoded PHP Extension
+id: a11d6b96-3e05-4571-ab38-34d6747661ce
+status: experimental
+description: |
+    Detects HTTP POST requests whose URI path carries a percent-encoded dot before a php extension (%2Ephp).
+    GTIG/Mandiant report that, while exploiting the BeyondTrust Remote Support arbitrary file upload CVE-2026-102764,
+    "ARMORY CASTLE initiated POST requests to /app_84304470%2Ephp."
+    Browsers and normal clients send a literal dot in a file extension. Encoding it is a way to slip a PHP path past
+    extension or path filters that match on the decoded form. The rule therefore keys on the encoding, not on the actor's file name, and applies to any web server or reverse proxy.
+    It needs logs that record the raw, undecoded request path. Servers that write the decoded path (/app_84304470.php) will not match.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-beyondtrust
+author: Esmond Er
+date: 2026-10-17
+modified: 2026-10-17
+tags:
+    - attack.initial-access
+    - attack.t1190
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-method: 'POST'
+        cs-uri-stem|contains: '%2Ephp'
+    condition: selection
+falsepositives:
+    - Vulnerability scanners and penetration tests that probe encoded-extension bypasses (filter by authorised scanner source addresses)
+    - Badly written clients or bots that over-encode URL paths
+level: medium

@@ -1,0 +1,35 @@
+title: SUID Bit Set On Hidden File Or .tourch SUID Bash Copy Executed - Linux
+id: 3ae34fa8-443f-47b9-8f2a-9215c47c8fdb
+status: experimental
+description: |
+    Detects either of two steps of a hidden SUID shell backdoor:
+    (1) chmod setting the SUID bit (u+s) on a hidden dot-file, and
+    (2) execution of a binary named .tourch.
+    Unit 42 reports that CL-UNK-1211 copied /bin/bash to a hidden file named .tourch and set the SUID bit on it ("modified its permissions using the command chmod u+s"), noting:
+    "Because .tourch is actually the /bin/bash binary, this allowed the attackers to execute bash commands as root."
+    The .tourch name is attacker-chosen (a hidden misspelling of "touch"); the chmod branch covers the same technique under any hidden file name.
+references:
+    - https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/
+author: Esmond Er
+date: 2026-10-16
+modified: 2026-10-17
+tags:
+    - attack.privilege-escalation
+    - attack.t1548.001
+    - attack.stealth
+    - attack.t1564.001
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_chmod_suid_hidden:
+        Image|endswith: '/chmod'
+        CommandLine|contains: 'u+s'
+        CommandLine|re: '\s(\S*/)?\.[^/\s.][^/\s]*(\s|$)'
+    selection_tourch:
+        Image|endswith: '/.tourch'
+    condition: 1 of selection_*
+falsepositives:
+    - .tourch branch - none known; the file name is not used by any known legitimate software
+    - chmod branch - administrators or installer scripts deliberately setting SUID on a hidden helper binary (rare; verify the target file and the parent process)
+level: high
