@@ -1,0 +1,33 @@
+title: BeyondTrust Remote Support Jump Item Role Changed To Administrator
+id: 6075ab22-db89-493e-8ae0-0a7358e62319
+status: experimental
+description: |
+    Detects a BeyondTrust Remote Support user_changed syslog event that sets a user's default Jump Item role to Administrator when it was not Administrator before.
+    GTIG/Mandiant report that after compromising the appliance, ARMORY CASTLE raised a compromised account's permissions, recorded in appliance syslog as
+    "event": "user_changed" "old_permissions:jump_item_role:default:name": "No Access" "new_permissions:jump_item_role:default:name": "Administrator".
+    The rule covers any earlier role, not only No Access.
+    It needs BeyondTrust Remote Support appliance syslog forwarded to the SIEM and parsed so the event keys (event, new_permissions:jump_item_role:default:name, old_permissions:jump_item_role:default:name) are kept as field names exactly as the appliance writes them.
+references:
+    - https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-beyondtrust
+author: Esmond Er
+date: 2026-10-17
+modified: 2026-10-18
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1098
+logsource:
+    product: beyondtrust
+    service: remote_support
+    definition: 'Requirements: BeyondTrust Remote Support appliance syslog forwarded to the SIEM and parsed so the event keys (event, new_permissions:jump_item_role:default:name, old_permissions:jump_item_role:default:name) are kept as field names exactly as the appliance writes them'
+detection:
+    selection:
+        event: 'user_changed'
+        new_permissions:jump_item_role:default:name: 'Administrator'
+    filter_main_already_admin:
+        old_permissions:jump_item_role:default:name: 'Administrator'
+    condition: selection and not filter_main_already_admin
+falsepositives:
+    - Remote Support administrators delegating Jump Item administration to a new support lead or service account (check against change tickets)
+    - Bulk permission changes while onboarding a new support team
+level: medium

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Telegram Tdata Session Files Accessed By Uncommon Process · eeps-sigma</title>
+<meta name="description" content="Detects a process other than Telegram Desktop or a known Telegram fork accessing files inside a Telegram &quot;tdata&quot; session folder.">
+<meta property="og:title" content="Telegram Tdata Session Files Accessed By Uncommon Process · eeps-sigma">
+<meta property="og:description" content="Detects a process other than Telegram Desktop or a known Telegram fork accessing files inside a Telegram &quot;tdata&quot; session folder.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>file access</span></nav>
+    <h1>Telegram Tdata Session Files Accessed By Uncommon Process</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Windows · file access</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/file_access/file_access_win_telegram_tdata_session_accessed_by_uncommon_process.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/file_access/file_access_win_telegram_tdata_session_accessed_by_uncommon_process.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a process other than Telegram Desktop or a known Telegram fork accessing files inside a Telegram &quot;tdata&quot; session folder.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>The tdata folder holds the desktop client&#x27;s session keys, so copying it lets an attacker take over the Telegram session without the password or a login code.</p><p>Symantec reports that the Aoki infostealer &quot;steals from Telegram-related messaging services such as tdata; 64Gram; AyuGram; Kotatogram&quot;.</p><p>Telegram and its forks 64Gram, AyuGram and Kotatogram are filtered by image name, except when the image runs from Temp, Downloads, Users\Public or ProgramData, so a stealer named Telegram.exe in those folders still matches; processes under Program Files, System32/SysWOW64, the System process and Microsoft Defender are excluded.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Telegram Tdata Session Files Accessed By Uncommon Process
+<span class="y-key">id</span>: 9779f3e6-d514-442b-baf7-3408c88458d4
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a process other than Telegram Desktop or a known Telegram fork accessing files inside a Telegram <span class="y-str">&quot;tdata&quot;</span> session folder.
+    The tdata folder holds the desktop client&#x27;s session keys, so copying it lets an attacker take over the Telegram session without the password or a login code.
+    Symantec reports that the Aoki infostealer <span class="y-str">&quot;steals from Telegram-related messaging services such as tdata; 64Gram; AyuGram; Kotatogram&quot;</span>.
+    Telegram and its forks 64Gram, AyuGram and Kotatogram are filtered by image name, except when the image runs from Temp, Downloads, Users\Public or ProgramData, so a stealer named Telegram.exe in those folders still matches; processes under Program Files, System32/SysWOW64, the System process and Microsoft Defender are excluded.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-18
+<span class="y-key">modified</span>: 2026-10-18
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.credential-access
+<span class="y-dash">    -</span> attack.t1539
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: file_access
+    <span class="y-key">product</span>: windows
+    <span class="y-key">definition</span>: <span class="y-str">&#x27;Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry&#x27;</span>
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">FileName</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;\tdata\&#x27;</span>
+    <span class="y-key">filter_owner_names</span>:
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Telegram.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\64Gram.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\AyuGram.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Kotatogram.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Telegram Desktop\Updater.exe&#x27;</span>
+    <span class="y-key">filter_owner_susp_location</span>:
+        <span class="y-key">Image</span><span class="y-mod">|contains</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\AppData\Local\Temp\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Downloads\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Users\Public\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\ProgramData\&#x27;</span>
+    <span class="y-key">filter_main_system</span>:
+        <span class="y-key">Image</span>: <span class="y-str">&#x27;System&#x27;</span>
+    <span class="y-key">filter_main_generic</span>:
+        <span class="y-key">Image</span><span class="y-mod">|startswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Program Files\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Program Files (x86)\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Windows\System32\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Windows\SysWOW64\&#x27;</span>
+    <span class="y-key">filter_optional_defender</span>:
+        <span class="y-key">Image</span><span class="y-mod">|startswith</span>: <span class="y-str">&#x27;C:\ProgramData\Microsoft\Windows Defender\&#x27;</span>
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\MsMpEng.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\MpCopyAccelerator.exe&#x27;</span>
+    <span class="y-key">condition</span>: selection and not (filter_owner_names and not filter_owner_susp_location) and not 1 of filter_main_* and not 1 of filter_optional_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Other Telegram clients named in the report (Nekogram, Extragram, iMe, Unigram) or other Telegram forks with a different image name; add them to the filter after review
+<span class="y-dash">    -</span> Telegram or a fork run as a portable copy from Downloads, Users\Public or ProgramData
+<span class="y-dash">    -</span> Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile
+<span class="y-dash">    -</span> Users moving or archiving their own Telegram profile folder with a portable archiver
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>FileName=&quot;*\\tdata\\*&quot; NOT (Image IN (&quot;*\\Telegram.exe&quot;, &quot;*\\64Gram.exe&quot;, &quot;*\\AyuGram.exe&quot;, &quot;*\\Kotatogram.exe&quot;, &quot;*\\Telegram Desktop\\Updater.exe&quot;) NOT (Image IN (&quot;*\\AppData\\Local\\Temp\\*&quot;, &quot;*\\Downloads\\*&quot;, &quot;*\\Users\\Public\\*&quot;, &quot;*\\ProgramData\\*&quot;))) NOT (Image=&quot;System&quot; OR Image IN (&quot;C:\\Program Files\\*&quot;, &quot;C:\\Program Files (x86)\\*&quot;, &quot;C:\\Windows\\System32\\*&quot;, &quot;C:\\Windows\\SysWOW64\\*&quot;)) NOT (Image=&quot;C:\\ProgramData\\Microsoft\\Windows Defender\\*&quot; Image IN (&quot;*\\MsMpEng.exe&quot;, &quot;*\\MpCopyAccelerator.exe&quot;))</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceFileEvents
+| where FileName contains &quot;\\tdata\\&quot; and (not(((InitiatingProcessFolderPath endswith &quot;\\Telegram.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\64Gram.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\AyuGram.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\Kotatogram.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\Telegram Desktop\\Updater.exe&quot;) and (not((InitiatingProcessFolderPath contains &quot;\\AppData\\Local\\Temp\\&quot; or InitiatingProcessFolderPath contains &quot;\\Downloads\\&quot; or InitiatingProcessFolderPath contains &quot;\\Users\\Public\\&quot; or InitiatingProcessFolderPath contains &quot;\\ProgramData\\&quot;)))))) and (not((InitiatingProcessFolderPath =~ &quot;System&quot; or (InitiatingProcessFolderPath startswith &quot;C:\\Program Files\\&quot; or InitiatingProcessFolderPath startswith &quot;C:\\Program Files (x86)\\&quot; or InitiatingProcessFolderPath startswith &quot;C:\\Windows\\System32\\&quot; or InitiatingProcessFolderPath startswith &quot;C:\\Windows\\SysWOW64\\&quot;)))) and (not((InitiatingProcessFolderPath startswith &quot;C:\\ProgramData\\Microsoft\\Windows Defender\\&quot; and (InitiatingProcessFolderPath endswith &quot;\\MsMpEng.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\MpCopyAccelerator.exe&quot;))))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Other Telegram clients named in the report (Nekogram, Extragram, iMe, Unigram) or other Telegram forks with a different image name; add them to the filter after review</li><li>Telegram or a fork run as a portable copy from Downloads, Users\Public or ProgramData</li><li>Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile</li><li>Users moving or archiving their own Telegram profile folder with a portable archiver</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Credential Access</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1539/" rel="noopener"><span class="chip">T1539</span></a> Steal Web Session Cookie</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>file_access</dd></div><div><dt>Product</dt><dd>windows</dd></div><div><dt>Definition</dt><dd>Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting" rel="noopener">security.com</a><span class="muted small ref-url">https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">9779f3e6-d514-442b-baf7-3408c88458d4</dd></div>
+        <div><dt>Created</dt><dd>2026-10-18</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-18</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

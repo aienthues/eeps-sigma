@@ -1,0 +1,56 @@
+title: Telegram Tdata Session Files Accessed By Uncommon Process
+id: 9779f3e6-d514-442b-baf7-3408c88458d4
+status: experimental
+description: |
+    Detects a process other than Telegram Desktop or a known Telegram fork accessing files inside a Telegram "tdata" session folder.
+    The tdata folder holds the desktop client's session keys, so copying it lets an attacker take over the Telegram session without the password or a login code.
+    Symantec reports that the Aoki infostealer "steals from Telegram-related messaging services such as tdata; 64Gram; AyuGram; Kotatogram".
+    Telegram and its forks 64Gram, AyuGram and Kotatogram are filtered by image name, except when the image runs from Temp, Downloads, Users\Public or ProgramData, so a stealer named Telegram.exe in those folders still matches; processes under Program Files, System32/SysWOW64, the System process and Microsoft Defender are excluded.
+references:
+    - https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting
+author: Esmond Er
+date: 2026-10-18
+modified: 2026-10-18
+tags:
+    - attack.credential-access
+    - attack.t1539
+logsource:
+    category: file_access
+    product: windows
+    definition: 'Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry'
+detection:
+    selection:
+        FileName|contains: '\tdata\'
+    filter_owner_names:
+        Image|endswith:
+            - '\Telegram.exe'
+            - '\64Gram.exe'
+            - '\AyuGram.exe'
+            - '\Kotatogram.exe'
+            - '\Telegram Desktop\Updater.exe'
+    filter_owner_susp_location:
+        Image|contains:
+            - '\AppData\Local\Temp\'
+            - '\Downloads\'
+            - '\Users\Public\'
+            - '\ProgramData\'
+    filter_main_system:
+        Image: 'System'
+    filter_main_generic:
+        Image|startswith:
+            - 'C:\Program Files\'
+            - 'C:\Program Files (x86)\'
+            - 'C:\Windows\System32\'
+            - 'C:\Windows\SysWOW64\'
+    filter_optional_defender:
+        Image|startswith: 'C:\ProgramData\Microsoft\Windows Defender\'
+        Image|endswith:
+            - '\MsMpEng.exe'
+            - '\MpCopyAccelerator.exe'
+    condition: selection and not (filter_owner_names and not filter_owner_susp_location) and not 1 of filter_main_* and not 1 of filter_optional_*
+falsepositives:
+    - Other Telegram clients named in the report (Nekogram, Extragram, iMe, Unigram) or other Telegram forks with a different image name; add them to the filter after review
+    - Telegram or a fork run as a portable copy from Downloads, Users\Public or ProgramData
+    - Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile
+    - Users moving or archiving their own Telegram profile folder with a portable archiver
+level: medium

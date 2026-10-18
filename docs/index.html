@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="54 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="56 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="54 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="56 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>54</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>41</dd></div>
-      <div><dt>Platforms</dt><dd>4</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-17</dd></div>
+      <div><dt>Published rules</dt><dd>56</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>43</dd></div>
+      <div><dt>Platforms</dt><dd>5</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-18</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:31%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">16</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:88%"></i></span><span class="t-n">14</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:31%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:25%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:56%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:29%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:47%"></i></span><span class="t-n">8</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">17</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:18%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:82%"></i></span><span class="t-n">14</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:29%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:24%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:6%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:53%"></i></span><span class="t-n">9</span></li><li class=""><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -94,7 +94,7 @@
     <input class="search" type="search" placeholder="Search title, technique, log source…" aria-label="Search rules" data-search-input>
   </div>
   <div class="filters" role="group" aria-label="Filters">
-    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><button type="button" class="f" data-filter="level" data-value="informational">Informational</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
+    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><button type="button" class="f" data-filter="level" data-value="informational">Informational</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="beyondtrust">Beyondtrust</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
   </div>
   <div class="rule-list" data-rule-list>
     <div class="rule-row rule-head" aria-hidden="true"><span>Rule</span><span class="rr-tech">ATT&amp;CK</span><span>Level</span><span class="rr-date">Updated</span></div>
@@ -419,6 +419,16 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-09-28</span>
       </a>
+      <a class="rule-row" href="rules/beyondtrust_remote_support_jump_item_role_changed_to_administrator.html" data-level="medium" data-product="beyondtrust"
+         data-search="beyondtrust remote support jump item role changed to administrator t1098 remote_support detects a beyondtrust remote support user_changed syslog event that sets a user&#x27;s default jump item role to administrator when it was not administrator before. gtig/mandiant report that after compromising the appliance, armory castle raised a compromised account&#x27;s permissions, recorded in appliance syslog as &quot;event&quot;: &quot;user_changed&quot; &quot;old_permissions:jump_item_role:default:name&quot;: &quot;no access&quot; &quot;new_permissions:jump_item_role:default:name&quot;: &quot;administrator&quot;. the rule covers any earlier role, not only no access. it needs beyondtrust remote support appliance syslog forwarded to the siem and parsed so the event keys (event, new_permissions:jump_item_role:default:name, old_permissions:jump_item_role:default:name) are kept as field names exactly as the appliance writes them.">
+        <span class="rr-main">
+          <span class="rr-title">BeyondTrust Remote Support Jump Item Role Changed To Administrator</span>
+          <span class="rr-sub">Beyondtrust · remote support</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1098</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-18</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_lnx_hidden_libpython_helper_execution.html" data-level="medium" data-product="linux"
          data-search="hidden executable in x86_64-linux-gnu library directory or .libpython-helper executed - linux t1036.003 t1564.001 process_creation detects execution of a hidden (dot-prefixed) executable from /usr/lib/x86_64-linux-gnu/, or of any binary named .libpython-helper. unit 42 reports that cl-unk-1211 copied a python interpreter and &quot;renamed it to .libpython-helper to execute shell commands with high privileges&quot;. the extracted observables place it at /usr/lib/x86_64-linux-gnu/.libpython-helper. the name is attacker-chosen; the behavioural branch covers the same placement (a hidden executable among shared libraries) under any name.">
         <span class="rr-main">
@@ -578,6 +588,16 @@
         <span class="rr-tech"><span class="chip">T1053.005</span> <span class="chip">T1036.004</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-16</span>
+      </a>
+      <a class="rule-row" href="rules/file_access_win_telegram_tdata_session_accessed_by_uncommon_process.html" data-level="medium" data-product="windows"
+         data-search="telegram tdata session files accessed by uncommon process t1539 file_access detects a process other than telegram desktop or a known telegram fork accessing files inside a telegram &quot;tdata&quot; session folder. the tdata folder holds the desktop client&#x27;s session keys, so copying it lets an attacker take over the telegram session without the password or a login code. symantec reports that the aoki infostealer &quot;steals from telegram-related messaging services such as tdata; 64gram; ayugram; kotatogram&quot;. telegram and its forks 64gram, ayugram and kotatogram are filtered by image name, except when the image runs from temp, downloads, users\public or programdata, so a stealer named telegram.exe in those folders still matches; processes under program files, system32/syswow64, the system process and microsoft defender are excluded.">
+        <span class="rr-main">
+          <span class="rr-title">Telegram Tdata Session Files Accessed By Uncommon Process</span>
+          <span class="rr-sub">Windows · file access</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1539</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-18</span>
       </a>
       <a class="rule-row" href="rules/proc_creation_win_vscode_tunnel_service_install_command.html" data-level="medium" data-product="windows"
          data-search="visual studio code tunnel installed as a service via command line t1219.001 process_creation detects the visual studio code cli installing its remote tunnel as a windows service (&quot;tunnel service install&quot;). symantec reports that the warlock ransomware attackers used visual studio code&#x27;s built-in tunnel feature for persistence and remote access, running &quot;csidl_windows\debug\code-insiders.exe&quot; tunnel service install --accept-server-license-terms from the windows\debug folder. the sigmahq vs code tunnel rules match &#x27;.exe tunnel&#x27; (missed when the image path is quoted) or the later &#x27;internal-run&#x27; service execution, not the install command itself. a code-insiders.exe or code.exe image outside a normal vs code install location (such as c:\windows\debug\) should be treated as highly suspicious.">
