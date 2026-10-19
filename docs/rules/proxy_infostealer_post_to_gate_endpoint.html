@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTTP POST To Infostealer Gate Endpoint · eeps-sigma</title>
+<meta name="description" content="Detects HTTP POST requests whose URI path ends in /gate, optionally followed by a query string, a C2 panel endpoint used by commodity infostealers to receive stolen data.">
+<meta property="og:title" content="HTTP POST To Infostealer Gate Endpoint · eeps-sigma">
+<meta property="og:description" content="Detects HTTP POST requests whose URI path ends in /gate, optionally followed by a query string, a C2 panel endpoint used by commodity infostealers to receive stolen data.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Web server</span><span>/</span><span>proxy</span></nav>
+    <h1>HTTP POST To Infostealer Gate Endpoint</h1>
+    <div class="badges"><span class="lvl lvl-low">Low</span><span class="pill">Experimental</span><span class="pill">Web server · proxy</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/web/proxy/proxy_infostealer_post_to_gate_endpoint.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/web/proxy/proxy_infostealer_post_to_gate_endpoint.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects HTTP POST requests whose URI path ends in /gate, optionally followed by a query string, a C2 panel endpoint used by commodity infostealers to receive stolen data.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Symantec reports that the Aoki infostealer &quot;collects the available data from victim machines and sends it to its C&amp;C server, using a /gate endpoint&quot;.</p><p>The path alone is a weak, easily changed indicator and /gate routes also exist in legitimate web applications, so this is a low-severity hunting rule; prioritise hits to rare or newly seen hosts, bare-IP destinations and non-browser user agents.</p><p>Symantec notes that &quot;Older samples used an IP address and port 8080 over unencrypted HTTP&quot;; the report also lists domain-based C2 servers, so the rule does not require an IP or port, and if C2 traffic is HTTPS the rule needs proxy or TLS-inspection logs that record the URI.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Sentinel ASIM</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: HTTP POST To Infostealer Gate Endpoint
+<span class="y-key">id</span>: d1065103-0b01-4870-a766-b175a5604026
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects HTTP POST requests whose URI path ends in /gate, optionally followed by a query string, a C2 panel endpoint used by commodity infostealers to receive stolen data.
+    Symantec reports that the Aoki infostealer <span class="y-str">&quot;collects the available data from victim machines and sends it to its C&amp;C server, using a /gate endpoint&quot;</span>.
+    The path alone is a weak, easily changed indicator and /gate routes also exist in legitimate web applications, so this is a low-severity hunting rule; prioritise hits to rare or newly seen hosts, bare-IP destinations and non-browser user agents.
+    Symantec notes that <span class="y-str">&quot;Older samples used an IP address and port 8080 over unencrypted HTTP&quot;</span>; the report also lists domain-based C2 servers, so the rule does not require an IP or port, and if C2 traffic is HTTPS the rule needs proxy or TLS-inspection logs that record the URI.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-18
+<span class="y-key">modified</span>: 2026-10-19
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.exfiltration
+<span class="y-dash">    -</span> attack.t1041
+<span class="y-dash">    -</span> detection.threat-hunting
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: proxy
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">cs-method</span>: <span class="y-str">&#x27;POST&#x27;</span>
+        <span class="y-key">c-uri</span><span class="y-mod">|re</span>: <span class="y-str">&#x27;/gate(\?|$)&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Web applications or APIs that use a /gate route for legitimate form or API submissions (e.g. payment or access gateways); exclude those hosts after review
+<span class="y-key">level</span>: low</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>&quot;cs-method&quot;=&quot;POST&quot;
+| regex c-uri=&quot;/gate(\\?|$)&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Sentinel ASIM</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>imWebSession
+| where HttpRequestMethod =~ &quot;POST&quot; and Url matches regex &quot;/gate(\\?|$)&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Web applications or APIs that use a /gate route for legitimate form or API submissions (e.g. payment or access gateways); exclude those hosts after review</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Exfiltration</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1041/" rel="noopener"><span class="chip">T1041</span></a> Exfiltration Over C2 Channel</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>proxy</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting" rel="noopener">security.com</a><span class="muted small ref-url">https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">d1065103-0b01-4870-a766-b175a5604026</dd></div>
+        <div><dt>Created</dt><dd>2026-10-18</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-19</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+title: HTTP POST To Infostealer Gate Endpoint
+id: d1065103-0b01-4870-a766-b175a5604026
+status: experimental
+description: |
+    Detects HTTP POST requests whose URI path ends in /gate, optionally followed by a query string, a C2 panel endpoint used by commodity infostealers to receive stolen data.
+    Symantec reports that the Aoki infostealer "collects the available data from victim machines and sends it to its C&C server, using a /gate endpoint".
+    The path alone is a weak, easily changed indicator and /gate routes also exist in legitimate web applications, so this is a low-severity hunting rule; prioritise hits to rare or newly seen hosts, bare-IP destinations and non-browser user agents.
+    Symantec notes that "Older samples used an IP address and port 8080 over unencrypted HTTP"; the report also lists domain-based C2 servers, so the rule does not require an IP or port, and if C2 traffic is HTTPS the rule needs proxy or TLS-inspection logs that record the URI.
+references:
+    - https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting
+author: Esmond Er
+date: 2026-10-18
+modified: 2026-10-19
+tags:
+    - attack.exfiltration
+    - attack.t1041
+    - detection.threat-hunting
+logsource:
+    category: proxy
+detection:
+    selection:
+        cs-method: 'POST'
+        c-uri|re: '/gate(\?|$)'
+    condition: selection
+falsepositives:
+    - Web applications or APIs that use a /gate route for legitimate form or API submissions (e.g. payment or access gateways); exclude those hosts after review
+level: low

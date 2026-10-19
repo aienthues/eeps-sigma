@@ -1,0 +1,51 @@
+title: AI Coding Assistant Config Files Accessed By Uncommon Process
+id: 341139a9-314b-4496-8a9e-23e7ba9855c2
+status: experimental
+description: |
+    Detects a process other than the owning application accessing the Claude, Cursor or Windsurf configuration/auth files under %APPDATA%.
+    Elastic Security Labs reports that the Windows infostealer delivered through the malicious @apexacc npm packages collects AI coding-tool / MCP
+    configuration files, including %APPDATA%\Claude\config.json, %APPDATA%\Cursor\User\storage.json and %APPDATA%\Windsurf\auth.json, which can hold API keys and session tokens.
+    Owner applications are filtered by their default per-user install paths; processes under Program Files, System32/SysWOW64, the System process and Microsoft Defender are excluded.
+references:
+    - https://www.elastic.co/security-labs/threat-command/apex-accelerator-malicious-npm-packages
+author: Esmond Er
+date: 2026-10-14
+modified: 2026-10-19
+tags:
+    - attack.credential-access
+    - attack.t1552.001
+logsource:
+    category: file_access
+    product: windows
+    definition: 'Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry'
+detection:
+    selection:
+        FileName|endswith:
+            - '\AppData\Roaming\Claude\config.json'
+            - '\AppData\Roaming\Cursor\User\storage.json'
+            - '\AppData\Roaming\Windsurf\auth.json'
+    filter_main_owner:
+        - Image|contains|all:
+              - '\AppData\Local\AnthropicClaude\'
+              - '\claude.exe'
+        - Image|endswith:
+              - '\AppData\Local\Programs\cursor\Cursor.exe'
+              - '\AppData\Local\Programs\Windsurf\Windsurf.exe'
+    filter_main_system:
+        Image: 'System'
+    filter_main_generic:
+        Image|startswith:
+            - 'C:\Program Files\'
+            - 'C:\Program Files (x86)\'
+            - 'C:\Windows\System32\'
+            - 'C:\Windows\SysWOW64\'
+    filter_optional_defender:
+        Image|startswith: 'C:\ProgramData\Microsoft\Windows Defender\'
+        Image|endswith:
+            - '\MsMpEng.exe'
+            - '\MpCopyAccelerator.exe'
+    condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+falsepositives:
+    - Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile
+    - Claude, Cursor or Windsurf installed to a non-default location, or helper processes with a different image path; add them to the filter after review
+level: medium
