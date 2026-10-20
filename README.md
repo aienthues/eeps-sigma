@@ -2,7 +2,7 @@
 
 **Behaviour-based Sigma detections, built from the latest primary threat research.**
 
-![Rules](https://img.shields.io/badge/rules-59-2f5bd3) ![ATT&CK techniques](https://img.shields.io/badge/ATT%26CK%20techniques-45-555) ![Sigma](https://img.shields.io/badge/format-Sigma-0a7ea4) ![License: DRL 1.1](https://img.shields.io/badge/license-DRL%201.1-lightgrey)
+![Rules](https://img.shields.io/badge/rules-60-2f5bd3) ![ATT&CK techniques](https://img.shields.io/badge/ATT%26CK%20techniques-46-555) ![Sigma](https://img.shields.io/badge/format-Sigma-0a7ea4) ![License: DRL 1.1](https://img.shields.io/badge/license-DRL%201.1-lightgrey)
 
 **Browse the rules with context, ATT&CK mapping and Splunk/KQL conversions: [https://aienthues.github.io/eeps-sigma/](https://aienthues.github.io/eeps-sigma/)**
 
@@ -89,6 +89,7 @@ ATT&CK-mapped Sigma rules, each with the reasoning, source and false-positive gu
 | [PowerShell Spawned By MSP360 RMM Agent](https://aienthues.github.io/eeps-sigma/rules/proc_creation_win_msp360_rmm_agent_spawns_powershell.html) ([yml](rules/windows/process_creation/proc_creation_win_msp360_rmm_agent_spawns_powershell.yml)) | Windows / process creation | low | [T1059.001](https://attack.mitre.org/techniques/T1059/001/), [T1219.002](https://attack.mitre.org/techniques/T1219/002/) |
 | [ScreenConnect Client MSI Installer Written By PowerShell](https://aienthues.github.io/eeps-sigma/rules/file_event_win_powershell_writes_screenconnect_client_setup_msi.html) ([yml](rules/windows/file_event/file_event_win_powershell_writes_screenconnect_client_setup_msi.yml)) | Windows / file event | low | [T1105](https://attack.mitre.org/techniques/T1105/), [T1219.002](https://attack.mitre.org/techniques/T1219/002/) |
 | [ScreenConnect RunFile Execution From Documents Temp Folder](https://aienthues.github.io/eeps-sigma/rules/proc_creation_win_screenconnect_runfile_from_documents_temp.html) ([yml](rules/windows/process_creation/proc_creation_win_screenconnect_runfile_from_documents_temp.yml)) | Windows / process creation | low | [T1219.002](https://attack.mitre.org/techniques/T1219/002/), [T1105](https://attack.mitre.org/techniques/T1105/) |
+| [Flowise Stored Credential Retrieved By ID](https://aienthues.github.io/eeps-sigma/rules/web_flowise_stored_credentials_retrieved_by_id_in_bulk_from_single_source.html) ([yml](rules/web/webserver/web_flowise_stored_credentials_retrieved_by_id_in_bulk_from_single_source.yml)) | Web server / webserver | informational | [T1552](https://attack.mitre.org/techniques/T1552/) |
 | [Ivanti Connect Secure Welcome.cgi High Request Volume From Single Source](https://aienthues.github.io/eeps-sigma/rules/web_ivanti_connect_secure_welcome_cgi_high_request_volume_from_single_source.html) ([yml](rules/web/webserver/web_ivanti_connect_secure_welcome_cgi_high_request_volume_from_single_source.yml)) | Web server / webserver | informational | [T1190](https://attack.mitre.org/techniques/T1190/) |
 
 ## Using the rules
