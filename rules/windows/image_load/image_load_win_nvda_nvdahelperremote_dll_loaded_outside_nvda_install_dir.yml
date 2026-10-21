@@ -1,0 +1,34 @@
+title: NVDA NvdaHelperRemote.DLL Loaded From Outside NVDA Install Directory
+id: 809dbc36-aeef-481d-af88-279fc4717463
+status: experimental
+description: |
+    Detects a process loading a DLL named NvdaHelperRemote.dll from a location other than the default NVDA (NonVisual Desktop Access) screen reader install directory,
+    a DLL sideloading pattern. Sophos X-Ops lists the pair NvdaHelper.exe / NvdaHelperRemote.dll among the signed-host / malicious-DLL pairs BRONZE SANDCASTLE used to
+    sideload a loader that decrypts and runs a Meterpreter-based payload from config.ini.
+    The selection keys on the DLL rather than the host image because legitimate NVDA injects nvdaHelperRemote.dll into other processes, so only the DLL location
+    separates good from bad. The report gives no folder paths; the filtered folders are an ASSUMPTION based on NVDA's well-known default install locations
+    (C:\Program Files (x86)\NVDA\ for 32-bit builds, C:\Program Files\NVDA\ for 64-bit builds).
+references:
+    - https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells
+author: Esmond Er
+date: 2026-10-21
+modified: 2026-10-21
+tags:
+    - attack.stealth
+    - attack.t1574.001
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        ImageLoaded|endswith: '\NvdaHelperRemote.dll'
+    filter_main_install_dir:
+        ImageLoaded|startswith:
+            - 'C:\Program Files\NVDA\'
+            - 'C:\Program Files (x86)\NVDA\'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - NVDA portable copies (commonly run from USB drives or user folders by screen-reader users); while running, the DLL is loaded into many processes from the portable folder
+    - The temporary copy NVDA's launcher/installer runs from the user's %TEMP% directory during installation or update
+    - NVDA installed to a custom directory - add it as a filter after verifying the DLL is signed by NV Access
+level: medium

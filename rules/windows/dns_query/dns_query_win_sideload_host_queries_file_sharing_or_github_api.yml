@@ -1,0 +1,47 @@
+title: DNS Query To File Sharing Or GitHub API By BRONZE SANDCASTLE Sideload Host
+id: 3a166031-b235-46d4-97b6-a0b33bccf730
+status: experimental
+description: |
+    Detects a DNS query for file.io, gofile.io, ably.net, ably.io or api.github.com made by one of the legitimate executables that Sophos X-Ops reports BRONZE SANDCASTLE
+    abused as DLL sideloading hosts (SandboxieWUAU.exe, Krita.exe, NvdaHelper.exe, Vmmap.exe, LineAppMgr.exe, bginfo64.exe). The sideloaded Meterpreter-based payload runs
+    inside the host process; Sophos reports it "reaching out to legitimate websites such as file[.]io, gofile[.]io, ably[.]net, and ably[.]io" (possibly for C2 tasking) and
+    "communicating with github[.]com repositories to download encrypted config files" via api.github.com. None of these hosts has a legitimate reason to contact these services.
+    The javaw.exe, Jcef_helper.exe and generically named Start.exe hosts from the same report are intentionally omitted because Java applications and JCEF-based IDEs
+    legitimately call api.github.com.
+references:
+    - https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells
+author: Esmond Er
+date: 2026-10-21
+modified: 2026-10-21
+tags:
+    - attack.command-and-control
+    - attack.t1102
+logsource:
+    category: dns_query
+    product: windows
+detection:
+    selection_image:
+        Image|endswith:
+            - '\SandboxieWUAU.exe'
+            - '\Krita.exe'
+            - '\NvdaHelper.exe'
+            - '\Vmmap.exe'
+            - '\LineAppMgr.exe'
+            - '\bginfo64.exe'
+    selection_domain:
+        - QueryName:
+              - 'file.io'
+              - 'gofile.io'
+              - 'ably.net'
+              - 'ably.io'
+              - 'api.github.com'
+        - QueryName|endswith:
+              - '.file.io'
+              - '.gofile.io'
+              - '.ably.net'
+              - '.ably.io'
+    condition: all of selection_*
+falsepositives:
+    - Krita Python plugins or scripts that download resources from GitHub or file-sharing sites at the user's request
+    - Product update checks that move to GitHub release APIs in future versions of these tools - verify the image path and signer
+level: medium

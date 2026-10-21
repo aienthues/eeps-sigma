@@ -1,0 +1,32 @@
+title: Krita.DLL Loaded From Outside Program Files
+id: 0143888b-666b-4d78-9c67-c8de34f27383
+status: experimental
+description: |
+    Detects a process loading a DLL named Krita.dll from a location outside C:\Program Files\ or C:\Program Files (x86)\, a DLL sideloading pattern.
+    Sophos X-Ops lists the pair Krita.exe / Krita.dll among the signed-host / malicious-DLL pairs BRONZE SANDCASTLE used to sideload a loader that decrypts and runs a
+    Meterpreter-based payload from config.ini. The selection keys on the DLL so that a renamed copy of the Krita host is still caught.
+    The report gives no folder paths; the filter is an ASSUMPTION based on Krita's well-known install locations (installer default C:\Program Files\Krita (x64)\,
+    Microsoft Store builds under C:\Program Files\WindowsApps\, Steam builds under C:\Program Files (x86)\Steam\steamapps\common\) and is kept deliberately generic.
+references:
+    - https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells
+author: Esmond Er
+date: 2026-10-21
+modified: 2026-10-21
+tags:
+    - attack.stealth
+    - attack.t1574.001
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        ImageLoaded|endswith: '\Krita.dll'
+    filter_main_program_files:
+        ImageLoaded|startswith:
+            - 'C:\Program Files\'
+            - 'C:\Program Files (x86)\'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - The official portable Krita ZIP build run from a user folder, a non-system drive or a Steam library on another drive
+    - Krita installed to a custom directory outside Program Files
+level: medium

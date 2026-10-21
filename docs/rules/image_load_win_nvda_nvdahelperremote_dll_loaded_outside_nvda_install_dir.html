@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NVDA NvdaHelperRemote.DLL Loaded From Outside NVDA Install Directory · eeps-sigma</title>
+<meta name="description" content="Detects a process loading a DLL named NvdaHelperRemote.dll from a location other than the default NVDA (NonVisual Desktop Access) screen reader install directory, a DLL sideloading pattern. Sophos X-Ops lists the pair NvdaHelper.exe / NvdaHelperRemote.dll among the signed-host / malicious-DLL pairs BRONZE SANDCASTLE used to sideload a loader that decrypts and runs a Meterpreter-based payload from config.ini.">
+<meta property="og:title" content="NVDA NvdaHelperRemote.DLL Loaded From Outside NVDA Install Directory · eeps-sigma">
+<meta property="og:description" content="Detects a process loading a DLL named NvdaHelperRemote.dll from a location other than the default NVDA (NonVisual Desktop Access) screen reader install directory, a DLL sideloading pattern. Sophos X-Ops lists the pair NvdaHelper.exe / NvdaHelperRemote.dll among the signed-host / malicious-DLL pairs BRONZE SANDCASTLE used to sideload a loader that decrypts and runs a Meterpreter-based payload from config.ini.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>image load</span></nav>
+    <h1>NVDA NvdaHelperRemote.DLL Loaded From Outside NVDA Install Directory</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Windows · image load</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/image_load/image_load_win_nvda_nvdahelperremote_dll_loaded_outside_nvda_install_dir.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/image_load/image_load_win_nvda_nvdahelperremote_dll_loaded_outside_nvda_install_dir.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a process loading a DLL named NvdaHelperRemote.dll from a location other than the default NVDA (NonVisual Desktop Access) screen reader install directory, a DLL sideloading pattern. Sophos X-Ops lists the pair NvdaHelper.exe / NvdaHelperRemote.dll among the signed-host / malicious-DLL pairs BRONZE SANDCASTLE used to sideload a loader that decrypts and runs a Meterpreter-based payload from config.ini.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>The selection keys on the DLL rather than the host image because legitimate NVDA injects nvdaHelperRemote.dll into other processes, so only the DLL location separates good from bad. The report gives no folder paths; the filtered folders are an ASSUMPTION based on NVDA&#x27;s well-known default install locations (C:\Program Files (x86)\NVDA\ for 32-bit builds, C:\Program Files\NVDA\ for 64-bit builds).</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: NVDA NvdaHelperRemote.DLL Loaded From Outside NVDA Install Directory
+<span class="y-key">id</span>: 809dbc36-aeef-481d-af88-279fc4717463
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a process loading a DLL named NvdaHelperRemote.dll from a location other than the default NVDA (NonVisual Desktop Access) screen reader install directory,
+    a DLL sideloading pattern. Sophos X-Ops lists the pair NvdaHelper.exe / NvdaHelperRemote.dll among the signed-host / malicious-DLL pairs BRONZE SANDCASTLE used to
+    sideload a loader that decrypts and runs a Meterpreter-based payload from config.ini.
+    The selection keys on the DLL rather than the host image because legitimate NVDA injects nvdaHelperRemote.dll into other processes, so only the DLL location
+    separates good from bad. The report gives no folder paths; the filtered folders are an ASSUMPTION based on NVDA&#x27;s well-known default install locations
+    (C:\Program Files (x86)\NVDA\ for 32-bit builds, C:\Program Files\NVDA\ for 64-bit builds).
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-21
+<span class="y-key">modified</span>: 2026-10-21
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.stealth
+<span class="y-dash">    -</span> attack.t1574.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: image_load
+    <span class="y-key">product</span>: windows
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">ImageLoaded</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\NvdaHelperRemote.dll&#x27;</span>
+    <span class="y-key">filter_main_install_dir</span>:
+        <span class="y-key">ImageLoaded</span><span class="y-mod">|startswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Program Files\NVDA\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Program Files (x86)\NVDA\&#x27;</span>
+    <span class="y-key">condition</span>: selection and not 1 of filter_main_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> NVDA portable copies (commonly run from USB drives or user folders by screen-reader users); while running, the DLL is loaded into many processes from the portable folder
+<span class="y-dash">    -</span> The temporary copy NVDA<span class="y-str">&#x27;s launcher/installer runs from the user&#x27;</span>s %TEMP% directory during installation or update
+<span class="y-dash">    -</span> NVDA installed to a custom directory - add it as a filter after verifying the DLL is signed by NV Access
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=7 ImageLoaded=&quot;*\\NvdaHelperRemote.dll&quot; NOT (ImageLoaded IN (&quot;C:\\Program Files\\NVDA\\*&quot;, &quot;C:\\Program Files (x86)\\NVDA\\*&quot;))</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceImageLoadEvents
+| where FolderPath endswith &quot;\\NvdaHelperRemote.dll&quot; and (not((FolderPath startswith &quot;C:\\Program Files\\NVDA\\&quot; or FolderPath startswith &quot;C:\\Program Files (x86)\\NVDA\\&quot;)))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>NVDA portable copies (commonly run from USB drives or user folders by screen-reader users); while running, the DLL is loaded into many processes from the portable folder</li><li>The temporary copy NVDA&#x27;s launcher/installer runs from the user&#x27;s %TEMP% directory during installation or update</li><li>NVDA installed to a custom directory - add it as a filter after verifying the DLL is signed by NV Access</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Stealth</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1574/001/" rel="noopener"><span class="chip">T1574.001</span></a> Hijack Execution Flow: DLL</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>image_load</dd></div><div><dt>Product</dt><dd>windows</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells" rel="noopener">sophos.com</a><span class="muted small ref-url">https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">809dbc36-aeef-481d-af88-279fc4717463</dd></div>
+        <div><dt>Created</dt><dd>2026-10-21</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-21</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
