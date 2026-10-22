@@ -1,0 +1,34 @@
+title: Mscoree.dll Loaded From A System32 Subdirectory
+id: 80afb78b-2745-40d2-8405-0e7fa8a72ac3
+related:
+    - id: 4fc0deee-0057-4998-ab31-d24e46e0aba4
+      type: similar
+status: experimental
+description: |
+    Detects a process loading a DLL named mscoree.dll from a subfolder of C:\Windows\System32\ instead of from System32 itself, a DLL side-loading pattern.
+    Kaspersky reports that the Lazarus TouchHub installer copies printfilterpipelinesvc.exe to C:\Windows\System32\RasConv\ImeBroker.exe and
+    "places an embedded TouchShift payload named mscoree.dll in the same directory", so ImeBroker.exe side-loads the loader.
+    The SigmaHQ rule "Potential System DLL Sideloading From Non System Locations" (image_load_side_load_from_non_system_location)
+    lists mscoree.dll but excludes everything under C:\Windows\System32\, so a payload planted in a System32 subfolder is not covered there.
+    The legitimate DLL is C:\Windows\System32\mscoree.dll (and C:\Windows\SysWOW64\mscoree.dll, which this rule does not match).
+references:
+    - https://securelist.com/lazarus-operation-flashhole/121541/
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-22
+tags:
+    - attack.stealth
+    - attack.t1574.001
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        ImageLoaded|startswith: 'C:\Windows\System32\'
+        ImageLoaded|endswith: '\mscoree.dll'
+    filter_main_legit:
+        ImageLoaded: 'C:\Windows\System32\mscoree.dll'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - Paths that reach System32 through a non-canonical form (e.g. short 8.3 names) in some telemetry sources; verify the full resolved path and the DLL's Microsoft signature
+level: high

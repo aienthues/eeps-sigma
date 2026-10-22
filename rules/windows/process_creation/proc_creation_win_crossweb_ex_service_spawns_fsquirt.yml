@@ -1,0 +1,30 @@
+title: Fsquirt.exe Spawned By INISAFE CrossWeb EX Service
+id: 5196f440-6ed5-4a09-b3bd-85baefd0d613
+status: experimental
+description: |
+    Detects the Windows Bluetooth file transfer wizard fsquirt.exe started by INISAFECrossWebEXSvc.exe, the service process of the INISAFE CrossWeb EX
+    security plugin widely deployed in South Korea.
+    Kaspersky reports in Operation FlashHole that "the legitimate Windows binary fsquirt.exe was executed under the CrossWeb EX process and injected with shellcode"
+    carrying the Lazarus TechHub backdoor, and that "The parent process, INISAFECrossWebEXSvc.exe, originates from the installation bundle". The CrossWeb EX service
+    has no reason to launch the Bluetooth transfer wizard, so this parent-child pair indicates exploitation of the plugin followed by process injection.
+references:
+    - https://securelist.com/lazarus-operation-flashhole/121541/
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-22
+tags:
+    - attack.execution
+    - attack.t1203
+    - attack.stealth
+    - attack.t1055
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\INISAFECrossWebEXSvc.exe'
+        Image|endswith: '\fsquirt.exe'
+    condition: selection
+falsepositives:
+    - None known; INISAFE CrossWeb EX does not use Bluetooth file transfer. Verify the parent path belongs to the CrossWeb EX installation and investigate the fsquirt.exe process for injected code
+level: high

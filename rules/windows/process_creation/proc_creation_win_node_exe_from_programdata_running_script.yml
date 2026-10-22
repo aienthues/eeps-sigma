@@ -1,0 +1,41 @@
+title: Portable Node.exe Executed From ProgramData Running JavaScript File
+id: c7ef6f66-a82b-4316-9240-c7816f875f59
+related:
+    - id: ba3874b9-0fae-465f-836c-eb5d071a1789
+      type: similar
+status: experimental
+description: |
+    Detects node.exe running from a folder under C:\ProgramData\ with a .js script on the command line.
+    Huntress reports an Amazon-themed ClickFix campaign in which the malware unpacks a portable Node.js runtime "to the location C:\ProgramData\NodeView, then runs
+    the (non-malicious) node.exe interpreter, passing it the index.js file as an argument"; the heavily obfuscated index.js then fetches the next stage that leads to
+    Lumma Stealer. Installed Node.js lives under Program Files or a user profile; a portable runtime dropped into ProgramData is typical of malware staging.
+references:
+    - https://www.huntress.com/blog/amazon-clickfix-finger
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-22
+tags:
+    - attack.execution
+    - attack.t1059.007
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        Image|startswith: 'C:\ProgramData\'
+        Image|endswith: '\node.exe'
+    selection_cli:
+        CommandLine|contains: '.js'
+    filter_optional_chocolatey:
+        Image|startswith: 'C:\ProgramData\chocolatey\'
+    filter_optional_scoop:
+        Image|startswith: 'C:\ProgramData\scoop\'
+    filter_optional_nvm:
+        Image|startswith: 'C:\ProgramData\nvm\'
+    condition: all of selection_* and not 1 of filter_optional_*
+falsepositives:
+    - Chocolatey nodejs.portable packages (filtered under C:\ProgramData\chocolatey\)
+    - Global Scoop installs of Node.js (filtered under C:\ProgramData\scoop\)
+    - nvm-windows installed to C:\ProgramData\nvm\ (filtered)
+    - Vendor agents or management tools that bundle a Node.js runtime under ProgramData; verify the signer and allowlist the vendor folder
+level: medium

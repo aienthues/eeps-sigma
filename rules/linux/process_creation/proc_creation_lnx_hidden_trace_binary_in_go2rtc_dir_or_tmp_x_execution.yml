@@ -1,0 +1,36 @@
+title: Hidden .trace Binary In go2rtc Directory Or /tmp/.x Executed - Linux
+id: 1dc8ae61-7aab-4d14-8048-8287912778b5
+status: experimental
+description: |
+    Detects execution of a hidden binary named .trace from a go2rtc configuration directory or /dev/shm, or of a binary located at or under /tmp/.x.
+    Symantec reports that the Skynet LLMjacking agent's day-2 script would "deploy cryptocurrency miners quietly in the background, hidden under /tmp/.x",
+    and searched "/config /opt/go2rtc /etc/go2rtc ~/.config/go2rtc /dev/shm" and "placed the miner in the first one it found as a hidden file named .trace".
+    The names are attacker-chosen, but a hidden executable in a smart-camera gateway's config directory is unusual on its own.
+references:
+    - https://www.security.com/threat-intelligence/ai-llmjacking-skynet
+author: Esmond Er
+date: 2026-10-22
+tags:
+    - attack.stealth
+    - attack.t1564.001
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_trace_name:
+        Image|endswith: '/.trace'
+    selection_trace_dir:
+        Image|contains:
+            - '/config/'
+            - '/opt/go2rtc/'
+            - '/etc/go2rtc/'
+            - '/.config/go2rtc/'
+            - '/dev/shm/'
+    selection_tmp_x:
+        - Image: '/tmp/.x'
+        - Image|startswith: '/tmp/.x/'
+    condition: all of selection_trace_* or selection_tmp_x
+falsepositives:
+    - Debugging or tracing helpers that a developer deliberately names .trace and runs from a project config directory or /dev/shm (verify the binary hash and parent process)
+    - Administrator scratch tools unpacked into /tmp/.x on a host where that path is used by a known internal script
+level: high
