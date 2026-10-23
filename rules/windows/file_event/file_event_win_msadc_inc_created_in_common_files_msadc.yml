@@ -1,0 +1,27 @@
+title: Msadc.inc Created In Common Files MSADC Folder
+id: 1c63e06d-c39f-4fea-8688-270aba4331ce
+status: experimental
+description: |
+    Detects creation of the file msadc.inc in the MDAC folder C:\Program Files\Common Files\System\msadc\.
+    Kaspersky reports that the Lazarus ClientHub backdoor reads "the external configuration file C:\Program Files\Common Files\System\msadc\msadc.inc", hiding its
+    configuration among the legitimate Microsoft Data Access Components files. msadc.inc is not a file MDAC installs (the folder's legitimate include files are
+    adcvbs.inc and adcjavas.inc), so the rule matches that exact file name rather than any .inc file in the folder.
+references:
+    - https://securelist.com/lazarus-operation-flashhole/121541/
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-23
+tags:
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith: '\Common Files\System\msadc\msadc.inc'
+    condition: selection
+falsepositives:
+    - None known; verify against the host's software inventory if a legacy application writes files into the MDAC folder
+    - 'Coverage gap, not a false positive: a ClientHub variant that uses a renamed configuration file in this folder will not be caught by this exact-filename match'
+level: high

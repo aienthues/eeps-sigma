@@ -1,0 +1,44 @@
+title: Sign-In Via ConnectWise Or SkyKick Multi-Tenant App With Scripted HTTP Client User Agent
+id: 77091923-29e5-4712-a0a0-4651a1d1c57a
+status: experimental
+description: |
+    Detects Entra ID sign-ins to one of the ConnectWise or SkyKick multi-tenant applications abused by Storm-0940 where the client user agent is a scripting
+    library or command-line HTTP client rather than the vendor's own service.
+    Microsoft reports that Storm-0940 used the compromised ConnectWise apps (ConnectWise Cloud Backup, ConnectWise - MS Teams, ConnectWise - MS Graph,
+    SkyKick Partner Portal) to reach downstream customer tenants, and that "These user agents were seen performing Sign-ins and Graph API activity on customer
+    environments using ConnectWise apps": Python-urllib/3.12, python-requests/2.31.0, python-requests/2.34.2, curl/7.88.1 and azure-toolkit/1.0.
+    Microsoft lists these user agents as a group and does not tie any single one to a specific tool. The app IDs alone identify legitimate vendor traffic too; the scripted user agent is the behavioural qualifier. Version numbers are
+    dropped so the rule survives tooling updates.
+    Field names follow the Entra sign-in log schema (appId, userAgent); map them to AppId/UserAgent for the Sentinel SigninLogs table.
+    Coverage limit: this rule covers SigninLogs only, as Microsoft's own hunting query does. Service-principal sign-ins land in AADServicePrincipalSignInLogs,
+    which has no user-agent column, and are NOT covered by this rule.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-23
+tags:
+    - attack.initial-access
+    - attack.t1195
+    - attack.t1078.004
+logsource:
+    product: azure
+    service: signinlogs
+detection:
+    selection_app:
+        appId:
+            - '506e08f9-6e9a-4da4-942b-a099a03644ae'  # ConnectWise Cloud Backup
+            - '24205314-2b89-4e07-a2a4-579e898a5640'  # ConnectWise - MS Teams
+            - '0de14c77-b9b0-4137-9360-34878a929827'  # ConnectWise - MS Graph
+            - 'c921256f-04a7-44e8-9b2a-69c33929ba19'  # SkyKick Partner Portal
+    selection_ua:
+        userAgent|startswith:
+            - 'Python-urllib/'
+            - 'python-requests/'
+            - 'curl/'
+            - 'azure-toolkit/'
+    condition: all of selection_*
+falsepositives:
+    - MSP staff or partner automation scripting against these apps with Python or curl from the MSP's own known egress IPs; confirm with the MSP and allowlist their source addresses
+    - Vendor back-end services that legitimately use a Python HTTP client; baseline the user agents seen for these app IDs before the Storm-0940 activity window (before 2026-10-13, the start date Microsoft's SigninLogs hunting query uses)
+level: medium

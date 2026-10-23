@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign-In Via ConnectWise Or SkyKick Multi-Tenant App With Scripted HTTP Client User Agent · eeps-sigma</title>
+<meta name="description" content="Detects Entra ID sign-ins to one of the ConnectWise or SkyKick multi-tenant applications abused by Storm-0940 where the client user agent is a scripting library or command-line HTTP client rather than the vendor&#x27;s own service.">
+<meta property="og:title" content="Sign-In Via ConnectWise Or SkyKick Multi-Tenant App With Scripted HTTP Client User Agent · eeps-sigma">
+<meta property="og:description" content="Detects Entra ID sign-ins to one of the ConnectWise or SkyKick multi-tenant applications abused by Storm-0940 where the client user agent is a scripting library or command-line HTTP client rather than the vendor&#x27;s own service.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Azure</span><span>/</span><span>signinlogs</span></nav>
+    <h1>Sign-In Via ConnectWise Or SkyKick Multi-Tenant App With Scripted HTTP Client User Agent</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Azure · signinlogs</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/azure/signinlogs/azure_signin_connectwise_skykick_app_scripted_user_agent.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/azure/signinlogs/azure_signin_connectwise_skykick_app_scripted_user_agent.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects Entra ID sign-ins to one of the ConnectWise or SkyKick multi-tenant applications abused by Storm-0940 where the client user agent is a scripting library or command-line HTTP client rather than the vendor&#x27;s own service.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Microsoft reports that Storm-0940 used the compromised ConnectWise apps (ConnectWise Cloud Backup, ConnectWise - MS Teams, ConnectWise - MS Graph, SkyKick Partner Portal) to reach downstream customer tenants, and that &quot;These user agents were seen performing Sign-ins and Graph API activity on customer environments using ConnectWise apps&quot;: Python-urllib/3.12, python-requests/2.31.0, python-requests/2.34.2, curl/7.88.1 and azure-toolkit/1.0.</p><p>Microsoft lists these user agents as a group and does not tie any single one to a specific tool. The app IDs alone identify legitimate vendor traffic too; the scripted user agent is the behavioural qualifier. Version numbers are dropped so the rule survives tooling updates.</p><p>Field names follow the Entra sign-in log schema (appId, userAgent); map them to AppId/UserAgent for the Sentinel SigninLogs table.</p><p>Coverage limit: this rule covers SigninLogs only, as Microsoft&#x27;s own hunting query does. Service-principal sign-ins land in AADServicePrincipalSignInLogs, which has no user-agent column, and are NOT covered by this rule.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Sign-In Via ConnectWise Or SkyKick Multi-Tenant App With Scripted HTTP Client User Agent
+<span class="y-key">id</span>: 77091923-29e5-4712-a0a0-4651a1d1c57a
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects Entra ID sign-ins to one of the ConnectWise or SkyKick multi-tenant applications abused by Storm-0940 where the client user agent is a scripting
+    library or command-line HTTP client rather than the vendor&#x27;s own service.
+    Microsoft reports that Storm-0940 used the compromised ConnectWise apps (ConnectWise Cloud Backup, ConnectWise - MS Teams, ConnectWise - MS Graph,
+    SkyKick Partner Portal) to reach downstream customer tenants, and that &quot;These user agents were seen performing Sign-ins and Graph API activity on customer
+    environments using ConnectWise apps&quot;: Python-urllib/3.12, python-requests/2.31.0, python-requests/2.34.2, curl/7.88.1 and azure-toolkit/1.0.
+    Microsoft lists these user agents as a group and does not tie any single one to a specific tool. The app IDs alone identify legitimate vendor traffic too; the scripted user agent is the behavioural qualifier. Version numbers are
+    dropped so the rule survives tooling updates.
+    Field names follow the Entra sign-in log schema (appId, userAgent); map them to AppId/UserAgent for the Sentinel SigninLogs table.
+    Coverage limit: this rule covers SigninLogs only, as Microsoft&#x27;s own hunting query does. Service-principal sign-ins land in AADServicePrincipalSignInLogs,
+    which has no user-agent column, and are NOT covered by this rule.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-22
+<span class="y-key">modified</span>: 2026-10-23
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.initial-access
+<span class="y-dash">    -</span> attack.t1195
+<span class="y-dash">    -</span> attack.t1078.004
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: azure
+    <span class="y-key">service</span>: signinlogs
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_app</span>:
+        <span class="y-key">appId</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;506e08f9-6e9a-4da4-942b-a099a03644ae&#x27;</span>  # ConnectWise Cloud Backup
+<span class="y-dash">            -</span> <span class="y-str">&#x27;24205314-2b89-4e07-a2a4-579e898a5640&#x27;</span>  # ConnectWise - MS Teams
+<span class="y-dash">            -</span> <span class="y-str">&#x27;0de14c77-b9b0-4137-9360-34878a929827&#x27;</span>  # ConnectWise - MS Graph
+<span class="y-dash">            -</span> <span class="y-str">&#x27;c921256f-04a7-44e8-9b2a-69c33929ba19&#x27;</span>  # SkyKick Partner Portal
+    <span class="y-key">selection_ua</span>:
+        <span class="y-key">userAgent</span><span class="y-mod">|startswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;Python-urllib/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;python-requests/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;curl/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;azure-toolkit/&#x27;</span>
+    <span class="y-key">condition</span>: all of selection_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> MSP staff or partner automation scripting against these apps with Python or curl from the MSP&#x27;s own known egress IPs; confirm with the MSP and allowlist their source addresses
+<span class="y-dash">    -</span> Vendor back-end services that legitimately use a Python HTTP client; baseline the user agents seen for these app IDs before the Storm-0940 activity window (before 2026-10-13, the start date Microsoft&#x27;s SigninLogs hunting query uses)
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>appId IN (&quot;506e08f9-6e9a-4da4-942b-a099a03644ae&quot;, &quot;24205314-2b89-4e07-a2a4-579e898a5640&quot;, &quot;0de14c77-b9b0-4137-9360-34878a929827&quot;, &quot;c921256f-04a7-44e8-9b2a-69c33929ba19&quot;) userAgent IN (&quot;Python-urllib/*&quot;, &quot;python-requests/*&quot;, &quot;curl/*&quot;, &quot;azure-toolkit/*&quot;)</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>MSP staff or partner automation scripting against these apps with Python or curl from the MSP&#x27;s own known egress IPs; confirm with the MSP and allowlist their source addresses</li><li>Vendor back-end services that legitimately use a Python HTTP client; baseline the user agents seen for these app IDs before the Storm-0940 activity window (before 2026-10-13, the start date Microsoft&#x27;s SigninLogs hunting query uses)</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Initial Access</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1195/" rel="noopener"><span class="chip">T1195</span></a> Supply Chain Compromise</li><li><a href="https://attack.mitre.org/techniques/T1078/004/" rel="noopener"><span class="chip">T1078.004</span></a> Valid Accounts: Cloud Accounts</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>azure</dd></div><div><dt>Service</dt><dd>signinlogs</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/" rel="noopener">microsoft.com</a><span class="muted small ref-url">https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">77091923-29e5-4712-a0a0-4651a1d1c57a</dd></div>
+        <div><dt>Created</dt><dd>2026-10-22</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-23</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

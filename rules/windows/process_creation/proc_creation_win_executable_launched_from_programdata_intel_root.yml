@@ -1,0 +1,28 @@
+title: Executable Launched Directly From ProgramData Intel Folder
+id: 03abdefa-3afb-4621-8330-5066ddfc8613
+status: experimental
+description: |
+    Detects a process whose image sits directly in C:\ProgramData\Intel\, not in a subfolder.
+    Kaspersky reports that the BlackX UEFI bootkit installer, which Kaspersky attributes to APT41 with medium confidence, was staged in that vendor-looking folder:
+    "The installer was launched with the command line C:\ProgramData\Intel\inst.exe PVMDIJGKAX2 Q46F6MDLI3RX2KV1".
+    The arguments are an RC4-encrypted payload file and its key, and inst.exe "does not contain any malicious strings". Name, arguments and hash are all trivially changed,
+    so the rule keys on the location. Intel software that writes to ProgramData normally uses product subfolders (for example Package Cache),
+    which the regex excludes by allowing no further path separator.
+references:
+    - https://securelist.com/uefi-bootkit-blackx/121539/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-23
+tags:
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|re: '(?i)^C:\\ProgramData\\Intel\\[^\\]+\.exe$'
+    condition: selection
+falsepositives:
+    - Intel or OEM driver and firmware update utilities that unpack a helper executable directly into C:\ProgramData\Intel\; check the signer and filter by path and hash
+level: medium

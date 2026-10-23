@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service Installed With Name Ieupdate · eeps-sigma</title>
+<meta name="description" content="Detects installation of a Windows service (System event 7045) named ieupdate.">
+<meta property="og:title" content="Service Installed With Name Ieupdate · eeps-sigma">
+<meta property="og:description" content="Detects installation of a Windows service (System event 7045) named ieupdate.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>system</span></nav>
+    <h1>Service Installed With Name Ieupdate</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · system</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/system/win_system_service_install_ieupdate.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/system/win_system_service_install_ieupdate.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects installation of a Windows service (System event 7045) named ieupdate.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>ESET reports that &quot;MythicRatatoskr is started as a Windows service with the name ieupdate.&quot; The Go backdoor uses Yggdrasil for C2 and was deployed in the UAC-0099 / Sandworm intrusion; its binaries used names such as ieupdate.exe, krbtman.exe and windowsdefendersvc.exe. Internet Explorer has no service of this name.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Service Installed With Name Ieupdate
+<span class="y-key">id</span>: 8e616cba-e3fe-463d-bb27-4f739652c3c3
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects installation of a Windows service (System event 7045) named ieupdate.
+    ESET reports that <span class="y-str">&quot;MythicRatatoskr is started as a Windows service with the name ieupdate.&quot;</span> The Go backdoor uses Yggdrasil for C2 and was deployed in the
+    UAC-0099 / Sandworm intrusion; its binaries used names such as ieupdate.exe, krbtman.exe and windowsdefendersvc.exe. Internet Explorer has no service of this name.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-23
+<span class="y-key">modified</span>: 2026-10-23
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.persistence
+<span class="y-dash">    -</span> attack.t1543.003
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: windows
+    <span class="y-key">service</span>: system
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">Provider_Name</span>: <span class="y-str">&#x27;Service Control Manager&#x27;</span>
+        <span class="y-key">EventID</span>: 7045
+        <span class="y-key">ServiceName</span>: <span class="y-str">&#x27;ieupdate&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> None known; Windows and Internet Explorer register no service called ieupdate
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:System&quot; Provider_Name=&quot;Service Control Manager&quot; EventCode=7045 ServiceName=&quot;ieupdate&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>None known; Windows and Internet Explorer register no service called ieupdate</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Persistence</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1543/003/" rel="noopener"><span class="chip">T1543.003</span></a> Create or Modify System Process: Windows Service</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>windows</dd></div><div><dt>Service</dt><dd>system</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/" rel="noopener">welivesecurity.com</a><span class="muted small ref-url">https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">8e616cba-e3fe-463d-bb27-4f739652c3c3</dd></div>
+        <div><dt>Created</dt><dd>2026-10-23</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-23</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

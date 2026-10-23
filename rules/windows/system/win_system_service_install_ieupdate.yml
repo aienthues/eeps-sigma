@@ -1,0 +1,27 @@
+title: Service Installed With Name Ieupdate
+id: 8e616cba-e3fe-463d-bb27-4f739652c3c3
+status: experimental
+description: |
+    Detects installation of a Windows service (System event 7045) named ieupdate.
+    ESET reports that "MythicRatatoskr is started as a Windows service with the name ieupdate." The Go backdoor uses Yggdrasil for C2 and was deployed in the
+    UAC-0099 / Sandworm intrusion; its binaries used names such as ieupdate.exe, krbtman.exe and windowsdefendersvc.exe. Internet Explorer has no service of this name.
+references:
+    - https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-23
+tags:
+    - attack.persistence
+    - attack.t1543.003
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        Provider_Name: 'Service Control Manager'
+        EventID: 7045
+        ServiceName: 'ieupdate'
+    condition: selection
+falsepositives:
+    - None known; Windows and Internet Explorer register no service called ieupdate
+level: high

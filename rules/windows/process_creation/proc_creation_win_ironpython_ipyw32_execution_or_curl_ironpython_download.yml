@@ -1,0 +1,44 @@
+title: IronPython Windowless Interpreter Executed Or IronPython Downloaded Via Curl
+id: 6c0b6cc5-004e-4f4d-bb0f-d91a1851d029
+status: experimental
+description: |
+    Detects execution of ipyw32.exe, the windowless interpreter shipped with the IronPython distribution, outside a Program Files install, or curl.exe
+    downloading an IronPython distribution archive.
+    Huntress reports an Amazon-themed ClickFix campaign in which the finger.exe-delivered script "spawns curl to download and unpack IronPython.3.4.2.zip"
+    and then passes "a Base64-encoded, zlib-compressed Python script data blob directly to the ipyw32.exe program as a command flag"; the Python loader
+    decrypts and injects the Doina loader into memory. IronPython is rarely installed in enterprises, and its windowless interpreter running from an
+    unpacked archive (rather than an installed copy) is worth reviewing as a possible fileless Python loader.
+    The Program Files filter is an ASSUMPTION based on the IronPython MSI's default install location; the report does not give the unpack directory.
+    The report does not name the command flag used to pass the script blob, so the ipyw32.exe branch matches on the interpreter name and location only and
+    carries no command-line qualifier. Treat it as a threat-hunting lead: review the CommandLine for a long Base64 argument before escalating.
+references:
+    - https://www.huntress.com/blog/amazon-clickfix-finger
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-23
+tags:
+    - attack.execution
+    - attack.t1059.006
+    - attack.command-and-control
+    - attack.t1105
+    - detection.threat-hunting
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_ipyw:
+        Image|endswith: '\ipyw32.exe'
+    filter_main_ipyw_install:
+        Image|startswith:
+            - 'C:\Program Files\'
+            - 'C:\Program Files (x86)\'
+    selection_curl_img:
+        - Image|endswith: '\curl.exe'
+        - OriginalFileName: 'curl.exe'
+    selection_curl_cli:
+        CommandLine|contains: 'IronPython'
+    condition: (selection_ipyw and not filter_main_ipyw_install) or (selection_curl_img and selection_curl_cli)
+falsepositives:
+    - Developers or automation using a portable or zip-extracted IronPython (e.g. unpacked from the GitHub release archive into a project or tools folder); allowlist the known folder
+    - Build or CI scripts that fetch IronPython release archives with curl
+level: low

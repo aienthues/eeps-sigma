@@ -1,0 +1,35 @@
+title: PHP Session File Path In Web Request Query
+id: 661e3b9d-57f1-48d8-81af-bffa32814e13
+status: experimental
+description: |
+    Detects web requests whose query string names a server-side PHP session file (/var/lib/php/session.../sess_).
+    Arctic Wolf Labs observed PHP2Shell (CVE-2026-109618 / CVE-2026-109619) exploitation attempts that poison session data through the PHP upload-progress feature
+    and then include the session file through a request parameter, for example "POST /vuln.php?page=/var/lib/php/session/sess_p2sopchain000000000000 HTTP/1.1".
+    Arctic Wolf advises looking for "page parameters pointing at session files". A client has no legitimate reason to pass a session file path in a parameter,
+    so the rule keys on the path, not on the page parameter name, the script name or the actor's session ID. '/var/lib/php/session' also covers the Debian/Ubuntu
+    '/var/lib/php/sessions/' directory. A match shows an attempt only. It does not show that the target was vulnerable or that code ran.
+    The rule matches the plain path and the common form with percent-encoded slashes (%2Fvar%2Flib%2Fphp%2Fsession). Mixed encoding (only some characters encoded)
+    or double encoding (%252F) will not match.
+references:
+    - https://arcticwolf.com/resources/blog/php2shell-critical-php-vulnerabilities-enable-unauthenticated-remote-code-execution/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-23
+tags:
+    - attack.initial-access
+    - attack.t1190
+logsource:
+    category: webserver
+detection:
+    selection_plain:
+        cs-uri-query|contains|all:
+            - '/var/lib/php/session'
+            - 'sess_'
+    selection_encoded:
+        cs-uri-query|contains|all:
+            - '%2Fvar%2Flib%2Fphp%2Fsession'
+            - 'sess_'
+    condition: 1 of selection_*
+falsepositives:
+    - Authorised vulnerability scanners and penetration tests probing PHP session-inclusion or LFI flaws (filter by scanner source addresses)
+level: medium

@@ -1,0 +1,30 @@
+title: Dot-Prefixed Updatecache Or Crond Config File Created In Windows Temp Or System32
+id: bc094de1-b85c-4d7b-bc71-3fb29d170fea
+status: experimental
+description: |
+    Detects creation of the dot-prefixed files .updatecache in C:\Windows\Temp or System32, or .crond in a Temp folder.
+    ESET reports that MythicRatatoskr keeps its AES-256-CFB encrypted configuration in "C:\Windows\Temp\.updatecache (in krbtman.exe, Act64.exe, ie.exe, ieupdate.exe,
+    and windowsdefendersvc.exe)", in C:\Windows\system32\.updatecache, and in %LocalAppData%/Temp/.crond. Unix-style dot-file names are not used by Windows components.
+    ESET prints the .crond path with a forward slash, so both separators are matched.
+references:
+    - https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-23
+tags:
+    - attack.stealth
+    - attack.t1027.013
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith:
+            - '\Windows\Temp\.updatecache'
+            - '\Windows\System32\.updatecache'
+            - '\AppData\Local\Temp\.crond'
+            - '\AppData\Local\Temp/.crond'
+    condition: selection
+falsepositives:
+    - Cross-platform (Go or Unix-ported) tools that write a dot-prefixed cache file with one of these exact names; none known
+level: high

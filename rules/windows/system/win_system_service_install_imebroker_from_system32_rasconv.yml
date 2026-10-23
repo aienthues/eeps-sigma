@@ -1,0 +1,30 @@
+title: Service Installed With ImeBroker.exe From System32 RasConv Folder
+id: f581829a-20a4-4e28-b2d3-8baefd53335f
+status: experimental
+description: |
+    Detects installation of a Windows service (System event 7045) whose image path is ImeBroker.exe in the non-standard folder C:\Windows\System32\RasConv\.
+    Kaspersky reports that the Lazarus TouchHub installer "copies the legitimate printfilterpipelinesvc.exe to C:\Windows\System32\RasConv\ImeBroker.exe",
+    places the TouchShift loader beside it as mscoree.dll for side-loading, and registers a service that "runs the hard-coded command line
+    C:\Windows\System32\RasConv\ImeBroker.exe -TimeBroker". The service name is dynamic (a netsvcs service name plus two random letters), so the rule keys on the image path.
+references:
+    - https://securelist.com/lazarus-operation-flashhole/121541/
+author: Esmond Er
+date: 2026-10-22
+modified: 2026-10-23
+tags:
+    - attack.persistence
+    - attack.t1543.003
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        Provider_Name: 'Service Control Manager'
+        EventID: 7045
+        ImagePath|contains: '\System32\RasConv\ImeBroker.exe'
+    condition: selection
+falsepositives:
+    - None known; ImeBroker.exe normally lives directly in System32, and services under System32\RasConv are not expected
+level: high

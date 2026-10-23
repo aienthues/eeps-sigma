@@ -1,0 +1,31 @@
+title: Masquerading MythicRatatoskr Binary Names Created In System Or User Folders
+id: 48c44026-e1a1-4b2d-bfe8-7b763b22f404
+status: experimental
+description: |
+    Detects creation of executables at the Microsoft-themed paths ESET lists for MythicRatatoskr (Table 1), including C:\Windows\system32\krbtman.exe,
+    C:\windows\system32\windowsdefendersvc.exe, %localappdata%\Microsoft\OneDrive\OneDriveLiveUpdater.exe and ieupdate.exe under %userprofile%\AppData\Local.
+    None of these are files Windows, Defender, OneDrive or Internet Explorer install. ESET also lists updater.exe in System32, a Downloads copy and paths in an
+    Office and a .NET folder; these are left out because the names are generic or the folders are environment-specific.
+references:
+    - https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-23
+tags:
+    - attack.stealth
+    - attack.t1036.005
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith:
+            - '\Windows\System32\krbtman.exe'
+            - '\Windows\System32\windowsdefendersvc.exe'
+            - '\AppData\Local\Microsoft\OneDrive\OneDriveLiveUpdater.exe'
+            - '\AppData\Local\Internet Explorer\ieupdate.exe'
+            - '\AppData\Local\ieupdate.exe'
+    condition: selection
+falsepositives:
+    - None known; the genuine OneDrive updater is OneDriveStandaloneUpdater.exe and Defender's service binary is MsMpEng.exe
+level: high
