@@ -1,0 +1,33 @@
+title: WordPress TRUST#GRAFT Backdoor Control Parameters In Web Request
+id: b39d025d-7c90-4311-900b-a55efe13cc27
+status: experimental
+description: |
+    Detects web requests whose query string contains the control parameters or the hardcoded token of the TRUST#GRAFT WordPress backdoor ("Web Media Optimizer" / wmedia-recovery.php).
+    Securonix reports that "A hardcoded token can trigger wp_set_auth_cookie for the first administrator account", which gives passwordless admin access,
+    and that the backdoor can also replace its stored controller URL and clear its cache. Securonix's hunting query looks for request URLs containing
+    "wm2_a", "wm2_src", "wm2_hc" or "M2wS8mR4yP1qL7xC5vB3dG9jK6tH2z".
+    The report does not say which parameter carries the token, so the rule matches each string anywhere in the query.
+    A match means someone tried to use the backdoor. The plugin may not be installed on that site.
+    This is a tool-level detection: an operator who rebuilds the plugin with new parameter names will not match.
+references:
+    - https://www.securonix.com/blog/trust-graft-wordpress-admin-php-backdoor
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.persistence
+    - attack.t1505.003
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-uri-query|contains:
+            - 'wm2_a'
+            - 'wm2_src'
+            - 'wm2_hc'
+            - 'M2wS8mR4yP1qL7xC5vB3dG9jK6tH2z'
+    condition: selection
+falsepositives:
+    - Security researchers or scanners checking sites for the TRUST#GRAFT backdoor with these parameters (filter by scanner source addresses)
+    - Unrelated applications that use query parameters starting with wm2_a, wm2_src or wm2_hc; none are known
+level: high

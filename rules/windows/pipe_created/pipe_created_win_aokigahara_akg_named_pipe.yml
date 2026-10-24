@@ -1,0 +1,27 @@
+title: Aokigahara Infostealer Akg_ Named Pipe Created
+id: c593ab12-93ec-4775-9a7c-aaefc028e1a7
+status: experimental
+description: |
+    Detects creation of or connection to a named pipe called akg_ followed by two hexadecimal values separated by an underscore.
+    Check Point's YARA rule for the Aokigahara infostealer contains the format string $str5 = "\\\\.\\pipe\\akg_%lx_%lx", which builds a pipe name of the form \\.\pipe\akg_<hex>_<hex>.
+    Sysmon records the pipe name without the \\.\pipe prefix (\akg_<hex>_<hex>), and %lx produces lower-case hexadecimal, which the regex matches.
+    The report does not describe the purpose of the pipe; the technique mapping is an analyst inference.
+references:
+    - https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.execution
+    - attack.t1559
+logsource:
+    category: pipe_created
+    product: windows
+    definition: 'Requirements: Sysmon named pipe events 17/18 with a configuration that logs all pipe names'
+detection:
+    selection:
+        PipeName|re: '^\\akg_[0-9a-f]+_[0-9a-f]+$'
+    condition: selection
+falsepositives:
+    - None known; a legitimate application that uses an akg_ pipe-name prefix followed by two hexadecimal values
+level: high

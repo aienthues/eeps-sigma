@@ -1,0 +1,29 @@
+title: Executable In ProgramData Run With 32-Hex Key And .Dat File Arguments
+id: 66ee9481-9ffd-4e9a-ab0f-422cf789575f
+status: experimental
+description: |
+    Detects a process started from C:\ProgramData\ whose command line passes a 32-character hexadecimal string followed by a path to a .dat file.
+    Symantec reports that Swallowtail used an undocumented loader, ld.exe, that is "a reflective loader: it takes an encrypted file and a key as arguments, decrypts the file in memory"
+    and "calls an exported function named ExecuteLoader", run as "C:\ProgramData\ld.exe DE063CF3F2E2A83E7B1A277C052A340E C:\ProgramData\Events.dat".
+    The rule keys on the argument pattern (hex key, then encrypted .dat file) and the ProgramData location, not on the ld.exe or Events.dat names or the key value.
+    A quoted .dat path without spaces is matched, but a quoted .dat path containing spaces will not match; a key that is not 32 hex characters, or arguments in the reverse order, will not match.
+references:
+    - https://www.security.com/threat-intelligence/swallowtail-russia-nato-targets
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.stealth
+    - attack.t1620
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        Image|startswith: 'C:\ProgramData\'
+    selection_cli:
+        CommandLine|re|i: '\s[0-9a-f]{32}\s+"?[^"\s]*\.dat"?(\s|$)'
+    condition: all of selection_*
+falsepositives:
+    - Vendor updaters or licensing tools installed under ProgramData that pass a 32-character hex identifier (e.g. a GUID without dashes) and a .dat data file on the command line; allowlist by image path after review
+level: high

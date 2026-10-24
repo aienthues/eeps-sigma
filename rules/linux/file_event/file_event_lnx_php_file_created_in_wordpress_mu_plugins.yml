@@ -1,0 +1,30 @@
+title: PHP File Created In WordPress Must-Use Plugins Directory - Linux
+id: 89a5f602-439b-44d6-a888-fdf00f1a6c87
+status: experimental
+description: |
+    Detects creation of a .php file in the WordPress must-use plugins directory (wp-content/mu-plugins/).
+    WordPress loads every PHP file in this directory on each request. These plugins cannot be turned off from the admin plugins page, which makes the directory a good place to hide persistence.
+    Securonix reports that in the TRUST#GRAFT campaign the malicious "Web Media Optimizer" plugin, once activated, "attempts to create the must-use plugin directory
+    and copies itself to wmedia-recovery.php", which Securonix names as wp-content/mu-plugins/wmedia-recovery.php.
+    The rule matches any PHP file in that directory, not only the TRUST#GRAFT file name, so renamed copies also match.
+references:
+    - https://www.securonix.com/blog/trust-graft-wordpress-admin-php-backdoor
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.persistence
+    - attack.t1505
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection:
+        TargetFilename|contains: '/wp-content/mu-plugins/'
+        TargetFilename|endswith: '.php'
+    condition: selection
+falsepositives:
+    - Managed WordPress hosting providers and hosting control panels that install their own must-use plugins
+    - Site administrators, WP-CLI, deployment pipelines (git, rsync) or configuration management placing must-use plugins on purpose
+    - Security, caching or backup plugins that write a loader file to mu-plugins when they are activated
+level: medium

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aokigahara Infostealer Akg_ Named Pipe Created · eeps-sigma</title>
+<meta name="description" content="Detects creation of or connection to a named pipe called akg_ followed by two hexadecimal values separated by an underscore.">
+<meta property="og:title" content="Aokigahara Infostealer Akg_ Named Pipe Created · eeps-sigma">
+<meta property="og:description" content="Detects creation of or connection to a named pipe called akg_ followed by two hexadecimal values separated by an underscore.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>pipe created</span></nav>
+    <h1>Aokigahara Infostealer Akg_ Named Pipe Created</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · pipe created</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/pipe_created/pipe_created_win_aokigahara_akg_named_pipe.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/pipe_created/pipe_created_win_aokigahara_akg_named_pipe.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects creation of or connection to a named pipe called akg_ followed by two hexadecimal values separated by an underscore.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Check Point&#x27;s YARA rule for the Aokigahara infostealer contains the format string $str5 = &quot;\\\\.\\pipe\\akg_%lx_%lx&quot;, which builds a pipe name of the form \\.\pipe\akg_&lt;hex&gt;_&lt;hex&gt;.</p><p>Sysmon records the pipe name without the \\.\pipe prefix (\akg_&lt;hex&gt;_&lt;hex&gt;), and %lx produces lower-case hexadecimal, which the regex matches.</p><p>The report does not describe the purpose of the pipe; the technique mapping is an analyst inference.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Aokigahara Infostealer Akg_ Named Pipe Created
+<span class="y-key">id</span>: c593ab12-93ec-4775-9a7c-aaefc028e1a7
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects creation of or connection to a named pipe called akg_ followed by two hexadecimal values separated by an underscore.
+    Check Point&#x27;s YARA rule for the Aokigahara infostealer contains the format string $str5 = <span class="y-str">&quot;\\\\.\\pipe\\akg_%lx_%lx&quot;</span>, which builds a pipe name of the form \\.\pipe\akg_&lt;hex&gt;_&lt;hex&gt;.
+    Sysmon records the pipe name without the \\.\pipe prefix (\akg_&lt;hex&gt;_&lt;hex&gt;), and %lx produces lower-case hexadecimal, which the regex matches.
+    The report does not describe the purpose of the pipe; the technique mapping is an analyst inference.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-24
+<span class="y-key">modified</span>: 2026-10-24
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1559
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: pipe_created
+    <span class="y-key">product</span>: windows
+    <span class="y-key">definition</span>: <span class="y-str">&#x27;Requirements: Sysmon named pipe events 17/18 with a configuration that logs all pipe names&#x27;</span>
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">PipeName</span><span class="y-mod">|re</span>: <span class="y-str">&#x27;^\\akg_[0-9a-f]+_[0-9a-f]+$&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> None known; a legitimate application that uses an akg_ pipe-name prefix followed by two hexadecimal values
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode IN (17, 18)
+| regex PipeName=&quot;^\\\\akg_[0-9a-f]+_[0-9a-f]+$&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>None known; a legitimate application that uses an akg_ pipe-name prefix followed by two hexadecimal values</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Execution</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1559/" rel="noopener"><span class="chip">T1559</span></a> Inter-Process Communication</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>pipe_created</dd></div><div><dt>Product</dt><dd>windows</dd></div><div><dt>Definition</dt><dd>Requirements: Sysmon named pipe events 17/18 with a configuration that logs all pipe names</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/" rel="noopener">research.checkpoint.com</a><span class="muted small ref-url">https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">c593ab12-93ec-4775-9a7c-aaefc028e1a7</dd></div>
+        <div><dt>Created</dt><dd>2026-10-24</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-24</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

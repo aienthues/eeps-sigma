@@ -1,0 +1,31 @@
+title: OpenSSH Client Using Identity Key Stored In ProgramData
+id: 5f260f63-e83c-46a4-92ce-6d947449b1ab
+status: experimental
+description: |
+    Detects the Windows OpenSSH client ssh.exe started with an identity (private key) file under C:\ProgramData\.
+    Symantec reports that Swallowtail "opened a persistent SSH tunnel from their own server into the shipbuilder's internal network" with the built-in client, using the
+    command line "C:\Windows\System32\OpenSSH\ssh.exe -i C:\ProgramData\Adobe\id_rsa -o IdentitiesOnly=yes". User SSH keys normally live in the user's .ssh folder;
+    a private key staged in a vendor-named ProgramData folder is a sign of an implanted tunnel. The forwarding arguments are not quoted in the report,
+    so the rule does not depend on -R/-L (SigmaHQ already covers ssh.exe -R port forwarding).
+    The rule matches the unquoted path form; a quoted key path ("C:\ProgramData\...") will not match.
+references:
+    - https://www.security.com/threat-intelligence/swallowtail-russia-nato-targets
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.command-and-control
+    - attack.t1572
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\ssh.exe'
+        - OriginalFileName: 'ssh.exe'
+    selection_cli:
+        CommandLine|contains: ' -i C:\ProgramData\'
+    condition: all of selection_*
+falsepositives:
+    - Service accounts, scheduled backup or deployment jobs that keep an SSH key under ProgramData for unattended connections (allowlist the key path and destination after review)
+level: medium

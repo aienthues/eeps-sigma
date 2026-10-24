@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request To Infostealer Gate Upload Endpoint With Microsoft-CryptoAPI User-Agent · eeps-sigma</title>
+<meta name="description" content="Detects HTTP requests to /gate/handshake, /gate/chunk or /gate/complete sent with the User-Agent Microsoft-CryptoAPI/10.0.">
+<meta property="og:title" content="Request To Infostealer Gate Upload Endpoint With Microsoft-CryptoAPI User-Agent · eeps-sigma">
+<meta property="og:description" content="Detects HTTP requests to /gate/handshake, /gate/chunk or /gate/complete sent with the User-Agent Microsoft-CryptoAPI/10.0.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Web server</span><span>/</span><span>proxy</span></nav>
+    <h1>Request To Infostealer Gate Upload Endpoint With Microsoft-CryptoAPI User-Agent</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Web server · proxy</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/web/proxy/proxy_aokigahara_gate_endpoint_with_microsoft_cryptoapi_user_agent.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/web/proxy/proxy_aokigahara_gate_endpoint_with_microsoft_cryptoapi_user_agent.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects HTTP requests to /gate/handshake, /gate/chunk or /gate/complete sent with the User-Agent Microsoft-CryptoAPI/10.0.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Check Point reports that the Aokigahara infostealer uses three /gate endpoints: handshake &quot;Establishes an upload session by sending the client’s raw 32-byte X25519 public key&quot;, chunk &quot;Uploads collected information packaged into ZIP archives and encrypted using AES-256-GCM&quot;, and complete &quot;Signals the end of the upload phase by sending the eight-byte marker `COMPLETE`&quot;; &quot;The latest analyzed samples use `Microsoft-CryptoAPI/10.0` for communication with the server.&quot; Windows uses Microsoft-CryptoAPI/10.0 for its own certificate revocation and trust-list downloads, so the user agent alone is not suspicious; the rule requires both the user agent and one of the three gate paths. If C2 traffic is HTTPS the rule needs proxy or TLS-inspection logs that record the URI. Earlier samples used a different user agent and will not match.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Sentinel ASIM</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Request To Infostealer Gate Upload Endpoint With Microsoft-CryptoAPI User-Agent
+<span class="y-key">id</span>: 77a008e6-ee1b-4f2c-9223-12bb1dab8ced
+<span class="y-key">related</span>:
+    - <span class="y-key">id</span>: d1065103-0b01-4870-a766-b175a5604026
+      <span class="y-key">type</span>: derived
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects HTTP requests to /gate/handshake, /gate/chunk or /gate/complete sent with the User-Agent Microsoft-CryptoAPI/10.0.
+    Check Point reports that the Aokigahara infostealer uses three /gate endpoints: handshake <span class="y-str">&quot;Establishes an upload session by sending the client’s raw 32-byte X25519 public key&quot;</span>,
+    chunk <span class="y-str">&quot;Uploads collected information packaged into ZIP archives and encrypted using AES-256-GCM&quot;</span>, and complete <span class="y-str">&quot;Signals the end of the upload phase by sending the eight-byte marker `COMPLETE`&quot;</span>;
+    <span class="y-str">&quot;The latest analyzed samples use `Microsoft-CryptoAPI/10.0` for communication with the server.&quot;</span>
+    Windows uses Microsoft-CryptoAPI/10.0 for its own certificate revocation and trust-list downloads, so the user agent alone is not suspicious; the rule requires both the user agent and one of the
+    three gate paths. If C2 traffic is HTTPS the rule needs proxy or TLS-inspection logs that record the URI. Earlier samples used a different user agent and will not match.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-24
+<span class="y-key">modified</span>: 2026-10-24
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.command-and-control
+<span class="y-dash">    -</span> attack.t1071.001
+<span class="y-dash">    -</span> attack.exfiltration
+<span class="y-dash">    -</span> attack.t1041
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: proxy
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">c-useragent</span>: <span class="y-str">&#x27;Microsoft-CryptoAPI/10.0&#x27;</span>
+        <span class="y-key">c-uri</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/gate/handshake&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/gate/chunk&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/gate/complete&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> None known; Windows CryptoAPI fetches certificate revocation lists and trust lists, not /gate/ paths
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>&quot;c-useragent&quot;=&quot;Microsoft-CryptoAPI/10.0&quot; &quot;c-uri&quot; IN (&quot;*/gate/handshake&quot;, &quot;*/gate/chunk&quot;, &quot;*/gate/complete&quot;)</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Sentinel ASIM</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>imWebSession
+| where HttpUserAgent =~ &quot;Microsoft-CryptoAPI/10.0&quot; and (Url endswith &quot;/gate/handshake&quot; or Url endswith &quot;/gate/chunk&quot; or Url endswith &quot;/gate/complete&quot;)</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>None known; Windows CryptoAPI fetches certificate revocation lists and trust lists, not /gate/ paths</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Command and Control</span> <span class="chip chip-soft">Exfiltration</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1071/001/" rel="noopener"><span class="chip">T1071.001</span></a> Application Layer Protocol: Web Protocols</li><li><a href="https://attack.mitre.org/techniques/T1041/" rel="noopener"><span class="chip">T1041</span></a> Exfiltration Over C2 Channel</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>proxy</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/" rel="noopener">research.checkpoint.com</a><span class="muted small ref-url">https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">77a008e6-ee1b-4f2c-9223-12bb1dab8ced</dd></div>
+        <div><dt>Created</dt><dd>2026-10-24</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-24</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    <div class="panel"><h3>Related rules</h3><ul class="plain"><li><a href="proxy_infostealer_post_to_gate_endpoint.html">HTTP POST To Infostealer Gate Endpoint</a> <span class="muted small">(derived)</span></li></ul></div>
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

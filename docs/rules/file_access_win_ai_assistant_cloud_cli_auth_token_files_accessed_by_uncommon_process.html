@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Assistant Or Developer CLI Auth Token Files Accessed By Uncommon Process · eeps-sigma</title>
+<meta name="description" content="Detects a process other than the owning tool accessing authentication or token files of AI coding assistants and AI-enabled developer CLIs (Claude Code credentials, Codex auth.json, Kiro auth token and profile, GitHub Copilot hosts.json, Gemini CLI workspace token and master key, Amazon Q data store).">
+<meta property="og:title" content="AI Assistant Or Developer CLI Auth Token Files Accessed By Uncommon Process · eeps-sigma">
+<meta property="og:description" content="Detects a process other than the owning tool accessing authentication or token files of AI coding assistants and AI-enabled developer CLIs (Claude Code credentials, Codex auth.json, Kiro auth token and profile, GitHub Copilot hosts.json, Gemini CLI workspace token and master key, Amazon Q data store).">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>file access</span></nav>
+    <h1>AI Assistant Or Developer CLI Auth Token Files Accessed By Uncommon Process</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Windows · file access</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/file_access/file_access_win_ai_assistant_cloud_cli_auth_token_files_accessed_by_uncommon_process.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/file_access/file_access_win_ai_assistant_cloud_cli_auth_token_files_accessed_by_uncommon_process.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a process other than the owning tool accessing authentication or token files of AI coding assistants and AI-enabled developer CLIs (Claude Code credentials, Codex auth.json, Kiro auth token and profile, GitHub Copilot hosts.json, Gemini CLI workspace token and master key, Amazon Q data store).</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Check Point reports that the Aokigahara infostealer&#x27;s &quot;aisessions&quot; handler &quot;targets AI applications and development tools&quot; and collects &quot;authentication files, session data, and configuration files associated with AI-assisted development and cloud environments&quot;; &quot;The paths below identify the handler&#x27;s collection targets.&quot; The report gives each path relative to an unnamed base folder (%s), so the rule matches the verbatim path suffixes only. For Claude Code it matches a credentials.json file under a .claude folder, which also covers the dot-prefixed .credentials.json name.</p><p>State databases shared by many editor processes (state.vscdb, storage.json) and AWS CLI credential files are left out because every IDE, SDK and extension reads them.</p><p>Owner filters are assumed default image names, not from the report: claude.exe, codex.exe, Kiro.exe, Code.exe, Cursor.exe, Windsurf.exe and Amazon Q q.exe/qchat.exe under a user profile or Program Files. An optional filter excludes node.exe, which runs npm-installed Gemini CLI, Copilot CLI and Codex; removing it restores visibility of Node.js-based stealers at the cost of more noise. A stealer that renames itself to an owner image name evades the rule.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: AI Assistant Or Developer CLI Auth Token Files Accessed By Uncommon Process
+<span class="y-key">id</span>: ba9ec624-7957-425c-99e9-63b90de1a7b3
+<span class="y-key">related</span>:
+    - <span class="y-key">id</span>: 341139a9-314b-4496-8a9e-23e7ba9855c2
+      <span class="y-key">type</span>: derived
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a process other than the owning tool accessing authentication or token files of AI coding assistants and AI-enabled developer CLIs
+    (Claude Code credentials, Codex auth.json, Kiro auth token and profile, GitHub Copilot hosts.json, Gemini CLI workspace token and master key, Amazon Q data store).
+    Check Point reports that the Aokigahara infostealer&#x27;s <span class="y-str">&quot;aisessions&quot;</span> handler <span class="y-str">&quot;targets AI applications and development tools&quot;</span> and collects
+    <span class="y-str">&quot;authentication files, session data, and configuration files associated with AI-assisted development and cloud environments&quot;</span>; <span class="y-str">&quot;The paths below identify the handler&#x27;s collection targets.&quot;</span>
+    The report gives each path relative to an unnamed base folder (%s), so the rule matches the verbatim path suffixes only. For Claude Code it matches a
+    credentials.json file under a .claude folder, which also covers the dot-prefixed .credentials.json name.
+    State databases shared by many editor processes (state.vscdb, storage.json) and AWS CLI credential files are left out because every IDE, SDK and extension reads them.
+    Owner filters are assumed default image names, not from the report: claude.exe, codex.exe, Kiro.exe, Code.exe, Cursor.exe, Windsurf.exe and Amazon Q q.exe/qchat.exe
+    under a user profile or Program Files. An optional filter excludes node.exe, which runs npm-installed Gemini CLI, Copilot CLI and Codex; removing it restores visibility
+    of Node.js-based stealers at the cost of more noise. A stealer that renames itself to an owner image name evades the rule.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-24
+<span class="y-key">modified</span>: 2026-10-24
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.credential-access
+<span class="y-dash">    -</span> attack.t1528
+<span class="y-dash">    -</span> attack.t1552.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: file_access
+    <span class="y-key">product</span>: windows
+    <span class="y-key">definition</span>: <span class="y-str">&#x27;Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry&#x27;</span>
+<span class="y-key">detection</span>:
+    <span class="y-key">selection_claude</span>:
+        <span class="y-key">FileName</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;\.claude\&#x27;</span>
+        <span class="y-key">FileName</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;credentials.json&#x27;</span>
+    <span class="y-key">selection_other</span>:
+        <span class="y-key">FileName</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\.codex\auth.json&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\.aws\sso\cache\kiro-auth-token.json&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Kiro\User\globalStorage\kiro.kiroagent\profile.json&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\.copilot\hosts.json&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\gemini-cli-workspace-token.json&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\.gemini-cli-workspace-master-key&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\amazon-q\data.sqlite3&#x27;</span>
+    <span class="y-key">filter_main_owner</span>:
+        <span class="y-key">Image</span><span class="y-mod">|startswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Users\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Program Files\&#x27;</span>
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\claude.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\codex.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Kiro.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Code.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Cursor.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\Windsurf.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\q.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\qchat.exe&#x27;</span>
+    <span class="y-key">filter_main_system</span>:
+        <span class="y-key">Image</span>: <span class="y-str">&#x27;System&#x27;</span>
+    <span class="y-key">filter_main_generic</span>:
+        <span class="y-key">Image</span><span class="y-mod">|startswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Windows\System32\&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;C:\Windows\SysWOW64\&#x27;</span>
+    <span class="y-key">filter_optional_node</span>:
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;\node.exe&#x27;</span>
+    <span class="y-key">filter_optional_defender</span>:
+        <span class="y-key">Image</span><span class="y-mod">|startswith</span>: <span class="y-str">&#x27;C:\ProgramData\Microsoft\Windows Defender\&#x27;</span>
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\MsMpEng.exe&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;\MpCopyAccelerator.exe&#x27;</span>
+    <span class="y-key">condition</span>: 1 of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> The owning AI tool or CLI installed under a different image name or path (for example JetBrains IDE AI plugins reading Copilot hosts.json, or Python-based CLIs); add those images to the filter after review
+<span class="y-dash">    -</span> Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile
+<span class="y-dash">    -</span> Users opening these files in a text editor
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>(FileName=&quot;*\\.claude\\*&quot; FileName=&quot;*credentials.json&quot;) OR FileName IN (&quot;*\\.codex\\auth.json&quot;, &quot;*\\.aws\\sso\\cache\\kiro-auth-token.json&quot;, &quot;*\\Kiro\\User\\globalStorage\\kiro.kiroagent\\profile.json&quot;, &quot;*\\.copilot\\hosts.json&quot;, &quot;*\\gemini-cli-workspace-token.json&quot;, &quot;*\\.gemini-cli-workspace-master-key&quot;, &quot;*\\amazon-q\\data.sqlite3&quot;) NOT ((Image IN (&quot;C:\\Users\\*&quot;, &quot;C:\\Program Files\\*&quot;) Image IN (&quot;*\\claude.exe&quot;, &quot;*\\codex.exe&quot;, &quot;*\\Kiro.exe&quot;, &quot;*\\Code.exe&quot;, &quot;*\\Cursor.exe&quot;, &quot;*\\Windsurf.exe&quot;, &quot;*\\q.exe&quot;, &quot;*\\qchat.exe&quot;)) OR Image=&quot;System&quot; OR Image IN (&quot;C:\\Windows\\System32\\*&quot;, &quot;C:\\Windows\\SysWOW64\\*&quot;)) NOT (Image=&quot;*\\node.exe&quot; OR (Image=&quot;C:\\ProgramData\\Microsoft\\Windows Defender\\*&quot; Image IN (&quot;*\\MsMpEng.exe&quot;, &quot;*\\MpCopyAccelerator.exe&quot;)))</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceFileEvents
+| where ((FileName contains &quot;\\.claude\\&quot; and FileName endswith &quot;credentials.json&quot;) or (FileName endswith &quot;\\.codex\\auth.json&quot; or FileName endswith &quot;\\.aws\\sso\\cache\\kiro-auth-token.json&quot; or FileName endswith &quot;\\Kiro\\User\\globalStorage\\kiro.kiroagent\\profile.json&quot; or FileName endswith &quot;\\.copilot\\hosts.json&quot; or FileName endswith &quot;\\gemini-cli-workspace-token.json&quot; or FileName endswith &quot;\\.gemini-cli-workspace-master-key&quot; or FileName endswith &quot;\\amazon-q\\data.sqlite3&quot;)) and (not((((InitiatingProcessFolderPath startswith &quot;C:\\Users\\&quot; or InitiatingProcessFolderPath startswith &quot;C:\\Program Files\\&quot;) and (InitiatingProcessFolderPath endswith &quot;\\claude.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\codex.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\Kiro.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\Code.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\Cursor.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\Windsurf.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\q.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\qchat.exe&quot;)) or InitiatingProcessFolderPath =~ &quot;System&quot; or (InitiatingProcessFolderPath startswith &quot;C:\\Windows\\System32\\&quot; or InitiatingProcessFolderPath startswith &quot;C:\\Windows\\SysWOW64\\&quot;)))) and (not((InitiatingProcessFolderPath endswith &quot;\\node.exe&quot; or (InitiatingProcessFolderPath startswith &quot;C:\\ProgramData\\Microsoft\\Windows Defender\\&quot; and (InitiatingProcessFolderPath endswith &quot;\\MsMpEng.exe&quot; or InitiatingProcessFolderPath endswith &quot;\\MpCopyAccelerator.exe&quot;)))))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>The owning AI tool or CLI installed under a different image name or path (for example JetBrains IDE AI plugins reading Copilot hosts.json, or Python-based CLIs); add those images to the filter after review</li><li>Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile</li><li>Users opening these files in a text editor</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Credential Access</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1528/" rel="noopener"><span class="chip">T1528</span></a> Steal Application Access Token</li><li><a href="https://attack.mitre.org/techniques/T1552/001/" rel="noopener"><span class="chip">T1552.001</span></a> Unsecured Credentials: Credentials In Files</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>file_access</dd></div><div><dt>Product</dt><dd>windows</dd></div><div><dt>Definition</dt><dd>Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/" rel="noopener">research.checkpoint.com</a><span class="muted small ref-url">https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">ba9ec624-7957-425c-99e9-63b90de1a7b3</dd></div>
+        <div><dt>Created</dt><dd>2026-10-24</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-24</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    <div class="panel"><h3>Related rules</h3><ul class="plain"><li><a href="file_access_win_ai_coding_assistant_config_files_accessed_by_uncommon_process.html">AI Coding Assistant Config Files Accessed By Uncommon Process</a> <span class="muted small">(derived)</span></li></ul></div>
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

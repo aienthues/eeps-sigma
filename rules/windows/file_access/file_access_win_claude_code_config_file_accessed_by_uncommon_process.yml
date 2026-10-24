@@ -1,0 +1,70 @@
+title: Claude Code Config File Accessed By Uncommon Process
+id: e6193112-15d5-4bad-9aff-1447fd972be1
+related:
+    - id: 341139a9-314b-4496-8a9e-23e7ba9855c2
+      type: derived
+status: experimental
+description: |
+    Detects a process other than Claude Code accessing the Claude Code configuration file .claude.json in a user profile.
+    Symantec reports that Aoki infostealer modules "were designed to harvest credential and session files for Claude, OpenAI's Codex, Cursor, Codeium and Gemini", and that the newest version "targeted .claude.json, Claude desktop cookies, ChatGPT cookies, and the Codex config.toml and .env files".
+    Claude Code reads this file on every run, so the native installer binary under C:\Users\<user>\.local\bin, the claude.exe bundled with the Claude Code IDE extension, and the Claude desktop app are filtered;
+    processes under Program Files (including a machine-wide Node.js install), System32/SysWOW64, the System process and Microsoft Defender are excluded.
+    An optional filter excludes node.exe run from per-user Node.js version managers (nvm-windows, nvm4w, Volta, fnm) used to run an npm-installed Claude Code; removing it restores visibility of Node.js-based stealers running from those locations at the cost of more noise.
+    Intended as a low-severity hunting rule; review hits for the accessing image and correlate with network activity.
+references:
+    - https://www.security.com/threat-intelligence/aoki-infostealer-ai-targeting
+    - https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/
+author: Esmond Er
+date: 2026-10-19
+modified: 2026-10-24
+tags:
+    - attack.credential-access
+    - attack.t1552.001
+    - detection.threat-hunting
+logsource:
+    category: file_access
+    product: windows
+    definition: 'Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry'
+detection:
+    selection:
+        FileName|endswith: '\.claude.json'
+    filter_main_claude_native:
+        Image|startswith: 'C:\Users\'
+        Image|endswith: '\.local\bin\claude.exe'
+    filter_main_claude_ide_extension:
+        Image|startswith: 'C:\Users\'
+        Image|contains: '\extensions\anthropic.claude-code-'
+        Image|endswith: '\claude.exe'
+    filter_main_claude_desktop:
+        Image|startswith: 'C:\Users\'
+        Image|contains: '\AppData\Local\AnthropicClaude\'
+        Image|endswith: '\claude.exe'
+    filter_main_system:
+        Image: 'System'
+    filter_main_generic:
+        Image|startswith:
+            - 'C:\Program Files\'
+            - 'C:\Program Files (x86)\'
+            - 'C:\Windows\System32\'
+            - 'C:\Windows\SysWOW64\'
+    filter_optional_node_user_managers:
+        - Image|startswith: 'C:\Users\'
+          Image|contains:
+              - '\AppData\Roaming\nvm\'
+              - '\AppData\Local\Volta\tools\image\node\'
+              - '\AppData\Roaming\fnm\node-versions\'
+          Image|endswith: '\node.exe'
+        - Image|startswith: 'C:\nvm4w\'
+          Image|endswith: '\node.exe'
+    filter_optional_defender:
+        Image|startswith: 'C:\ProgramData\Microsoft\Windows Defender\'
+        Image|endswith:
+            - '\MsMpEng.exe'
+            - '\MpCopyAccelerator.exe'
+    condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+falsepositives:
+    - Claude Code installed to a non-default location, or run through a Node.js install outside Program Files and the listed version managers; add those image paths to the filter after review
+    - IDEs, MCP management tools or editor extensions other than Claude Code that read or edit .claude.json to configure MCP servers
+    - Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile
+    - Users opening .claude.json in a text editor installed per-user (e.g. under AppData\Local\Programs)
+level: low

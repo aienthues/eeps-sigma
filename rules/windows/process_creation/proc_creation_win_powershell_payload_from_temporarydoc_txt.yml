@@ -1,0 +1,33 @@
+title: PowerShell Executing Payload From Temporarydoc.txt
+id: fe53df57-7f30-484c-8cc8-119b22bd3538
+status: experimental
+description: |
+    Detects PowerShell started with a command line that references temporarydoc.txt.
+    ESET reports that "a scheduled task named pdfopentask was executed on one machine in the target organization" and that "It executed a PowerShell payload
+    from %temp%\temporarydoc.txt". ESET does not publish the exact command line, so the rule only requires the file name to appear in it
+    (e.g. a Get-Content/Invoke-Expression read-and-invoke launch; an -EncodedCommand launch that hides the file name would not match).
+references:
+    - https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-24
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith:
+              - '\powershell.exe'
+              - '\pwsh.exe'
+        - OriginalFileName:
+              - 'PowerShell.EXE'
+              - 'pwsh.dll'
+    selection_cli:
+        CommandLine|contains: 'temporarydoc.txt'
+    condition: all of selection_*
+falsepositives:
+    - None known; a user script that happens to use the file name temporarydoc.txt as a scratch file (review the file content)
+level: high

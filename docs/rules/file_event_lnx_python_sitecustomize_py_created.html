@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python sitecustomize.py Startup Hook File Created - Linux · eeps-sigma</title>
+<meta name="description" content="Detects creation of a sitecustomize.py file by a process other than the system package manager.">
+<meta property="og:title" content="Python sitecustomize.py Startup Hook File Created - Linux · eeps-sigma">
+<meta property="og:description" content="Detects creation of a sitecustomize.py file by a process other than the system package manager.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Linux</span><span>/</span><span>file event</span></nav>
+    <h1>Python sitecustomize.py Startup Hook File Created - Linux</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Linux · file event</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/linux/file_event/file_event_lnx_python_sitecustomize_py_created.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/linux/file_event/file_event_lnx_python_sitecustomize_py_created.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects creation of a sitecustomize.py file by a process other than the system package manager.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Python imports sitecustomize automatically while the site module initializes, so code in this file runs every time the interpreter starts.</p><p>Microsoft reports that the trojanized LiteLLM 1.107.0 wheel placed cook.pth, cook.py and sitecustomize.py in the Python library directory (through litellm-1.107.0.data/purelib/, outside the litellm package folder). Microsoft notes that &quot;This placement enabled execution through Python&#x27;s normal site initialization&quot;. In that campaign, sitecustomize.py held the remote loader.</p><p>New .pth files in site-packages are already covered by the SigmaHQ threat-hunting rule &quot;Python Path Configuration File Creation - Linux&quot;; this rule covers the sitecustomize.py hook, which that rule does not.</p><p>Assumptions: the package-manager filter uses common Linux package manager binary names, and the APM filters use the default package layouts of Datadog ddtrace, OpenTelemetry Python auto-instrumentation, New Relic and the JetBrains PyCharm debugger helpers, which ship their own sitecustomize.py. None of these values come from the report.</p><p>Note: on RHEL-family systems yum/dnf run as Python, so the package-manager filter by Image may not match there.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Python sitecustomize.py Startup Hook File Created - Linux
+<span class="y-key">id</span>: 188f63a2-d639-49a0-b3eb-4a77088c3d4b
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects creation of a sitecustomize.py file by a process other than the system package manager.
+    Python imports sitecustomize automatically while the site module initializes, so code in this file runs every time the interpreter starts.
+    Microsoft reports that the trojanized LiteLLM 1.107.0 wheel placed cook.pth, cook.py and sitecustomize.py in the Python library directory
+    (through litellm-1.107.0.data/purelib/, outside the litellm package folder). Microsoft notes that &quot;This placement enabled execution through
+    Python&#x27;s normal site initialization&quot;. In that campaign, sitecustomize.py held the remote loader.
+    New .pth files in site-packages are already covered by the SigmaHQ threat-hunting rule <span class="y-str">&quot;Python Path Configuration File Creation - Linux&quot;</span>;
+    this rule covers the sitecustomize.py hook, which that rule does not.
+    <span class="y-key">Assumptions</span>: the package-manager filter uses common Linux package manager binary names, and the APM filters use the default package layouts
+    of Datadog ddtrace, OpenTelemetry Python auto-instrumentation, New Relic and the JetBrains PyCharm debugger helpers, which ship their own
+    sitecustomize.py. None of these values come from the report.
+    <span class="y-key">Note</span>: on RHEL-family systems yum/dnf run as Python, so the package-manager filter by Image may not match there.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://www.microsoft.com/en-us/security/blog/2026/10/23/inside-the-litellm-1-107-0-supply-chain-compromise-credential-theft-through-python-startup-hooks/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-24
+<span class="y-key">modified</span>: 2026-10-24
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.persistence
+<span class="y-dash">    -</span> attack.privilege-escalation
+<span class="y-dash">    -</span> attack.t1546.018
+<span class="y-key">logsource</span>:
+    <span class="y-key">category</span>: file_event
+    <span class="y-key">product</span>: linux
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">TargetFilename</span><span class="y-mod">|endswith</span>: <span class="y-str">&#x27;/sitecustomize.py&#x27;</span>
+    <span class="y-key">filter_main_pkg</span>:
+        <span class="y-key">Image</span><span class="y-mod">|endswith</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/dpkg&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/rpm&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/yum&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/dnf&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/apt&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/apt-get&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/microdnf&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/zypper&#x27;</span>
+    <span class="y-key">filter_optional_apm</span>:
+        <span class="y-key">TargetFilename</span><span class="y-mod">|contains</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/ddtrace/bootstrap/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/opentelemetry/instrumentation/auto_instrumentation/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/newrelic/bootstrap/&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;/pydev_sitecustomize/&#x27;</span>
+    <span class="y-key">condition</span>: selection and not 1 of filter_*
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Python packages that legitimately ship a sitecustomize.py, such as APM or coverage tools in layouts other than the filtered ones
+<span class="y-dash">    -</span> Developers or container builds that write a custom sitecustomize.py on purpose (for example to set sys.path or enable coverage in tests)
+<span class="y-dash">    -</span> Python builds from source or Conda environments that install a distribution sitecustomize.py
+<span class="y-dash">    -</span> JetBrains PyCharm debugger helpers deployed to remote interpreters (pydev_sitecustomize), filtered by an assumed default helper path
+<span class="y-dash">    -</span> New Relic Python agent bootstrap (newrelic-admin run-program), filtered by an assumed default package layout (/newrelic/bootstrap/)
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>TargetFilename=&quot;*/sitecustomize.py&quot; NOT (Image IN (&quot;*/dpkg&quot;, &quot;*/rpm&quot;, &quot;*/yum&quot;, &quot;*/dnf&quot;, &quot;*/apt&quot;, &quot;*/apt-get&quot;, &quot;*/microdnf&quot;, &quot;*/zypper&quot;) OR TargetFilename IN (&quot;*/ddtrace/bootstrap/*&quot;, &quot;*/opentelemetry/instrumentation/auto_instrumentation/*&quot;, &quot;*/newrelic/bootstrap/*&quot;, &quot;*/pydev_sitecustomize/*&quot;))</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceFileEvents
+| where FolderPath endswith &quot;/sitecustomize.py&quot; and (not(((InitiatingProcessFolderPath endswith &quot;/dpkg&quot; or InitiatingProcessFolderPath endswith &quot;/rpm&quot; or InitiatingProcessFolderPath endswith &quot;/yum&quot; or InitiatingProcessFolderPath endswith &quot;/dnf&quot; or InitiatingProcessFolderPath endswith &quot;/apt&quot; or InitiatingProcessFolderPath endswith &quot;/apt-get&quot; or InitiatingProcessFolderPath endswith &quot;/microdnf&quot; or InitiatingProcessFolderPath endswith &quot;/zypper&quot;) or (FolderPath contains &quot;/ddtrace/bootstrap/&quot; or FolderPath contains &quot;/opentelemetry/instrumentation/auto_instrumentation/&quot; or FolderPath contains &quot;/newrelic/bootstrap/&quot; or FolderPath contains &quot;/pydev_sitecustomize/&quot;))))</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Python packages that legitimately ship a sitecustomize.py, such as APM or coverage tools in layouts other than the filtered ones</li><li>Developers or container builds that write a custom sitecustomize.py on purpose (for example to set sys.path or enable coverage in tests)</li><li>Python builds from source or Conda environments that install a distribution sitecustomize.py</li><li>JetBrains PyCharm debugger helpers deployed to remote interpreters (pydev_sitecustomize), filtered by an assumed default helper path</li><li>New Relic Python agent bootstrap (newrelic-admin run-program), filtered by an assumed default package layout (/newrelic/bootstrap/)</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Persistence</span> <span class="chip chip-soft">Privilege Escalation</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1546/018/" rel="noopener"><span class="chip">T1546.018</span></a> Event Triggered Execution: Python Startup Hooks</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Category</dt><dd>file_event</dd></div><div><dt>Product</dt><dd>linux</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://www.microsoft.com/en-us/security/blog/2026/10/23/inside-the-litellm-1-107-0-supply-chain-compromise-credential-theft-through-python-startup-hooks/" rel="noopener">microsoft.com</a><span class="muted small ref-url">https://www.microsoft.com/en-us/security/blog/2026/10/23/inside-the-litellm-1-107-0-supply-chain-compromise-credential-theft-through-python-startup-hooks/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">188f63a2-d639-49a0-b3eb-4a77088c3d4b</dd></div>
+        <div><dt>Created</dt><dd>2026-10-24</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-24</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

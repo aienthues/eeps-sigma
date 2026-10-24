@@ -1,0 +1,35 @@
+title: Microsoft Edge Launched Off-Screen With 1x1 Window Or Base64 HTML Data URI
+id: 19db3d68-a96f-4ad1-ae7c-1805bf378ed4
+status: experimental
+description: |
+    Detects msedge.exe started with the window position 10000,10000 together with a 1x1 window size or an inline base64 data:text/html URI.
+    Symantec reports that hosts infected with Swallowtail's Hookedge backdoor "fetch tasks using a hidden, off-screen instance of the Microsoft Edge browser",
+    launched by a batch script as "start "" msedge.exe --window-size=1,1 --window-position=10000,10000 --ignore-certificate-errors" and
+    "passing it an inline, base64-encoded JavaScript payload rather than a URL" ("data:text/html;base64,").
+    A window placed far off-screen at 1x1 pixels hides the browser from the user while it acts as the backdoor's HTTP client. The rule requires the off-screen
+    position plus one of the other two arguments, so a different window size or a URL argument still matches through the other branch.
+references:
+    - https://www.security.com/threat-intelligence/swallowtail-russia-nato-targets
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.stealth
+    - attack.t1564.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\msedge.exe'
+        - OriginalFileName: 'msedge.exe'
+    selection_offscreen:
+        CommandLine|contains: '--window-position=10000,10000'
+    selection_hide:
+        CommandLine|contains:
+            - '--window-size=1,1'
+            - 'data:text/html;base64,'
+    condition: all of selection_*
+falsepositives:
+    - Automation or kiosk tooling that deliberately runs Edge off-screen with a tiny window (e.g. headful scraping or rendering jobs); review the parent process and the command line
+level: high

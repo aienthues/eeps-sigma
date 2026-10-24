@@ -1,0 +1,75 @@
+title: AI Assistant Or Developer CLI Auth Token Files Accessed By Uncommon Process
+id: ba9ec624-7957-425c-99e9-63b90de1a7b3
+related:
+    - id: 341139a9-314b-4496-8a9e-23e7ba9855c2
+      type: derived
+status: experimental
+description: |
+    Detects a process other than the owning tool accessing authentication or token files of AI coding assistants and AI-enabled developer CLIs
+    (Claude Code credentials, Codex auth.json, Kiro auth token and profile, GitHub Copilot hosts.json, Gemini CLI workspace token and master key, Amazon Q data store).
+    Check Point reports that the Aokigahara infostealer's "aisessions" handler "targets AI applications and development tools" and collects
+    "authentication files, session data, and configuration files associated with AI-assisted development and cloud environments"; "The paths below identify the handler's collection targets."
+    The report gives each path relative to an unnamed base folder (%s), so the rule matches the verbatim path suffixes only. For Claude Code it matches a
+    credentials.json file under a .claude folder, which also covers the dot-prefixed .credentials.json name.
+    State databases shared by many editor processes (state.vscdb, storage.json) and AWS CLI credential files are left out because every IDE, SDK and extension reads them.
+    Owner filters are assumed default image names, not from the report: claude.exe, codex.exe, Kiro.exe, Code.exe, Cursor.exe, Windsurf.exe and Amazon Q q.exe/qchat.exe
+    under a user profile or Program Files. An optional filter excludes node.exe, which runs npm-installed Gemini CLI, Copilot CLI and Codex; removing it restores visibility
+    of Node.js-based stealers at the cost of more noise. A stealer that renames itself to an owner image name evades the rule.
+references:
+    - https://research.checkpoint.com/2026/infostealer-riding-the-ai-train/
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.credential-access
+    - attack.t1528
+    - attack.t1552.001
+logsource:
+    category: file_access
+    product: windows
+    definition: 'Requirements: Microsoft-Windows-Kernel-File ETW provider or EDR file-open telemetry'
+detection:
+    selection_claude:
+        FileName|contains: '\.claude\'
+        FileName|endswith: 'credentials.json'
+    selection_other:
+        FileName|endswith:
+            - '\.codex\auth.json'
+            - '\.aws\sso\cache\kiro-auth-token.json'
+            - '\Kiro\User\globalStorage\kiro.kiroagent\profile.json'
+            - '\.copilot\hosts.json'
+            - '\gemini-cli-workspace-token.json'
+            - '\.gemini-cli-workspace-master-key'
+            - '\amazon-q\data.sqlite3'
+    filter_main_owner:
+        Image|startswith:
+            - 'C:\Users\'
+            - 'C:\Program Files\'
+        Image|endswith:
+            - '\claude.exe'
+            - '\codex.exe'
+            - '\Kiro.exe'
+            - '\Code.exe'
+            - '\Cursor.exe'
+            - '\Windsurf.exe'
+            - '\q.exe'
+            - '\qchat.exe'
+    filter_main_system:
+        Image: 'System'
+    filter_main_generic:
+        Image|startswith:
+            - 'C:\Windows\System32\'
+            - 'C:\Windows\SysWOW64\'
+    filter_optional_node:
+        Image|endswith: '\node.exe'
+    filter_optional_defender:
+        Image|startswith: 'C:\ProgramData\Microsoft\Windows Defender\'
+        Image|endswith:
+            - '\MsMpEng.exe'
+            - '\MpCopyAccelerator.exe'
+    condition: 1 of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*
+falsepositives:
+    - The owning AI tool or CLI installed under a different image name or path (for example JetBrains IDE AI plugins reading Copilot hosts.json, or Python-based CLIs); add those images to the filter after review
+    - Backup, file-sync and third-party antivirus scanners running from outside Program Files that read the user profile
+    - Users opening these files in a text editor
+level: medium

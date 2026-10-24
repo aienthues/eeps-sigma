@@ -1,0 +1,54 @@
+title: Python sitecustomize.py Startup Hook File Created - Linux
+id: 188f63a2-d639-49a0-b3eb-4a77088c3d4b
+status: experimental
+description: |
+    Detects creation of a sitecustomize.py file by a process other than the system package manager.
+    Python imports sitecustomize automatically while the site module initializes, so code in this file runs every time the interpreter starts.
+    Microsoft reports that the trojanized LiteLLM 1.107.0 wheel placed cook.pth, cook.py and sitecustomize.py in the Python library directory
+    (through litellm-1.107.0.data/purelib/, outside the litellm package folder). Microsoft notes that "This placement enabled execution through
+    Python's normal site initialization". In that campaign, sitecustomize.py held the remote loader.
+    New .pth files in site-packages are already covered by the SigmaHQ threat-hunting rule "Python Path Configuration File Creation - Linux";
+    this rule covers the sitecustomize.py hook, which that rule does not.
+    Assumptions: the package-manager filter uses common Linux package manager binary names, and the APM filters use the default package layouts
+    of Datadog ddtrace, OpenTelemetry Python auto-instrumentation, New Relic and the JetBrains PyCharm debugger helpers, which ship their own
+    sitecustomize.py. None of these values come from the report.
+    Note: on RHEL-family systems yum/dnf run as Python, so the package-manager filter by Image may not match there.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/10/23/inside-the-litellm-1-107-0-supply-chain-compromise-credential-theft-through-python-startup-hooks/
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1546.018
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection:
+        TargetFilename|endswith: '/sitecustomize.py'
+    filter_main_pkg:
+        Image|endswith:
+            - '/dpkg'
+            - '/rpm'
+            - '/yum'
+            - '/dnf'
+            - '/apt'
+            - '/apt-get'
+            - '/microdnf'
+            - '/zypper'
+    filter_optional_apm:
+        TargetFilename|contains:
+            - '/ddtrace/bootstrap/'
+            - '/opentelemetry/instrumentation/auto_instrumentation/'
+            - '/newrelic/bootstrap/'
+            - '/pydev_sitecustomize/'
+    condition: selection and not 1 of filter_*
+falsepositives:
+    - Python packages that legitimately ship a sitecustomize.py, such as APM or coverage tools in layouts other than the filtered ones
+    - Developers or container builds that write a custom sitecustomize.py on purpose (for example to set sys.path or enable coverage in tests)
+    - Python builds from source or Conda environments that install a distribution sitecustomize.py
+    - JetBrains PyCharm debugger helpers deployed to remote interpreters (pydev_sitecustomize), filtered by an assumed default helper path
+    - New Relic Python agent bootstrap (newrelic-admin run-program), filtered by an assumed default package layout (/newrelic/bootstrap/)
+level: medium

