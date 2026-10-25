@@ -1,0 +1,29 @@
+title: Entra ID Device Named DESKTOP- Plus Eight Hex Characters
+id: c77db642-63be-43e8-b760-0fb064665082
+status: experimental
+description: |
+    Detects Entra ID audit events whose target device is named "DESKTOP-" followed by exactly eight uppercase hexadecimal characters (e.g. DESKTOP-54521F46).
+    Huntress reports that a token replay operator registered at least 48 rogue Entra-joined devices for persistence after signing in to the Device Registration Service,
+    each "an Entra-joined device named `DESKTOP-` plus eight hex characters". The Windows default hostname is "DESKTOP-" plus seven characters, so the
+    eight-character hex suffix sets these devices apart.
+    The report does not name the audit operation, and no SigmaHQ rule uses an Entra device-registration operation name, so the rule matches any audit event
+    whose target resource carries such a name (device add, update, owner or user assignment). Treat the first event per device as the registration.
+references:
+    - https://www.huntress.com/blog/token-replay-spray
+author: Esmond Er
+date: 2026-10-25
+tags:
+    - attack.persistence
+    - attack.t1098.005
+logsource:
+    product: azure
+    service: auditlogs
+    definition: 'Requirements: The TargetResources array needs to be mapped so that each target resource displayName can be matched'
+detection:
+    selection:
+        TargetResources.displayName|re: '^DESKTOP-[0-9A-F]{8}$'
+    condition: selection
+falsepositives:
+    - Windows Autopilot or MDM naming templates that produce a DESKTOP- prefix with an eight-character random or serial suffix (e.g. DESKTOP-%RAND:8%); check the tenant's Autopilot deployment profile naming template and exclude it if it matches
+    - Machines manually renamed by IT to an eight-character asset tag after DESKTOP-; confirm against the asset inventory
+level: medium

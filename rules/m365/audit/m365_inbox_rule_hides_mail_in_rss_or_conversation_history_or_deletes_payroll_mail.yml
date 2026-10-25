@@ -1,0 +1,67 @@
+title: Inbox Rule Moving Mail To RSS Or Conversation History Folder Or Deleting Payroll Mail
+id: ac5caa57-702a-440c-a048-a048a3e194d8
+status: experimental
+description: |
+    Detects creation or update of an Exchange Online inbox rule that moves messages to the RSS Feeds, RSS Subscriptions or Conversation History folder,
+    or that deletes messages matching payroll, direct deposit, bank or bonus keywords.
+    Huntress reports business email compromise after token replay in which hidden inbox rules with short or punctuation-only names used the actions
+    "Move to RSS Feeds, mark as read", "Move to RSS Subscriptions, mark as read", "Move to Conversation History, mark as read" and "Mark as read, delete",
+    with the condition "Subject or body contains payroll, direct deposit, bank, or bonus". In four mailboxes,
+    "rules were created through the Outlook REST API rather than Outlook itself"; rules created outside the Exchange cmdlets can be logged as UpdateInboxRules
+    (with OperationProperties) instead of New-InboxRule/Set-InboxRule, so both are covered.
+    Note: UpdateInboxRules may record the destination folder as a folder ID instead of a display name, in which case the folder-name branch will not fire;
+    validate against tenant data.
+    The report gives no unified audit log operation or parameter names. The operations New-InboxRule and Set-InboxRule with the Parameters field
+    and the DeleteMessage value follow SigmaHQ microsoft365_susp_inbox_rule_creation_or_update_activity.yml, and UpdateInboxRules with the
+    OperationProperties field follows SigmaHQ microsoft365_susp_email_forwarding_activity.yml. Matching DeleteMessage inside OperationProperties
+    is not used by SigmaHQ and is unverified; UpdateInboxRules may encode the delete action differently, so the REST delete branch may not fire.
+    This rule narrows that generic SigmaHQ hunting logic to the folders and keywords from the report.
+references:
+    - https://www.huntress.com/blog/token-replay-spray
+author: Esmond Er
+date: 2026-10-25
+tags:
+    - attack.stealth
+    - attack.t1564.008
+logsource:
+    product: m365
+    service: audit
+    definition: "Requirements: The 'Parameters' and 'OperationProperties' fields are a list of dict. A correct mapping to the 'Value' field inside is recommended to avoid greedy search"
+detection:
+    selection_cmdlet:
+        Operation:
+            - 'New-InboxRule'
+            - 'Set-InboxRule'
+    selection_cmdlet_folder:
+        Parameters|contains:
+            - 'RSS Feeds'
+            - 'RSS Subscriptions'
+            - 'Conversation History'
+    selection_cmdlet_delete:
+        Parameters|contains: 'DeleteMessage'
+    selection_cmdlet_keywords:
+        Parameters|contains:
+            - 'payroll'
+            - 'direct deposit'
+            - 'bank'
+            - 'bonus'
+    selection_rest_op:
+        Operation: 'UpdateInboxRules'
+    selection_rest_folder:
+        OperationProperties|contains:
+            - 'RSS Feeds'
+            - 'RSS Subscriptions'
+            - 'Conversation History'
+    selection_rest_delete:
+        OperationProperties|contains: 'DeleteMessage'
+    selection_rest_keywords:
+        OperationProperties|contains:
+            - 'payroll'
+            - 'direct deposit'
+            - 'bank'
+            - 'bonus'
+    condition: (selection_cmdlet and (selection_cmdlet_folder or (selection_cmdlet_delete and selection_cmdlet_keywords))) or (selection_rest_op and (selection_rest_folder or (selection_rest_delete and selection_rest_keywords)))
+falsepositives:
+    - Users who deliberately file newsletters or Teams/Skype conversation notifications into the RSS Feeds or Conversation History folder with their own rule; review the rule name and conditions with the mailbox owner
+    - Users or finance staff who auto-delete bank or bonus marketing mail with a keyword rule; check whether the rule name is meaningful and whether the creating session matches the user's normal devices
+level: high

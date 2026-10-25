@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="95 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="97 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="95 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="97 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>95</dd></div>
-      <div><dt>ATT&amp;CK techniques</dt><dd>63</dd></div>
-      <div><dt>Platforms</dt><dd>5</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-24</dd></div>
+      <div><dt>Published rules</dt><dd>97</dd></div>
+      <div><dt>ATT&amp;CK techniques</dt><dd>65</dd></div>
+      <div><dt>Platforms</dt><dd>6</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-25</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:24%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:52%"></i></span><span class="t-n">15</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">24</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">29</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:21%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:14%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:45%"></i></span><span class="t-n">13</span></li><li class="on"><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:23%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:50%"></i></span><span class="t-n">15</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">25</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:13%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">30</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:20%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:13%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:43%"></i></span><span class="t-n">13</span></li><li class="on"><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -94,7 +94,7 @@
     <input class="search" type="search" placeholder="Search title, technique, log source…" aria-label="Search rules" data-search-input>
   </div>
   <div class="filters" role="group" aria-label="Filters">
-    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><button type="button" class="f" data-filter="level" data-value="informational">Informational</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="beyondtrust">Beyondtrust</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
+    <button type="button" class="f on" data-filter="all">All</button><button type="button" class="f" data-filter="level" data-value="high">High</button><button type="button" class="f" data-filter="level" data-value="medium">Medium</button><button type="button" class="f" data-filter="level" data-value="low">Low</button><button type="button" class="f" data-filter="level" data-value="informational">Informational</button><span class="sep"></span><button type="button" class="f" data-filter="product" data-value="azure">Azure</button><button type="button" class="f" data-filter="product" data-value="beyondtrust">Beyondtrust</button><button type="button" class="f" data-filter="product" data-value="linux">Linux</button><button type="button" class="f" data-filter="product" data-value="m365">Microsoft 365</button><button type="button" class="f" data-filter="product" data-value="web">Web server</button><button type="button" class="f" data-filter="product" data-value="windows">Windows</button>
   </div>
   <div class="rule-list" data-rule-list>
     <div class="rule-row rule-head" aria-hidden="true"><span>Rule</span><span class="rr-tech">ATT&amp;CK</span><span>Level</span><span class="rr-date">Updated</span></div>
@@ -198,6 +198,16 @@
         <span class="rr-tech"><span class="chip">T1068</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-02</span>
+      </a>
+      <a class="rule-row" href="rules/m365_inbox_rule_hides_mail_in_rss_or_conversation_history_or_deletes_payroll_mail.html" data-level="high" data-product="m365"
+         data-search="inbox rule moving mail to rss or conversation history folder or deleting payroll mail t1564.008 audit detects creation or update of an exchange online inbox rule that moves messages to the rss feeds, rss subscriptions or conversation history folder, or that deletes messages matching payroll, direct deposit, bank or bonus keywords. huntress reports business email compromise after token replay in which hidden inbox rules with short or punctuation-only names used the actions &quot;move to rss feeds, mark as read&quot;, &quot;move to rss subscriptions, mark as read&quot;, &quot;move to conversation history, mark as read&quot; and &quot;mark as read, delete&quot;, with the condition &quot;subject or body contains payroll, direct deposit, bank, or bonus&quot;. in four mailboxes, &quot;rules were created through the outlook rest api rather than outlook itself&quot;; rules created outside the exchange cmdlets can be logged as updateinboxrules (with operationproperties) instead of new-inboxrule/set-inboxrule, so both are covered. note: updateinboxrules may record the destination folder as a folder id instead of a display name, in which case the folder-name branch will not fire; validate against tenant data. the report gives no unified audit log operation or parameter names. the operations new-inboxrule and set-inboxrule with the parameters field and the deletemessage value follow sigmahq microsoft365_susp_inbox_rule_creation_or_update_activity.yml, and updateinboxrules with the operationproperties field follows sigmahq microsoft365_susp_email_forwarding_activity.yml. matching deletemessage inside operationproperties is not used by sigmahq and is unverified; updateinboxrules may encode the delete action differently, so the rest delete branch may not fire. this rule narrows that generic sigmahq hunting logic to the folders and keywords from the report.">
+        <span class="rr-main">
+          <span class="rr-title">Inbox Rule Moving Mail To RSS Or Conversation History Folder Or Deleting Payroll Mail</span>
+          <span class="rr-sub">Microsoft 365 · audit</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1564.008</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-25</span>
       </a>
       <a class="rule-row" href="rules/web_aspx_request_to_documents_memberfiles_upload_directory.html" data-level="high" data-product="web"
          data-search="aspx request to documents memberfiles upload directory t1505.003 webserver detects web requests for .aspx files under /documents/memberfiles/, the member file upload folder of a multi-tenant recreation management platform. huntress observed an attacker register a member account, &quot;upload malicious files directly to the /documents/memberfiles/ directory&quot; and use only the uploaded .aspx files (e.g. /documents/memberfiles/12345_67890_&lt;guid&gt;.aspx) to run commands as webshells. a user upload folder should not serve executable aspx pages.">
@@ -618,6 +628,16 @@
         <span class="rr-tech"><span class="chip">T1490</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-09-28</span>
+      </a>
+      <a class="rule-row" href="rules/azure_audit_device_named_desktop_eight_hex_characters.html" data-level="medium" data-product="azure"
+         data-search="entra id device named desktop- plus eight hex characters t1098.005 auditlogs detects entra id audit events whose target device is named &quot;desktop-&quot; followed by exactly eight uppercase hexadecimal characters (e.g. desktop-54521f46). huntress reports that a token replay operator registered at least 48 rogue entra-joined devices for persistence after signing in to the device registration service, each &quot;an entra-joined device named `desktop-` plus eight hex characters&quot;. the windows default hostname is &quot;desktop-&quot; plus seven characters, so the eight-character hex suffix sets these devices apart. the report does not name the audit operation, and no sigmahq rule uses an entra device-registration operation name, so the rule matches any audit event whose target resource carries such a name (device add, update, owner or user assignment). treat the first event per device as the registration.">
+        <span class="rr-main">
+          <span class="rr-title">Entra ID Device Named DESKTOP- Plus Eight Hex Characters</span>
+          <span class="rr-sub">Azure · auditlogs</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1098.005</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-25</span>
       </a>
       <a class="rule-row" href="rules/azure_signin_connectwise_skykick_app_scripted_user_agent.html" data-level="medium" data-product="azure"
          data-search="sign-in via connectwise or skykick multi-tenant app with scripted http client user agent t1195 t1078.004 signinlogs detects entra id sign-ins to one of the connectwise or skykick multi-tenant applications abused by storm-0940 where the client user agent is a scripting library or command-line http client rather than the vendor&#x27;s own service. microsoft reports that storm-0940 used the compromised connectwise apps (connectwise cloud backup, connectwise - ms teams, connectwise - ms graph, skykick partner portal) to reach downstream customer tenants, and that &quot;these user agents were seen performing sign-ins and graph api activity on customer environments using connectwise apps&quot;: python-urllib/3.12, python-requests/2.31.0, python-requests/2.34.2, curl/7.88.1 and azure-toolkit/1.0. microsoft lists these user agents as a group and does not tie any single one to a specific tool. the app ids alone identify legitimate vendor traffic too; the scripted user agent is the behavioural qualifier. version numbers are dropped so the rule survives tooling updates. field names follow the entra sign-in log schema (appid, useragent); map them to appid/useragent for the sentinel signinlogs table. coverage limit: this rule covers signinlogs only, as microsoft&#x27;s own hunting query does. service-principal sign-ins land in aadserviceprincipalsigninlogs, which has no user-agent column, and are not covered by this rule.">
