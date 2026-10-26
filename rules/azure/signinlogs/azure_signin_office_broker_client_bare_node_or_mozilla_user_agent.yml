@@ -1,0 +1,41 @@
+title: Sign-In Via Microsoft Office Or Authentication Broker Client With Bare Node Or Mozilla User Agent
+id: b8316228-6485-4c0f-b8e2-f111f4ba8fb9
+status: experimental
+description: |
+    Detects Entra ID sign-ins that use the first-party Microsoft Office or Microsoft Authentication Broker public client where the user agent is exactly
+    "node" or a bare "Mozilla/5.0" with no platform details.
+    Huntress reports a token spray and replay campaign by an unattributed operator; in its scripted "Build A" tooling,
+    stolen tokens were redeemed from hosting infrastructure using the Microsoft Office or Authentication Broker client against Microsoft Graph,
+    Exchange Online, SharePoint Online and the Device Registration Service. The report lists "node" as "Build A token replay" and "Mozilla/5.0" as
+    "Bare, with no platform details".
+    The rule treats an exact "node" or "Mozilla/5.0" value with these client IDs as a sign of a script reusing a first-party client ID.
+    Exact equality is used deliberately so that full browser user agents, which begin with "Mozilla/5.0" followed by platform details, do not match.
+    The hosting IP range from the report is intentionally not part of the logic so the rule survives infrastructure changes.
+    Field names follow the Entra sign-in log schema (appId, userAgent); map them to AppId/UserAgent for the Sentinel SigninLogs table. Failed sign-ins are
+    included on purpose (the report also observed replay attempts of revoked sessions); filter on ResultType 0 to see only successful redemptions.
+references:
+    - https://www.huntress.com/blog/token-replay-spray
+author: Esmond Er
+date: 2026-10-25
+modified: 2026-10-26
+tags:
+    - attack.lateral-movement
+    - attack.t1550.001
+logsource:
+    product: azure
+    service: signinlogs
+detection:
+    selection_app:
+        appId:
+            - 'd3590ed6-52b3-4102-aeff-aad2292ab01c'  # Microsoft Office
+            - '29d9ed98-a469-4536-ade2-f981bc1d605e'  # Microsoft Authentication Broker
+    selection_ua:
+        userAgent:
+            - 'node'
+            - 'Mozilla/5.0'
+    condition: all of selection_*
+falsepositives:
+    - In-house Node.js automation (built-in fetch sends the user agent "node") that authenticates with the Microsoft Office public client ID instead of a registered app; identify the owning team and source IPs and move them to a dedicated app registration
+    - Security testing or red-team tooling that replays tokens with the Office or Broker client ID; correlate with scheduled engagements
+    - Health-check or monitoring probes that set a minimal "Mozilla/5.0" user agent while using the Office client; baseline the user agents seen for these app IDs in your tenant before enabling
+level: medium

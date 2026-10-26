@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Command Line Containing PHP2Shell AI Agent Section Header Delimiter · eeps-sigma</title>
+<meta name="description" content="Detects a Linux process whose command line contains the section-header delimiter &quot;==SHELLUSER==&quot; or &quot;==PASSWD==&quot;.">
+<meta property="og:title" content="Command Line Containing PHP2Shell AI Agent Section Header Delimiter · eeps-sigma">
+<meta property="og:description" content="Detects a Linux process whose command line contains the section-header delimiter &quot;==SHELLUSER==&quot; or &quot;==PASSWD==&quot;.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Linux</span><span>/</span><span>process creation</span></nav>
+    <h1>Command Line Containing PHP2Shell AI Agent Section Header Delimiter</h1>
+    <div class="badges"><span class="lvl lvl-medium">Medium</span><span class="pill">Experimental</span><span class="pill">Linux · process creation</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/linux/process_creation/proc_creation_lnx_php2shell_ai_section_header_delimiter_in_command_line.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/linux/process_creation/proc_creation_lnx_php2shell_ai_section_header_delimiter_in_command_line.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects a Linux process whose command line contains the section-header delimiter &quot;==SHELLUSER==&quot; or &quot;==PASSWD==&quot;.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Unit 42 observed post-exploitation of PHP2Shell (CVE-2026-109618 / CVE-2026-109619) at a European government entity driven by an agentic AI attack platform, and reports: &quot;Each command batch is wrapped in section-header delimiters, such as ==SHELLUSER== and ==PASSWD==.&quot; The delimiters let the AI model parse the output of each batch.</p><p>The report names only these two delimiters. It does not give full command lines, the parent process or the shell used, and it does not state the compromised host&#x27;s OS; this rule covers Linux only. The rule matches the delimiter strings anywhere in a process command line. It fires only when a delimiter is passed to a new process, for example when a batch is run through &quot;sh -c&quot; with the batch as its argument and the delimiters are printed with the echo builtin. That is one possible path, not one the report describes. If the web shell&#x27;s PHP code emits the delimiters rather than a shell command, they will not appear in process telemetry and this rule will not fire.</p><p>The full &quot;==...==&quot; wrapper is matched, not the bare words SHELLUSER or PASSWD. &quot;Such as&quot; means other delimiters exist that this rule will not match, and the operator can rename them at will, so a miss here does not rule out this activity.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: Command Line Containing PHP2Shell AI Agent Section Header Delimiter
+<span class="y-key">id</span>: bbc2c1e8-4383-4093-9283-1bb63b6c54f5
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects a Linux process whose command line contains the section-header delimiter <span class="y-str">&quot;==SHELLUSER==&quot;</span> or <span class="y-str">&quot;==PASSWD==&quot;</span>.
+    Unit 42 observed post-exploitation of PHP2Shell (CVE-2026-109618 / CVE-2026-109619) at a European government entity driven by an agentic AI
+    attack platform, and reports: <span class="y-str">&quot;Each command batch is wrapped in section-header delimiters, such as ==SHELLUSER== and ==PASSWD==.&quot;</span>
+    The delimiters let the AI model parse the output of each batch.
+    The report names only these two delimiters. It does not give full command lines, the parent process or the shell used, and it does not state the
+    compromised host&#x27;s OS; this rule covers Linux only. The rule matches the delimiter strings anywhere in a process command line. It fires only when a
+    delimiter is passed to a new process, for example when a batch is run through <span class="y-str">&quot;sh -c&quot;</span> with the batch as its argument and the delimiters are
+    printed with the echo builtin. That is one possible path, not one the report describes. If the web shell&#x27;s PHP code emits the delimiters rather
+    than a shell command, they will not appear in process telemetry and this rule will not fire.
+    The full <span class="y-str">&quot;==...==&quot;</span> wrapper is matched, not the bare words SHELLUSER or PASSWD. <span class="y-str">&quot;Such as&quot;</span> means other delimiters exist that this rule will not
+    match, and the operator can rename them at will, so a miss here does not rule out this activity.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-26
+<span class="y-key">modified</span>: 2026-10-26
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1059.004
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: linux
+    <span class="y-key">category</span>: process_creation
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">CommandLine</span><span class="y-mod">|contains</span>:
+<span class="y-dash">            -</span> <span class="y-str">&#x27;==SHELLUSER==&#x27;</span>
+<span class="y-dash">            -</span> <span class="y-str">&#x27;==PASSWD==&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> Administrator or configuration-audit scripts (system inventory, CIS benchmark or support-bundle collectors) that print <span class="y-str">&quot;==PASSWD==&quot;</span> as a header before dumping /etc/passwd; check whether the parent is a scheduled job or management agent rather than a web server or PHP worker
+<span class="y-dash">    -</span> Authorised penetration tests or AI-driven red-team agents that use the same delimiter convention; correlate with scheduled engagements
+<span class="y-key">level</span>: medium</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Generic Sigma field names</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>CommandLine IN (&quot;*==SHELLUSER==*&quot;, &quot;*==PASSWD==*&quot;)</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceProcessEvents
+| where ProcessCommandLine contains &quot;==SHELLUSER==&quot; or ProcessCommandLine contains &quot;==PASSWD==&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>Administrator or configuration-audit scripts (system inventory, CIS benchmark or support-bundle collectors) that print &quot;==PASSWD==&quot; as a header before dumping /etc/passwd; check whether the parent is a scheduled job or management agent rather than a web server or PHP worker</li><li>Authorised penetration tests or AI-driven red-team agents that use the same delimiter convention; correlate with scheduled engagements</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Execution</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1059/004/" rel="noopener"><span class="chip">T1059.004</span></a> Command and Scripting Interpreter: Unix Shell</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>linux</dd></div><div><dt>Category</dt><dd>process_creation</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619/" rel="noopener">unit42.paloaltonetworks.com</a><span class="muted small ref-url">https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">bbc2c1e8-4383-4093-9283-1bb63b6c54f5</dd></div>
+        <div><dt>Created</dt><dd>2026-10-26</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-26</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

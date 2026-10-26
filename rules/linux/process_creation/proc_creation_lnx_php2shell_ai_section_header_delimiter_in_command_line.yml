@@ -1,0 +1,36 @@
+title: Command Line Containing PHP2Shell AI Agent Section Header Delimiter
+id: bbc2c1e8-4383-4093-9283-1bb63b6c54f5
+status: experimental
+description: |
+    Detects a Linux process whose command line contains the section-header delimiter "==SHELLUSER==" or "==PASSWD==".
+    Unit 42 observed post-exploitation of PHP2Shell (CVE-2026-109618 / CVE-2026-109619) at a European government entity driven by an agentic AI
+    attack platform, and reports: "Each command batch is wrapped in section-header delimiters, such as ==SHELLUSER== and ==PASSWD==."
+    The delimiters let the AI model parse the output of each batch.
+    The report names only these two delimiters. It does not give full command lines, the parent process or the shell used, and it does not state the
+    compromised host's OS; this rule covers Linux only. The rule matches the delimiter strings anywhere in a process command line. It fires only when a
+    delimiter is passed to a new process, for example when a batch is run through "sh -c" with the batch as its argument and the delimiters are
+    printed with the echo builtin. That is one possible path, not one the report describes. If the web shell's PHP code emits the delimiters rather
+    than a shell command, they will not appear in process telemetry and this rule will not fire.
+    The full "==...==" wrapper is matched, not the bare words SHELLUSER or PASSWD. "Such as" means other delimiters exist that this rule will not
+    match, and the operator can rename them at will, so a miss here does not rule out this activity.
+references:
+    - https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619/
+author: Esmond Er
+date: 2026-10-26
+modified: 2026-10-26
+tags:
+    - attack.execution
+    - attack.t1059.004
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection:
+        CommandLine|contains:
+            - '==SHELLUSER=='
+            - '==PASSWD=='
+    condition: selection
+falsepositives:
+    - Administrator or configuration-audit scripts (system inventory, CIS benchmark or support-bundle collectors) that print "==PASSWD==" as a header before dumping /etc/passwd; check whether the parent is a scheduled job or management agent rather than a web server or PHP worker
+    - Authorised penetration tests or AI-driven red-team agents that use the same delimiter convention; correlate with scheduled engagements
+level: medium
