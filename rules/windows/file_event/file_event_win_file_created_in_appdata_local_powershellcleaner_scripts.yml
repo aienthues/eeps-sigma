@@ -1,0 +1,29 @@
+title: File Created In AppData Local PowershellCleaner Scripts Folder
+id: 6907c194-9b1d-4f4d-a95c-2269cbbcb758
+status: experimental
+description: |
+    Detects creation of any file in the \AppData\Local\PowershellCleaner\scripts\ folder.
+    Arctic Wolf Labs describes Microsoft Teams external-chat social engineering (fake IT support) in which the victim ran PowerShell that downloaded an MSI from
+    Azure Blob Storage bundling a PowerShell script and a ZIP archive (archive6.zip). The bundled script
+    (cleaner.ps1) "is dropped into the users' AppData folder (AppData\Local\PowershellCleaner\scripts) and executed"; it extracts a pythonw interpreter and a
+    Python implant (ss.py) from archive6.zip.
+    In the rule author's assessment (not a claim made by the report), PowershellCleaner is not a known Microsoft or common third-party folder. The rule matches the folder rather than only cleaner.ps1 so a renamed script is still caught.
+    The report does not say where archive6.zip, pythonw.exe or ss.py are written, so those files are not part of this rule.
+references:
+    - https://arcticwolf.com/resources/blog/threat-actors-abuse-microsoft-teams-external-chat-for-initial-access/
+author: Esmond Er
+date: 2026-10-27
+modified: 2026-10-27
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    product: windows
+    category: file_event
+detection:
+    selection:
+        TargetFilename|contains: '\AppData\Local\PowershellCleaner\scripts\'
+    condition: selection
+falsepositives:
+    - A legitimate or internally built utility that installs into a folder named PowershellCleaner under the user's AppData\Local; check the writing process (Image) and the MSI's origin
+level: high

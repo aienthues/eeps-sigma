@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File Created In AppData Local PowershellCleaner Scripts Folder · eeps-sigma</title>
+<meta name="description" content="Detects creation of any file in the \AppData\Local\PowershellCleaner\scripts\ folder.">
+<meta property="og:title" content="File Created In AppData Local PowershellCleaner Scripts Folder · eeps-sigma">
+<meta property="og:description" content="Detects creation of any file in the \AppData\Local\PowershellCleaner\scripts\ folder.">
+<meta name="author" content="Esmond Er">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(_){}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">Σ</span>eeps-sigma</a>
+    <nav>
+      <a href="../index.html#rules">Rules</a>
+      <a href="../index.html#approach">Approach</a>
+      <a href="../index.html#about">About</a>
+      <a href="https://github.com/aienthues/eeps-sigma" rel="noopener">GitHub</a>
+      <button class="theme" type="button" aria-label="Toggle colour theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="rule-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#rules">Rules</a><span>/</span><span>Windows</span><span>/</span><span>file event</span></nav>
+    <h1>File Created In AppData Local PowershellCleaner Scripts Folder</h1>
+    <div class="badges"><span class="lvl lvl-high">High</span><span class="pill">Experimental</span><span class="pill">Windows · file event</span></div>
+    <div class="cta">
+      <a class="btn" href="https://raw.githubusercontent.com/aienthues/eeps-sigma/main/rules/windows/file_event/file_event_win_file_created_in_appdata_local_powershellcleaner_scripts.yml" download>Download .yml</a>
+      <a class="btn btn-ghost" href="https://github.com/aienthues/eeps-sigma/blob/main/rules/windows/file_event/file_event_win_file_created_in_appdata_local_powershellcleaner_scripts.yml" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rule-grid">
+  <article class="rule-main">
+    <section>
+      <h2>What it detects</h2>
+      <p>Detects creation of any file in the \AppData\Local\PowershellCleaner\scripts\ folder.</p>
+    </section>
+    <section><h2>Why this rule exists</h2><p>Arctic Wolf Labs describes Microsoft Teams external-chat social engineering (fake IT support) in which the victim ran PowerShell that downloaded an MSI from Azure Blob Storage bundling a PowerShell script and a ZIP archive (archive6.zip). The bundled script (cleaner.ps1) &quot;is dropped into the users&#x27; AppData folder (AppData\Local\PowershellCleaner\scripts) and executed&quot;; it extracts a pythonw interpreter and a Python implant (ss.py) from archive6.zip.</p><p>In the rule author&#x27;s assessment (not a claim made by the report), PowershellCleaner is not a known Microsoft or common third-party folder. The rule matches the folder rather than only cleaner.ps1 so a renamed script is still caught.</p><p>The report does not say where archive6.zip, pythonw.exe or ss.py are written, so those files are not part of this rule.</p></section>
+    <section>
+      <h2>Detection logic</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" class="tab on" data-tab="0" aria-selected="true">Sigma</button><button type="button" role="tab" class="tab" data-tab="1" aria-selected="false">Splunk SPL</button><button type="button" role="tab" class="tab" data-tab="2" aria-selected="false">KQL · Defender XDR</button></div>
+      <div class="pane" data-pane="0"><div class="code-meta"><span>Rule source</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code><span class="y-key">title</span>: File Created In AppData Local PowershellCleaner Scripts Folder
+<span class="y-key">id</span>: 6907c194-9b1d-4f4d-a95c-2269cbbcb758
+<span class="y-key">status</span>: experimental
+<span class="y-key">description</span>: |
+    Detects creation of any file in the \AppData\Local\PowershellCleaner\scripts\ folder.
+    Arctic Wolf Labs describes Microsoft Teams external-chat social engineering (fake IT support) in which the victim ran PowerShell that downloaded an MSI from
+    Azure Blob Storage bundling a PowerShell script and a ZIP archive (archive6.zip). The bundled script
+    (cleaner.ps1) <span class="y-str">&quot;is dropped into the users&#x27; AppData folder (AppData\Local\PowershellCleaner\scripts) and executed&quot;</span>; it extracts a pythonw interpreter and a
+    Python implant (ss.py) from archive6.zip.
+    In the rule author&#x27;s assessment (not a claim made by the report), PowershellCleaner is not a known Microsoft or common third-party folder. The rule matches the folder rather than only cleaner.ps1 so a renamed script is still caught.
+    The report does not say where archive6.zip, pythonw.exe or ss.py are written, so those files are not part of this rule.
+<span class="y-key">references</span>:
+<span class="y-dash">    -</span> https://arcticwolf.com/resources/blog/threat-actors-abuse-microsoft-teams-external-chat-for-initial-access/
+<span class="y-key">author</span>: Esmond Er
+<span class="y-key">date</span>: 2026-10-27
+<span class="y-key">modified</span>: 2026-10-27
+<span class="y-key">tags</span>:
+<span class="y-dash">    -</span> attack.execution
+<span class="y-dash">    -</span> attack.t1059.001
+<span class="y-key">logsource</span>:
+    <span class="y-key">product</span>: windows
+    <span class="y-key">category</span>: file_event
+<span class="y-key">detection</span>:
+    <span class="y-key">selection</span>:
+        <span class="y-key">TargetFilename</span><span class="y-mod">|contains</span>: <span class="y-str">&#x27;\AppData\Local\PowershellCleaner\scripts\&#x27;</span>
+    <span class="y-key">condition</span>: selection
+<span class="y-key">falsepositives</span>:
+<span class="y-dash">    -</span> A legitimate or internally built utility that installs into a folder named PowershellCleaner under the user<span class="y-str">&#x27;s AppData\Local; check the writing process (Image) and the MSI&#x27;</span>s origin
+<span class="y-key">level</span>: high</code></pre></div><div class="pane" data-pane="1" hidden><div class="code-meta"><span>Sysmon + Splunk Windows field mapping</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>source=&quot;WinEventLog:Microsoft-Windows-Sysmon/Operational&quot; EventCode=11 TargetFilename=&quot;*\\AppData\\Local\\PowershellCleaner\\scripts\\*&quot;</code></pre></div><div class="pane" data-pane="2" hidden><div class="code-meta"><span>Microsoft Defender XDR advanced hunting</span><button type="button" class="copy" data-copy>Copy</button></div><pre class="code"><code>DeviceFileEvents
+| where FolderPath contains &quot;\\AppData\\Local\\PowershellCleaner\\scripts\\&quot;</code></pre></div>
+      <p class="muted small">Backend queries are generated with pySigma as a starting point. Field names and index or table names depend on your environment; verify before deploying.</p>
+    </section>
+    <section>
+      <h2>False positives &amp; tuning</h2>
+      <ul class="bullets"><li>A legitimate or internally built utility that installs into a folder named PowershellCleaner under the user&#x27;s AppData\Local; check the writing process (Image) and the MSI&#x27;s origin</li></ul>
+    </section>
+  </article>
+
+  <aside class="rule-side">
+    <div class="panel">
+      <h3>ATT&amp;CK</h3>
+      <div class="tac"><span class="chip chip-soft">Execution</span></div>
+      <ul class="plain"><li><a href="https://attack.mitre.org/techniques/T1059/001/" rel="noopener"><span class="chip">T1059.001</span></a> Command and Scripting Interpreter: PowerShell</li></ul>
+    </div>
+    <div class="panel">
+      <h3>Log source</h3>
+      <dl class="kv"><div><dt>Product</dt><dd>windows</dd></div><div><dt>Category</dt><dd>file_event</dd></div></dl>
+    </div>
+    <div class="panel">
+      <h3>Source intelligence</h3>
+      <ul class="plain refs"><li><a href="https://arcticwolf.com/resources/blog/threat-actors-abuse-microsoft-teams-external-chat-for-initial-access/" rel="noopener">arcticwolf.com</a><span class="muted small ref-url">https://arcticwolf.com/resources/blog/threat-actors-abuse-microsoft-teams-external-chat-for-initial-access/</span></li></ul>
+    </div>
+    <div class="panel">
+      <h3>Metadata</h3>
+      <dl class="kv">
+        <div><dt>Rule ID</dt><dd class="mono">6907c194-9b1d-4f4d-a95c-2269cbbcb758</dd></div>
+        <div><dt>Created</dt><dd>2026-10-27</dd></div>
+        <div><dt>Modified</dt><dd>2026-10-27</dd></div>
+        <div><dt>Author</dt><dd>Esmond Er</dd></div>
+      </dl>
+    </div>
+    
+  </aside>
+</div>
+
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <strong>eeps-sigma</strong> · by Esmond Er<br>
+      <span class="muted">Rules released under the <a href="https://github.com/aienthues/eeps-sigma/blob/main/LICENSE.md">Detection Rule License 1.1</a>. Experimental rules: test and tune in your environment before production use.</span>
+    </div>
+    <p class="muted small">Research triage and first drafts are AI-assisted. Every rule is traced to a primary source, passes automated schema, compile and ATT&amp;CK checks, and is independently reviewed before it is published here.</p>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

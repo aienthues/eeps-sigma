@@ -1,0 +1,34 @@
+title: Pythonw Executing Script Named ss.py
+id: cf656b5c-9d58-4640-b219-0d790449162a
+status: experimental
+description: |
+    Detects the windowless Python interpreter pythonw.exe running a script named ss.py.
+    Arctic Wolf Labs describes Microsoft Teams external-chat social engineering (fake IT support) leading to an MSI stager whose PowerShell script (cleaner.ps1)
+    extracts "the pythonw interpreter and implant (ss.py), both from the bundled archive6.zip". "After sleeping for five seconds, the implant is executed via pythonw.exe."
+    Arctic Wolf assesses ss.py as a possibly new Python-based implant that queries Active Directory over LDAP and sends results to C2.
+    The report does not give the extraction folder or the exact command line, so the rule keys on the interpreter name and the script file name only.
+    The script-name strings require a path separator, a space or a quote before ss.py so that names such as class.py or process.py do not match.
+references:
+    - https://arcticwolf.com/resources/blog/threat-actors-abuse-microsoft-teams-external-chat-for-initial-access/
+author: Esmond Er
+date: 2026-10-27
+modified: 2026-10-27
+tags:
+    - attack.execution
+    - attack.t1059.006
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\pythonw.exe'
+        - OriginalFileName: 'pythonw.exe'
+    selection_cli:
+        CommandLine|contains:
+            - '\ss.py'
+            - ' ss.py'
+            - '"ss.py'
+    condition: all of selection_*
+falsepositives:
+    - Developers or tools running their own Python script that happens to be named ss.py (for example a screenshot or socket-server helper) with pythonw.exe; check the interpreter location, which in this case was extracted from a ZIP rather than a normal Python install
+level: medium

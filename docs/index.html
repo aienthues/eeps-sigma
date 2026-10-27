@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>eeps-sigma · Sigma detections from primary threat research</title>
-<meta name="description" content="99 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta name="description" content="102 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta property="og:title" content="eeps-sigma · Sigma detections from primary threat research">
-<meta property="og:description" content="99 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
+<meta property="og:description" content="102 behaviour-based, ATT&amp;CK-mapped Sigma detection rules built from primary threat research by Esmond Er.">
 <meta name="author" content="Esmond Er">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,10 +41,10 @@
     </div>
     
     <dl class="stats">
-      <div><dt>Published rules</dt><dd>99</dd></div>
+      <div><dt>Published rules</dt><dd>102</dd></div>
       <div><dt>ATT&amp;CK techniques</dt><dd>66</dd></div>
       <div><dt>Platforms</dt><dd>6</dd></div>
-      <div><dt>Last updated</dt><dd class="dd-date">2026-10-26</dd></div>
+      <div><dt>Last updated</dt><dd class="dd-date">2026-10-27</dd></div>
     </dl>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <h2>ATT&amp;CK coverage</h2>
     <p class="muted">Published rules by tactic, current ATT&amp;CK Enterprise release.</p>
-    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:23%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:53%"></i></span><span class="t-n">16</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">25</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:13%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">30</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:20%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:43%"></i></span><span class="t-n">13</span></li><li class="on"><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li></ul>
+    <ul class="tactics"><li class=""><span class="t-name">Reconnaissance</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class=""><span class="t-name">Resource Development</span><span class="t-bar"><i style="width:0%"></i></span><span class="t-n">0</span></li><li class="on"><span class="t-name">Initial Access</span><span class="t-bar"><i style="width:23%"></i></span><span class="t-n">7</span></li><li class="on"><span class="t-name">Execution</span><span class="t-bar"><i style="width:63%"></i></span><span class="t-n">19</span></li><li class="on"><span class="t-name">Persistence</span><span class="t-bar"><i style="width:83%"></i></span><span class="t-n">25</span></li><li class="on"><span class="t-name">Privilege Escalation</span><span class="t-bar"><i style="width:13%"></i></span><span class="t-n">4</span></li><li class="on"><span class="t-name">Stealth</span><span class="t-bar"><i style="width:100%"></i></span><span class="t-n">30</span></li><li class="on"><span class="t-name">Defense Impairment</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Credential Access</span><span class="t-bar"><i style="width:20%"></i></span><span class="t-n">6</span></li><li class="on"><span class="t-name">Discovery</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Lateral Movement</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Collection</span><span class="t-bar"><i style="width:17%"></i></span><span class="t-n">5</span></li><li class="on"><span class="t-name">Command and Control</span><span class="t-bar"><i style="width:43%"></i></span><span class="t-n">13</span></li><li class="on"><span class="t-name">Exfiltration</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li><li class="on"><span class="t-name">Impact</span><span class="t-bar"><i style="width:7%"></i></span><span class="t-n">2</span></li></ul>
   </div>
 </section>
 
@@ -319,6 +319,16 @@
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-24</span>
       </a>
+      <a class="rule-row" href="rules/file_event_win_file_created_in_appdata_local_powershellcleaner_scripts.html" data-level="high" data-product="windows"
+         data-search="file created in appdata local powershellcleaner scripts folder t1059.001 file_event detects creation of any file in the \appdata\local\powershellcleaner\scripts\ folder. arctic wolf labs describes microsoft teams external-chat social engineering (fake it support) in which the victim ran powershell that downloaded an msi from azure blob storage bundling a powershell script and a zip archive (archive6.zip). the bundled script (cleaner.ps1) &quot;is dropped into the users&#x27; appdata folder (appdata\local\powershellcleaner\scripts) and executed&quot;; it extracts a pythonw interpreter and a python implant (ss.py) from archive6.zip. in the rule author&#x27;s assessment (not a claim made by the report), powershellcleaner is not a known microsoft or common third-party folder. the rule matches the folder rather than only cleaner.ps1 so a renamed script is still caught. the report does not say where archive6.zip, pythonw.exe or ss.py are written, so those files are not part of this rule.">
+        <span class="rr-main">
+          <span class="rr-title">File Created In AppData Local PowershellCleaner Scripts Folder</span>
+          <span class="rr-sub">Windows · file event</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-27</span>
+      </a>
       <a class="rule-row" href="rules/file_event_win_file_created_in_root_microsoft_vault_folder.html" data-level="high" data-product="windows"
          data-search="file created in root-level c:\microsoft\vault folder t1115 file_event detects creation of a file beneath c:\microsoft\vault, a root-level folder that mimics a windows component location. check point reports that the aokigahara infostealer&#x27;s clipper_drop handler &quot;drops a clipper component beneath `c:\microsoft\vault` using embedded data&quot;; &quot;the handler itself does not access the clipboard; it deploys the component responsible for clipboard manipulation.&quot; assumption, not from the report: windows keeps its genuine vault folders under user and programdata profile paths (for example %localappdata%\microsoft\vault), not at c:\microsoft\, so the rule anchors on the drive-root path. the report does not name the dropped file, so the rule matches any file in the folder.">
         <span class="rr-main">
@@ -548,6 +558,16 @@
         <span class="rr-tech"><span class="chip">T1053.005</span></span>
         <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
         <span class="rr-date">2026-10-09</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_script_executed_from_appdata_local_powershellcleaner_scripts.html" data-level="high" data-product="windows"
+         data-search="script executed from appdata local powershellcleaner scripts folder t1059.001 process_creation detects a process whose command line references a \powershellcleaner\scripts\ folder (normally under %localappdata%), such as powershell running cleaner.ps1 from it. arctic wolf labs describes microsoft teams external-chat social engineering (fake it support) in which an msi downloaded from azure blob storage bundles a powershell script, and that script (cleaner.ps1) &quot;is dropped into the users&#x27; appdata folder (appdata\local\powershellcleaner\scripts) and executed&quot;. the report says cleaner.ps1 extracts a pythonw interpreter and a python implant (ss.py). the report does not give the command line used to run the script. this rule assumes the folder path appears on the command line; if the script is started by a relative path from that working directory, only the companion file_event rule will fire.">
+        <span class="rr-main">
+          <span class="rr-title">Script Executed From AppData Local PowershellCleaner Scripts Folder</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.001</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-high">High</span></span>
+        <span class="rr-date">2026-10-27</span>
       </a>
       <a class="rule-row" href="rules/proc_creation_win_script_executed_from_windows_temp_bea_cache.html" data-level="high" data-product="windows"
          data-search="script executed from windows temp .bea-cache folder t1685 process_creation detects a process command line referencing the c:\windows\temp\.bea-cache\ folder or the cs_disable.cmd script. sekoia reports that during the shinyhunters oracle peoplesoft campaign &quot;attacks against security tools also included a small windows script that disables crowdstrike edr&quot;, hunted for as file path c:\windows\temp\.bea-cache\cs_disable.cmd or a command line containing cs_disable.cmd. the folder and script names are attacker-chosen artifacts and are trivially changed.">
@@ -948,6 +968,16 @@
         <span class="rr-tech"><span class="chip">T1059.007</span></span>
         <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
         <span class="rr-date">2026-10-22</span>
+      </a>
+      <a class="rule-row" href="rules/proc_creation_win_pythonw_executing_ss_py_script.html" data-level="medium" data-product="windows"
+         data-search="pythonw executing script named ss.py t1059.006 process_creation detects the windowless python interpreter pythonw.exe running a script named ss.py. arctic wolf labs describes microsoft teams external-chat social engineering (fake it support) leading to an msi stager whose powershell script (cleaner.ps1) extracts &quot;the pythonw interpreter and implant (ss.py), both from the bundled archive6.zip&quot;. &quot;after sleeping for five seconds, the implant is executed via pythonw.exe.&quot; arctic wolf assesses ss.py as a possibly new python-based implant that queries active directory over ldap and sends results to c2. the report does not give the extraction folder or the exact command line, so the rule keys on the interpreter name and the script file name only. the script-name strings require a path separator, a space or a quote before ss.py so that names such as class.py or process.py do not match.">
+        <span class="rr-main">
+          <span class="rr-title">Pythonw Executing Script Named ss.py</span>
+          <span class="rr-sub">Windows · process creation</span>
+        </span>
+        <span class="rr-tech"><span class="chip">T1059.006</span></span>
+        <span class="rr-lvl"><span class="lvl lvl-medium">Medium</span></span>
+        <span class="rr-date">2026-10-27</span>
       </a>
       <a class="rule-row" href="rules/registry_set_win_run_key_value_updatemonitor.html" data-level="medium" data-product="windows"
          data-search="run key value updatemonitor set t1547.001 registry_set detects a currentversion\run value named updatemonitor being set. eset reports that &quot;matchboil persists matchwok by adding the registry value updatemonitor to the registry key hkcu\software\microsoft\windows\currentversion\run\&quot; (uac-0099). the value data (matchwok path) is not published, so the rule keys on the value name. sysmon logs hkcu as hku\&lt;sid&gt;, hence endswith matching on the key path below the hive.">

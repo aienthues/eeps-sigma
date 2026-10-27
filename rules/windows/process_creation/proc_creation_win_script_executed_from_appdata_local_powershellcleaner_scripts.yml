@@ -1,0 +1,31 @@
+title: Script Executed From AppData Local PowershellCleaner Scripts Folder
+id: c76b979e-cd27-4c73-ac7d-1dfc0584d270
+related:
+    - id: 6907c194-9b1d-4f4d-a95c-2269cbbcb758
+      type: similar
+status: experimental
+description: |
+    Detects a process whose command line references a \PowershellCleaner\scripts\ folder (normally under %LOCALAPPDATA%), such as PowerShell running cleaner.ps1 from it.
+    Arctic Wolf Labs describes Microsoft Teams external-chat social engineering (fake IT support) in which an MSI downloaded from Azure Blob Storage bundles a
+    PowerShell script, and that script (cleaner.ps1) "is dropped into the users' AppData folder (AppData\Local\PowershellCleaner\scripts) and executed".
+    The report says cleaner.ps1 extracts a pythonw interpreter and a Python implant (ss.py).
+    The report does not give the command line used to run the script. This rule assumes the folder path appears on the command line; if the script is started
+    by a relative path from that working directory, only the companion file_event rule will fire.
+references:
+    - https://arcticwolf.com/resources/blog/threat-actors-abuse-microsoft-teams-external-chat-for-initial-access/
+author: Esmond Er
+date: 2026-10-27
+modified: 2026-10-27
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains: '\PowershellCleaner\scripts\'
+    condition: selection
+falsepositives:
+    - Legitimate software that uses a folder named PowershellCleaner\scripts (none known to the rule author)
+level: high
